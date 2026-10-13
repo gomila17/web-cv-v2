@@ -1,0 +1,19 @@
+# Documentos internos con detalles de la infraestructura del homelab o de seguridad.
+# El repo será público: no se versionan.
+drafts/privado/
+
+# Copias de vista previa generadas (tema forzado, foto incrustada en base64)
+drafts/diseno/claro-*.html
+drafts/diseno/oscuro-*.html
+
+# Original de la foto recortada (la versionada es assets/foto-recorte.png)
+foto_sin_fondo.png
+
+# Entorno local
+.claude/settings.local.json
+node_modules/
+.env
+*.log
+.DS_Store
+Thumbs.db
+desktop.ini

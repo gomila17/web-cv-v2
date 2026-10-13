@@ -1,0 +1,870 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Toni Gomila, Backend Developer</title>
+<meta name="description" content="Antonio (Toni) Gomila, desarrollador backend Java en Barcelona. Oracle, Spring, automatización e IA, de la base de datos al despliegue.">
+<meta name="color-scheme" content="light dark">
+<script>
+/* Aplica el tema guardado antes de pintar (sin parpadeo). Funciona igual sin localStorage. */
+try{var t=localStorage.getItem('tg-theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t)}catch(e){}
+</script>
+<style>
+:root{
+  color-scheme:light;
+  --bg:#EDEDED;            /* papel del logo */
+  --card:#FBFBFA;
+  --line:#A9AFC2;          /* filetes y bordes de panel */
+  --text:#202A42;          /* azul marino del logo */
+  --muted:#4A5470;
+  --faint:#5A6480;
+  --accent:#526DE5;        /* indigo del logo: riel, nodos, trazos */
+  --accent-ink:#3A51C6;    /* indigo para texto y enlaces */
+  --on-accent:#FFFFFF;
+  --primary-bg:#3A51C6;
+  --ctl:#5A6480;           /* borde de controles, 3:1 minimo */
+  --violet:#6639BA;
+  --ok:#1A7F37;
+  --warn:#8A5A00;
+  --orange:#B3470A;
+  --band-bg:#202A42;
+  --band-fg:#EDEDED;
+  --band-label:#A9B8FF;
+  --focus:#3A51C6;
+  --halo:transparent;
+  --grid:transparent;
+  --net-op:0;
+  --serif:Charter,"Bitstream Charter","Sitka Text",Cambria,Georgia,serif;
+  --sans:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --mono:ui-monospace,SFMono-Regular,"Cascadia Code",Menlo,Consolas,monospace;
+  --dot:12px;--pl:22px;               /* sangria izquierda del contenido (aloja el riel) */
+  --pr:16px;
+  --rx:8px;                /* eje del riel desde el borde del contenedor */
+  --sp:60px;               /* espacio vertical de seccion */
+  --h2:clamp(1.85rem,5.6vw,2.6rem);
+  --measure:64ch;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+  --bg:#0d1117;
+  --card:#21262d;
+  --line:#30363d;
+  --text:#e6edf3;
+  --muted:#9aa4b0;
+  --faint:#8b95a1;
+  --accent:#58a6ff;
+  --accent-ink:#58a6ff;
+  --on-accent:#0d1117;
+  --primary-bg:#58a6ff;
+  --ctl:#8b949e;
+  --violet:#a78bfa;
+  --ok:#3fb950;
+  --warn:#d29922;
+  --orange:#f0883e;
+  --band-bg:#161b22;
+  --band-fg:#e6edf3;
+  --band-label:#58a6ff;
+  --focus:#79c0ff;
+  --halo:rgba(88,166,255,.22);
+  --grid:rgba(255,255,255,.045);
+  --net-op:.6;
+  color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0d1117;
+  --card:#21262d;
+  --line:#30363d;
+  --text:#e6edf3;
+  --muted:#9aa4b0;
+  --faint:#8b95a1;
+  --accent:#58a6ff;
+  --accent-ink:#58a6ff;
+  --on-accent:#0d1117;
+  --primary-bg:#58a6ff;
+  --ctl:#8b949e;
+  --violet:#a78bfa;
+  --ok:#3fb950;
+  --warn:#d29922;
+  --orange:#f0883e;
+  --band-bg:#161b22;
+  --band-fg:#e6edf3;
+  --band-label:#58a6ff;
+  --focus:#79c0ff;
+  --halo:rgba(88,166,255,.22);
+  --grid:rgba(255,255,255,.045);
+  --net-op:.6;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--text);font-family:var(--sans);font-size:1.0625rem;line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:var(--accent-ink);text-underline-offset:.2em;text-decoration-thickness:1px}
+a:hover{text-decoration-thickness:2px}
+:focus-visible{outline:3px solid var(--focus);outline-offset:3px;border-radius:3px}
+.skip{position:absolute;left:16px;top:-4rem;background:var(--text);color:var(--bg);padding:.6rem 1rem;z-index:30;border-radius:4px;font-weight:600}
+.skip:focus{top:.5rem}
+h1,h2,h3,h4{margin:0;line-height:1.12;font-weight:700}
+h1,h2,h3{font-family:var(--serif);letter-spacing:-.01em}
+h3{font-size:1.35rem}
+h4{font-size:1.05rem;line-height:1.3}
+p{margin:0 0 1em;max-width:var(--measure)}
+ul,ol,dl,dd{margin:0}
+code,.mono{font-family:var(--mono);font-size:.88em}
+
+/* Contenedor y riel */
+.wrap{position:relative;width:100%;max-width:62rem;margin-inline:auto;padding-left:var(--pl);padding-right:var(--pr)}
+section>.wrap,footer>.wrap{padding-block:var(--sp)}
+.rail::before{content:"";position:absolute;left:calc(var(--rx) - 1px);top:0;bottom:0;width:2px;background:var(--accent)}
+.rail-end::before{bottom:auto;height:calc(var(--sp) + var(--h2)*.56)}
+.node{position:relative}
+.node::before{content:"";position:absolute;z-index:1;box-sizing:border-box;width:var(--dot);height:var(--dot);left:calc(var(--rx) - var(--pl) - var(--dot)/2);top:calc(.56em - var(--dot)/2);border-radius:50%;background:var(--bg);border:3px solid var(--accent);transition:background .25s,box-shadow .25s}
+section.on .node::before,footer.on .node::before{background:var(--accent);box-shadow:0 0 0 5px var(--halo)}
+
+/* Cabecera */
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-block:14px}
+.mark{font-family:var(--mono);font-weight:700;font-size:1.4rem;color:var(--text);text-decoration:none;position:relative;padding:0 2px 7px;line-height:1.2}
+.mark::after{content:"";position:absolute;left:0;right:0;bottom:0;height:4px;background:var(--accent)}
+.top nav{display:none}
+.tools{display:flex;align-items:center;gap:8px}
+.lang{font-size:.85rem;display:flex;border:1.5px solid var(--ctl);border-radius:999px;overflow:hidden}
+.lang span{padding:.35rem .7rem;color:var(--muted)}
+.lang [aria-current]{background:var(--text);color:var(--bg);font-weight:700}
+.theme{font:inherit;font-size:.85rem;display:inline-flex;align-items:center;gap:.45rem;min-height:44px;padding:0 .9rem;border:1.5px solid var(--ctl);border-radius:999px;background:transparent;color:var(--text);cursor:pointer}
+.theme:hover{border-color:var(--accent)}
+.theme svg{width:16px;height:16px;flex:none}
+
+/* Hero */
+.hero-band{position:relative;overflow:hidden}
+.hero-band::before{content:"";position:absolute;inset:0;background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:32px 32px;-webkit-mask-image:linear-gradient(#000 55%,transparent);mask-image:linear-gradient(#000 55%,transparent);pointer-events:none}
+.net{position:absolute;right:0;bottom:-24px;width:min(40%,340px);height:auto;opacity:var(--net-op);pointer-events:none}
+.hero{position:relative;padding-block:20px 64px;display:grid;gap:26px}
+.photo{width:112px;aspect-ratio:1;margin:0;padding:6px;border:2px solid var(--accent);border-radius:50%;order:-1}
+.photo img{display:block;width:100%;height:100%;object-fit:cover;border-radius:50%;background:var(--line)}
+.who{display:block;font-family:var(--sans);font-size:1.125rem;line-height:1.4;font-weight:600;letter-spacing:0;margin-bottom:14px}
+.who.node::before{top:calc(.7em - var(--dot)/2)}
+h1{font-size:clamp(2.3rem,9vw,4.25rem);line-height:1.04;max-width:14ch}
+.sub{font-size:1.2rem;margin:22px 0 14px;max-width:40ch}
+.value{max-width:56ch;color:var(--muted)}
+.ai-note{display:flex;align-items:center;gap:.65rem;font-size:.95rem;color:var(--muted);margin:6px 0 28px}
+.ai-note::before{content:"";width:9px;height:9px;border-radius:50%;background:var(--violet);flex:none}
+.links{display:flex;flex-wrap:wrap;gap:10px;list-style:none;padding:0;margin:0}
+.btn{display:inline-flex;align-items:center;padding:.5rem 1.15rem;min-height:44px;border:1.5px solid var(--ctl);border-radius:6px;color:var(--text);text-decoration:none;font-weight:600;font-size:.97rem;transition:background .2s,color .2s,border-color .2s;overflow-wrap:anywhere}
+.btn:hover{background:var(--text);color:var(--bg);border-color:var(--text)}
+.btn.primary{background:var(--primary-bg);border-color:var(--primary-bg);color:var(--on-accent)}
+.btn.primary:hover{background:var(--text);border-color:var(--text);color:var(--bg)}
+
+/* Secciones */
+h2{font-size:var(--h2);margin-bottom:28px}
+.lead{font-size:1.15rem;color:var(--muted);margin-bottom:32px;max-width:52ch}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:10px}
+
+/* Sobre mi */
+.longterm{margin:36px 0 0;padding:22px 24px;max-width:36rem;border-top:3px solid var(--violet)}
+.longterm p{margin:0;font-family:var(--serif);font-size:1.2rem;line-height:1.5}
+
+/* Que hago */
+.pillars{display:grid;grid-template-columns:minmax(0,1fr);gap:36px}
+.pillar{border-top:1px solid var(--line);padding-top:20px;min-width:0}
+.pillar h3{margin-bottom:16px}
+.pillar ul,.bul,.proj-list{margin:0;padding:0 0 0 1.15em}
+.pillar li{margin-bottom:.75em;font-size:.97rem;line-height:1.55;overflow-wrap:break-word}
+.pillar li::marker,.bul li::marker,.proj-list li::marker{color:var(--accent);font-size:1.1em}
+
+/* Experiencia (nodos sobre el riel) */
+.company{color:var(--muted);max-width:var(--measure);margin-bottom:34px}
+.company strong{color:var(--text)}
+.tl{list-style:none;margin:0;padding:0}
+.job{position:relative;padding-bottom:44px}
+.job:last-child{padding-bottom:0}
+.job h3{line-height:1.3;position:relative}
+.job h3::before{content:"";position:absolute;z-index:1;box-sizing:border-box;width:12px;height:12px;left:calc(var(--rx) - var(--pl) - 6px);top:calc(.65em - 6px);border-radius:50%;background:var(--bg);border:3px solid var(--accent)}
+.job.now h3::before{background:var(--accent);box-shadow:0 0 0 5px var(--halo)}
+.when{display:block;font-size:.92rem;color:var(--muted);margin:4px 0 14px}
+.bul li{margin-bottom:.5em;font-size:.97rem;max-width:var(--measure)}
+.bul{margin-bottom:12px}
+.tech{font-size:.9rem;color:var(--muted);margin:0;max-width:var(--measure)}
+.tech b{color:var(--text);font-weight:600}
+
+/* homepanel */
+.project{overflow:hidden}
+.project>header{padding:26px 22px 22px;border-bottom:1px solid var(--line)}
+.project h3{font-family:var(--mono);font-size:1.7rem;letter-spacing:-.02em}
+.project>header p{margin:8px 0 10px;color:var(--muted)}
+.project>header .tech{margin-bottom:10px}
+.repo{font-family:var(--mono);font-size:.88rem;overflow-wrap:anywhere}
+.pgrid{display:grid;grid-template-columns:minmax(0,1fr)}
+.pcol{padding:22px;border-bottom:1px solid var(--line);min-width:0;overflow-wrap:break-word}
+.pcol:last-child{border-bottom:0}
+.pcol h4{margin-bottom:12px}
+.pcol p,.pcol li{font-size:.96rem;line-height:1.6}
+.proj-list li{margin-bottom:.7em}
+.lesson{margin:0;padding:20px 22px;background:var(--band-bg);color:var(--band-fg);font-size:.97rem;max-width:none}
+.lesson strong{color:var(--band-label);margin-right:.3em}
+
+/* Homelab */
+.fig{margin:30px 0 0}
+.frame{border-radius:10px;overflow:hidden}
+.fig .hl-wide{display:none}
+.fig .hl-tall{max-width:420px;margin-inline:auto}
+.legend{display:flex;flex-wrap:wrap;gap:8px 22px;list-style:none;margin:14px 0 0;padding:0;font-size:.9rem;color:var(--muted)}
+.legend li{display:flex;align-items:center;gap:.5rem}
+.legend i{width:12px;height:12px;border-radius:50%;flex:none}
+.sub-h{font-size:1.5rem;margin:56px 0 6px}
+.sub-h+p{color:var(--muted);margin-bottom:22px}
+.decisions{list-style:none;padding:0;margin:0}
+.dec{display:grid;grid-template-columns:minmax(0,1fr);gap:10px 40px;padding:24px 0;border-top:1px solid var(--line)}
+.dec h4{font-family:var(--serif);font-size:1.2rem;letter-spacing:-.005em}
+.dec dl{display:grid;grid-template-columns:5.4rem minmax(0,1fr);gap:8px 14px;font-size:.96rem;line-height:1.55}
+.dec dt{font-weight:700;color:var(--accent-ink)}
+.dec dd{overflow-wrap:break-word}
+.dec.key{background:var(--card);border:1px solid var(--accent);border-radius:10px;padding:24px 20px;margin-block:12px}
+.story{margin-top:20px;padding:22px 24px;max-width:44rem}
+.story h4{font-family:var(--serif);font-size:1.2rem;margin-bottom:10px}
+.story p{margin:0;font-size:.98rem}
+
+/* Stack */
+.levels{border-bottom:1px solid var(--line)}
+.level{display:grid;gap:10px 40px;padding:24px 0;border-top:1px solid var(--line)}
+.level h3{font-size:1.2rem}
+.run{display:flex;flex-wrap:wrap;gap:.2em .45em;list-style:none;margin:0;padding:0;min-width:0}
+.run li:not(:last-child)::after{content:","}
+.run.l1{font-size:1.3rem;font-weight:600;line-height:1.4}
+.run.l2{font-size:1.05rem}
+.run.l3{font-size:1rem;font-style:italic;color:var(--faint)}
+.mini{margin:12px 0 0;font-size:.92rem;color:var(--muted);max-width:var(--measure)}
+.certs-h{margin:48px 0 4px}
+.certs{list-style:none;padding:0;margin:0}
+.certs li{display:flex;flex-wrap:wrap;justify-content:space-between;gap:2px 24px;padding:16px 0;border-top:1px solid var(--line)}
+.certs li:last-child{border-bottom:1px solid var(--line)}
+.certs b{font-weight:600}
+.certs span{color:var(--muted);font-size:.95rem}
+
+/* Formacion */
+.edu{display:grid;grid-template-columns:minmax(0,1fr);gap:32px}
+.edu article{border-top:1px solid var(--line);padding-top:20px;min-width:0}
+.edu h3{font-size:1.2rem;margin-bottom:8px}
+.edu p{margin:0 0 .4em;font-size:.95rem;color:var(--muted)}
+.edu p b{color:var(--text);font-weight:600}
+
+/* Contacto */
+.contact p.say{font-size:1.1rem;max-width:var(--measure)}
+.mail{display:inline-block;margin:6px 0 24px;font-family:var(--serif);font-weight:700;font-size:clamp(1.3rem,5.8vw,2.3rem);line-height:1.2;color:var(--accent-ink);overflow-wrap:anywhere;text-decoration-thickness:2px;text-underline-offset:.18em}
+.contact .links{margin:0 0 32px}
+.contact .longterm{margin:0 0 40px}
+.fine{font-size:.9rem;color:var(--muted);margin:0}
+
+/* Escritorio */
+@media (min-width:720px){
+  :root{--dot:14px;--pl:56px;--pr:32px;--rx:20px;--sp:76px}
+  body{font-size:1.125rem}
+  .hero{grid-template-columns:minmax(0,1fr) 260px;align-items:center;padding-block:48px 96px;gap:56px}
+  .photo{width:260px;order:2}
+  .dec{grid-template-columns:13rem minmax(0,1fr)}
+  .level{grid-template-columns:13rem minmax(0,1fr)}
+  .edu{grid-template-columns:repeat(3,minmax(0,1fr));gap:32px}
+}
+@media (min-width:820px){
+  .fig .hl-wide{display:block}
+  .fig .hl-tall{display:none}
+}
+@media (min-width:900px){
+  .pillars{grid-template-columns:repeat(3,minmax(0,1fr));gap:40px}
+  .pgrid{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .pcol{border-bottom:0;border-right:1px solid var(--line)}
+  .pcol:last-child{border-right:0}
+}
+@media (min-width:1000px){
+  .top nav{display:flex;gap:24px}
+  .top nav a{color:var(--text);text-decoration:none;font-size:.93rem;padding:.4rem 0;border-bottom:2px solid transparent}
+  .top nav a:hover{border-bottom-color:var(--accent)}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *{transition:none!important;animation:none!important}
+}
+@media (prefers-reduced-motion:no-preference){
+  /* Unico movimiento de carga: la red del hero se dibuja una vez */
+  .net path{stroke-dasharray:1;stroke-dashoffset:1;animation:draw 1.8s .2s ease-out forwards}
+  .net circle{opacity:0;animation:pop .5s ease-out forwards}
+  .net circle:nth-of-type(1){animation-delay:.2s}.net circle:nth-of-type(2){animation-delay:.6s}.net circle:nth-of-type(3){animation-delay:1s}.net circle:nth-of-type(4){animation-delay:1.3s}.net circle:nth-of-type(5){animation-delay:1.6s}.net circle:nth-of-type(6){animation-delay:1.8s}.net circle:nth-of-type(7){animation-delay:2s}
+  @keyframes draw{to{stroke-dashoffset:0}}
+  @keyframes pop{to{opacity:1}}
+}
+/* Diagrama */
+.hl-svg{display:block;width:100%;height:auto}
+.hl-svg text{font-family:var(--sans)}
+.hl-panel{fill:var(--card);stroke:var(--line);stroke-width:1}
+.hl-t{font-size:14px;font-weight:600;fill:var(--text)}
+.hl-s{font-size:12px;fill:var(--muted)}
+.hl-m{font-family:var(--sans)!important;font-size:11.5px;fill:var(--muted)}
+.hl-c{font-size:13px;font-weight:700;fill:var(--text)}
+.hl-box{fill:var(--bg);stroke-width:1.8}
+.hl-chip{fill:var(--card);stroke-width:1.4}
+.hl-frame{fill:none;stroke-width:1.6;stroke-dasharray:4 6}
+.hl-line{fill:none;stroke:var(--muted);stroke-width:1.4;opacity:.6}
+.hl-dash{fill:none;stroke:var(--muted);stroke-width:1.4;stroke-dasharray:3 4;opacity:.8}
+.hl-flow{fill:none;stroke-width:5;stroke-linecap:round;stroke-dasharray:.1 18;animation:hl-mv 1.6s linear infinite}
+.hl-arrow{fill:var(--muted)}
+.s-acc{stroke:var(--accent)}.s-vio{stroke:var(--violet)}.s-ok{stroke:var(--ok)}.s-warn{stroke:var(--warn)}.s-org{stroke:var(--orange)}.s-mut{stroke:var(--line)}
+.f-org{fill:var(--orange)}.f-acc{fill:var(--accent)}
+@keyframes hl-mv{to{stroke-dashoffset:-18.1}}
+@media (prefers-reduced-motion:reduce){.hl-flow{animation:none}}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Saltar al contenido</a>
+
+<div class="wrap">
+  <header class="top">
+    <a class="mark" href="#top" aria-label="Toni Gomila, inicio">tg</a>
+    <nav aria-label="Secciones">
+      <a href="#sobre-mi">Sobre mí</a>
+      <a href="#que-hago">Qué hago</a>
+      <a href="#experiencia">Experiencia</a>
+      <a href="#proyectos">Proyectos</a>
+      <a href="#homelab">Homelab</a>
+      <a href="#stack">Stack</a>
+      <a href="#contacto">Contacto</a>
+    </nav>
+    <div class="tools">
+      <div class="lang" role="group" aria-label="Idioma: español activo, inglés próximamente">
+        <span aria-current="true" lang="es">ES</span><span lang="en" aria-disabled="true">EN</span>
+      </div>
+      <button class="theme" id="theme" type="button" aria-label="Tema de color: automático (sistema). Pulsa para cambiar.">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M12 3v18"/><path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor"/></svg>
+        <span id="theme-label">Auto</span>
+      </button>
+    </div>
+  </header>
+</div>
+
+<main id="main">
+  <div class="hero-band" id="top">
+    <svg class="net" viewBox="0 0 260 220" aria-hidden="true" focusable="false">
+      <g stroke="var(--accent)" stroke-opacity=".6" stroke-width="1.2" fill="none">
+        <path pathLength="1" d="M20 30 L100 80 L190 40 L225 130 L110 160 L100 80"/>
+        <path pathLength="1" d="M190 40 L245 10"/>
+        <path pathLength="1" d="M110 160 L30 190"/>
+      </g>
+      <g fill="var(--accent)">
+        <circle cx="20" cy="30" r="4"/><circle cx="100" cy="80" r="6" fill="var(--violet)"/>
+        <circle cx="190" cy="40" r="4"/><circle cx="225" cy="130" r="5"/>
+        <circle cx="110" cy="160" r="4"/><circle cx="245" cy="10" r="3"/><circle cx="30" cy="190" r="3"/>
+      </g>
+    </svg>
+    <div class="wrap rail">
+      <div class="hero">
+        <div>
+          <h1><span class="who node">Toni Gomila, desarrollador backend en Barcelona</span>Backend Java que entiende el sistema completo</h1>
+          <p class="sub">Oracle, Spring, automatización e IA, de la base de datos al despliegue.</p>
+          <p class="value">Desarrollo y evoluciono aplicaciones Java para la Administración Pública, y decido cómo se construyen de principio a fin. Fuera del trabajo opero mi propio homelab, así que conozco también lo que hay debajo del código.</p>
+          <p class="ai-note">Esta web está hecha con agentes de IA.</p>
+          <ul class="links">
+            <li><a class="btn primary" href="#proyectos">Ver proyectos</a></li>
+            <li><a class="btn" href="mailto:toni.gomila7@gmail.com">Email</a></li>
+            <li><a class="btn" href="https://www.linkedin.com/in/toni-gomila/" rel="noopener">LinkedIn</a></li>
+            <li><a class="btn" href="https://github.com/gomila17" rel="noopener">GitHub</a></li>
+          </ul>
+        </div>
+        <div class="photo"><img src="foto.jpg" width="220" height="220" alt="Retrato de Toni Gomila"></div>
+      </div>
+    </div>
+  </div>
+
+  <section id="sobre-mi" aria-labelledby="h-sobre">
+    <div class="wrap rail">
+      <h2 class="node" id="h-sobre">Sobre mí</h2>
+      <p>Soy desarrollador backend Java en Barcelona. Llevo más de cuatro años en Inetum, desde las prácticas hasta Senior Software Developer, evolucionando aplicaciones de la Administración Pública con Java, Spring y Oracle. En el día a día tomo la mayoría de decisiones de arquitectura de los evolutivos que trabajo.</p>
+      <p>Me centro en que los sistemas hagan solos lo que antes se hacía a mano: optimizar consultas pesadas, migrar lógica compleja de PL/SQL a Java y automatizar procesos. Creo que un backend no se entiende aislado, así que fuera del trabajo opero mi homelab, automatizo con n8n y desarrollo con agentes de IA. Esta web está hecha así.</p>
+      <aside class="longterm panel">
+        <p>A largo plazo me interesa evolucionar hacia la gestión de equipos: me gusta trabajar con personas y ayudar a que otros crezcan.</p>
+      </aside>
+    </div>
+  </section>
+
+  <section id="que-hago" aria-labelledby="h-hago">
+    <div class="wrap rail">
+      <h2 class="node" id="h-hago">Qué hago</h2>
+      <p class="lead">Un mismo hilo en tres frentes: entender el sistema entero, no solo mi capa.</p>
+      <div class="pillars">
+        <article class="pillar">
+          <h3>Backend Java</h3>
+          <ul>
+            <li>Consultas Oracle pesadas optimizadas. Ejemplos típicos: de ~30 s a ~5 s, o de ~1 min a ~10 s; las pequeñas, de ~10 s a ≤1 s.</li>
+            <li>Migración de lógica compleja de PL/SQL a Java para que sea más fácil de mantener.</li>
+            <li>Integración de datos de otras administraciones públicas con las aplicaciones propias.</li>
+            <li>Integraciones REST y SOAP; trabajo con sistemas legacy.</li>
+            <li>Oracle Certified Associate, Java SE 8 Programmer (mar 2026).</li>
+          </ul>
+        </article>
+        <article class="pillar">
+          <h3>Sistemas e infraestructura</h3>
+          <ul>
+            <li>Homelab sobre Proxmox: una VM con Docker, LXC para red y servicios, Nginx Proxy Manager y AdGuard Home.</li>
+            <li>Servicios publicados con Cloudflare Tunnel desde detrás de CG-NAT, sin abrir puertos.</li>
+            <li>Cloudflare Access con 2FA delante de lo expuesto, fail2ban, firewall de Proxmox solo para la red local y servicios sensibles únicamente en red local.</li>
+            <li>Backups nativos de Proxmox con política definida (diario, retención de 3).</li>
+            <li>Hospedo servicios de terceros, como openGym, un rastreador de gimnasio con passkeys.</li>
+          </ul>
+        </article>
+        <article class="pillar">
+          <h3>IA y automatización</h3>
+          <ul>
+            <li>Procesos automáticos en el trabajo: extracciones periódicas que ahora genera un job y avisa al usuario por Excel o email; revisiones semanales de cambios hechos a mano; procesos que antes exigían una acción manual y ya no.</li>
+            <li>n8n propio, con un resumen diario por Telegram (tiempo, noticias, tareas, mercados y novedades de mis apps).</li>
+            <li>Gestión de tareas del homelab con Claude Code y un MCP de Vikunja.</li>
+            <li>Desarrollo con agentes de IA. Curso Claude Code 101 completado (Anthropic, abr 2026).</li>
+            <li>En el trabajo, primeros pasos con IA: prompts de sistema para agentes, incluido un agente de incidencias con Copilot.</li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="experiencia" aria-labelledby="h-exp">
+    <div class="wrap rail">
+      <h2 class="node" id="h-exp">Experiencia</h2>
+      <p class="company"><strong>Inetum</strong>, proyectos de Administración Pública. De prácticas a Senior, con más de cuatro años de trayectoria.</p>
+      <ol class="tl">
+        <li class="job now">
+          <h3>Senior Software Developer</h3>
+          <span class="when">ene 2026 – actualidad, híbrido</span>
+          <ul class="bul">
+            <li>Gestiono evolutivos de principio a fin, casi en solitario, y decido la arquitectura: si algo es un job, un servicio manual u otra solución.</li>
+            <li>Integro datos de otras administraciones con las aplicaciones propias.</li>
+            <li>Automatizo procesos para que no requieran acción del usuario.</li>
+            <li>Resuelvo incidencias complejas en producción y ayudo a compañeros, incluida la incorporación de gente nueva al proyecto.</li>
+          </ul>
+          <p class="tech"><b>Tecnologías:</b> Java, Spring Framework, Oracle, SQL, PL/SQL, REST, SOAP, ExtJS.</p>
+        </li>
+        <li class="job">
+          <h3>Java Developer</h3>
+          <span class="when">jul 2023 – ene 2026, Barcelona, híbrido</span>
+          <ul class="bul">
+            <li>Consultas Oracle de alto coste reducidas a la mitad o menos de su tiempo, y a menudo a una cuarta parte.</li>
+            <li>Jobs que sustituyen tareas manuales recurrentes: extracciones, informes y verificaciones.</li>
+            <li>Migración de lógica de PL/SQL a Java.</li>
+            <li>Sistema de notificación automática de errores por email.</li>
+            <li>Integración con servicios REST y SOAP.</li>
+          </ul>
+          <p class="tech"><b>Tecnologías:</b> Java 8, Spring Framework, Oracle, SQL, PL/SQL, REST, SOAP, ExtJS, JPA, SoapUI.</p>
+        </li>
+        <li class="job">
+          <h3>Software Developer Intern</h3>
+          <span class="when">oct 2022 – jul 2023, Barcelona</span>
+          <ul class="bul">
+            <li>Soporte en mejoras y corrección de incidencias en aplicaciones web internas.</li>
+            <li>Primer contacto con el stack Java, Spring, ExtJS y Oracle, y con Scrum.</li>
+            <li>Formación en Angular, Ionic y NestJS (formación, no es mi stack de trabajo).</li>
+          </ul>
+          <p class="tech"><b>Tecnologías:</b> Java, Spring Framework, Oracle, ExtJS, Scrum.</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <section id="proyectos" aria-labelledby="h-proy">
+    <div class="wrap rail">
+      <h2 class="node" id="h-proy">Proyecto destacado</h2>
+      <article class="project panel">
+        <header>
+          <h3>homepanel</h3>
+          <p>Panel propio para el homelab, hecho a medida.</p>
+          <p class="tech"><b>Tecnologías:</b> Python, FastAPI, Jinja2, htmx, con integraciones de n8n, Proxmox, Vikunja, AdGuard, Nginx Proxy Manager y Cloudflare.</p>
+          <a class="repo" href="https://github.com/gomila17/homepanel" rel="noopener">github.com/gomila17/homepanel</a>
+        </header>
+        <div class="pgrid">
+          <div class="pcol">
+            <h4>Problema</h4>
+            <p>Usaba Homepage, pero no cruza datos entre apps (por ejemplo, una línea de tiempo única con caídas, fallos de ejecución de n8n y eventos de Proxmox) ni se integra con n8n. Además quería una página de inicio con enlaces y buscador.</p>
+          </div>
+          <div class="pcol">
+            <h4>Decisiones</h4>
+            <ul class="proj-list">
+              <li>FastAPI con páginas renderizadas en servidor y htmx. Sin SPA ni build de JS: pocas dependencias y código legible.</li>
+              <li>En una LXC propia, no como stack Docker. Un panel que informa del estado de la infraestructura no puede caer junto con lo que vigila.</li>
+              <li>Actualización automática: un timer de systemd comprueba <code>main</code> cada 5 minutos y, si hay cambios, actualiza y reinicia. Solo peticiones salientes: sin puertos de entrada ni runner.</li>
+              <li>Accesible solo desde la red local, porque reúne mucha información sensible.</li>
+              <li>El servicio de actualización corre como root porque necesita reiniciar la app; lo acepté y lo documenté, en una LXC de un solo propósito, en vez de añadir reglas de sudoers.</li>
+            </ul>
+          </div>
+          <div class="pcol">
+            <h4>Resultado</h4>
+            <p>En producción en mi red, con tests que corren sin servicios externos (cada integración cae a «sin configurar») y CI en cada PR. Reemplazó a Homepage. Hoy muestra el estado de cada integración en una sola pantalla; cruzar datos entre ellas (la línea de tiempo única) sigue siendo un objetivo pendiente.</p>
+            <p>Vuelta atrás sencilla: <code>git</code> + <code>systemd</code>, más una snapshot de Proxmox antes de cambios grandes.</p>
+          </div>
+        </div>
+        <p class="lesson"><strong>Lección.</strong> Empecé sin un diseño detallado y fui descubriendo necesidades por el camino, así que algunas cosas quedaron peor de lo que quería. Hoy planificaría antes. Esta web empieza justo con esa lección.</p>
+      </article>
+    </div>
+  </section>
+
+  <section id="homelab" aria-labelledby="h-home">
+    <div class="wrap rail">
+      <h2 class="node" id="h-home">Homelab</h2>
+      <p class="lead">Un servidor casero sobre Proxmox, detrás de CG-NAT, y las decisiones que hay detrás.</p>
+      <p>Un solo servidor físico (sin RAID ni redundancia de hardware). Proxmox VE como hipervisor por las VM, LXC, snapshots y backups nativos, y para poder experimentar sin romper la base. Una VM Debian con Docker para las aplicaciones; LXC para el túnel, el DNS y otros servicios de red.</p>
+
+      <figure class="fig">
+        <div class="frame">
+<svg class="hl-svg hl-wide" viewBox="0 0 900 520" role="img" aria-labelledby="hlw-t hlw-d" xmlns="http://www.w3.org/2000/svg">
+  <title id="hlw-t">Arquitectura de mi homelab</title>
+  <desc id="hlw-d">Diagrama de flujo de izquierda a derecha. Internet llega por un Cloudflare Tunnel, que sale desde una LXC dentro de un único servidor Proxmox, hasta Nginx Proxy Manager, que reparte el tráfico a los stacks Docker de una VM (n8n, Vikunja, openGym y una web), gestionados con Portainer. Una segunda vía, Tailscale, da acceso VPN a la red local mediante una LXC subnet router. Junto al servidor hay una LXC con AdGuard Home y otra con el panel homepanel, solo en red local. Fuera del servidor, un móvil Android reutilizado vigila que el servidor responde. No hay puertos de entrada abiertos y el servidor está detrás de CG-NAT.</desc>
+  <defs>
+    <marker id="hlw-ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path class="hl-arrow" d="M0 0L10 5L0 10z"/></marker>
+  </defs>
+  <rect class="hl-panel" x="0.5" y="0.5" width="899" height="519" rx="14"/>
+
+  <!-- Servidor Proxmox -->
+  <rect class="hl-frame s-org" x="200" y="24" width="676" height="470" rx="16"/>
+  <text class="hl-t f-org" x="220" y="50">Proxmox VE</text>
+  <text class="hl-m" x="312" y="50">un solo servidor físico · sin puertos abiertos · detrás de CG-NAT</text>
+
+  <!-- Internet -->
+  <rect class="hl-box s-mut" x="24" y="100" width="120" height="190" rx="14"/>
+  <text class="hl-t" x="84" y="128" text-anchor="middle">Internet</text>
+  <text class="hl-s" x="84" y="147" text-anchor="middle">visitantes</text>
+  <path class="hl-dash" d="M40 190H128"/>
+  <text class="hl-t" x="84" y="226" text-anchor="middle">Mis equipos</text>
+  <text class="hl-s" x="84" y="245" text-anchor="middle">fuera de casa</text>
+
+  <!-- LXC Cloudflare -->
+  <rect class="hl-box s-acc" x="225" y="90" width="134" height="80" rx="14"/>
+  <text class="hl-t" x="292" y="123" text-anchor="middle">Cloudflare Tunnel</text>
+  <text class="hl-s" x="292" y="142" text-anchor="middle">LXC · solo saliente</text>
+  <text class="hl-m" x="292" y="159" text-anchor="middle">tras CG-NAT</text>
+
+  <!-- LXC Tailscale -->
+  <rect class="hl-box s-vio" x="225" y="215" width="134" height="80" rx="14"/>
+  <text class="hl-t" x="292" y="248" text-anchor="middle">Tailscale</text>
+  <text class="hl-s" x="292" y="267" text-anchor="middle">LXC · subnet router</text>
+  <text class="hl-m" x="292" y="284" text-anchor="middle">VPN sin puertos</text>
+
+  <!-- LXC AdGuard -->
+  <rect class="hl-box s-mut" x="225" y="325" width="134" height="64" rx="12"/>
+  <text class="hl-t" x="292" y="354" text-anchor="middle">AdGuard Home</text>
+  <text class="hl-s" x="292" y="373" text-anchor="middle">DNS de casa · LXC</text>
+
+  <!-- LXC homepanel -->
+  <rect class="hl-box s-mut" x="225" y="405" width="134" height="64" rx="12"/>
+  <text class="hl-t" x="292" y="434" text-anchor="middle">homepanel</text>
+  <text class="hl-s" x="292" y="453" text-anchor="middle">solo red local · LXC</text>
+
+  <!-- VM Docker -->
+  <rect class="hl-frame s-acc" x="390" y="64" width="470" height="350" rx="14"/>
+  <text class="hl-t f-acc" x="410" y="88">VM Docker</text>
+  <text class="hl-m" x="488" y="88">Debian + Docker</text>
+
+  <rect class="hl-box s-vio" x="410" y="100" width="130" height="60" rx="12"/>
+  <text class="hl-t" x="475" y="125" text-anchor="middle">Proxy inverso</text>
+  <text class="hl-s" x="475" y="144" text-anchor="middle">Nginx Proxy Manager</text>
+
+  <rect x="570" y="100" width="272" height="190" rx="12" class="hl-box s-acc"/>
+  <text class="hl-t" x="586" y="124">Stacks</text>
+  <text class="hl-m" x="640" y="124">un compose por servicio</text>
+  <rect class="hl-chip s-acc" x="586" y="138" width="118" height="38" rx="8"/><text class="hl-c" x="645" y="162" text-anchor="middle">n8n</text>
+  <rect class="hl-chip s-acc" x="716" y="138" width="118" height="38" rx="8"/><text class="hl-c" x="775" y="162" text-anchor="middle">Vikunja</text>
+  <rect class="hl-chip s-acc" x="586" y="186" width="118" height="38" rx="8"/><text class="hl-c" x="645" y="210" text-anchor="middle">openGym</text>
+  <rect class="hl-chip s-acc" x="716" y="186" width="118" height="38" rx="8"/><text class="hl-c" x="775" y="210" text-anchor="middle">Web propia</text>
+  <rect class="hl-chip s-mut" x="586" y="234" width="248" height="38" rx="8" stroke-dasharray="4 4"/><text class="hl-m" x="710" y="258" text-anchor="middle">… y lo que vaya llegando</text>
+
+  <rect class="hl-box s-acc" x="410" y="330" width="432" height="62" rx="12"/>
+  <text class="hl-t" x="626" y="358" text-anchor="middle">Portainer</text>
+  <text class="hl-s" x="626" y="377" text-anchor="middle">despliega y gestiona cada stack</text>
+  <path class="hl-dash" d="M706 330V290"/>
+
+  <text class="hl-s" x="410" y="446">Un solo nodo físico, sin RAID ni</text>
+  <text class="hl-s" x="410" y="464">redundancia de hardware.</text>
+
+  <!-- Móvil Android, fuera del servidor -->
+  <rect class="hl-box s-ok" x="24" y="345" width="120" height="110" rx="14"/>
+  <text class="hl-t" x="84" y="376" text-anchor="middle">Móvil Android</text>
+  <text class="hl-s" x="84" y="396" text-anchor="middle">monitor</text>
+  <text class="hl-s" x="84" y="413" text-anchor="middle">independiente</text>
+  <text class="hl-m" x="84" y="437" text-anchor="middle">otro hardware</text>
+  <text class="hl-m" x="84" y="486" text-anchor="middle">vigila al vigilante</text>
+
+  <!-- Líneas base y flujo animado -->
+  <path class="hl-line" d="M144 130H223" marker-end="url(#hlw-ar)"/>
+  <path class="hl-line" d="M359 130H408" marker-end="url(#hlw-ar)"/>
+  <path class="hl-line" d="M540 130H568" marker-end="url(#hlw-ar)"/>
+  <path class="hl-line" d="M144 255H223" marker-end="url(#hlw-ar)"/>
+  <path class="hl-line" d="M144 400H198" marker-end="url(#hlw-ar)"/>
+  <g aria-hidden="true">
+    <path class="hl-flow s-acc" d="M144 130H223"/>
+    <path class="hl-flow s-acc" d="M359 130H408"/>
+    <path class="hl-flow s-acc" d="M540 130H568"/>
+    <path class="hl-flow s-vio" d="M144 255H223"/>
+    <path class="hl-flow s-ok" d="M144 400H198"/>
+  </g>
+</svg>
+<svg class="hl-svg hl-tall" viewBox="0 0 340 770" role="img" aria-labelledby="hlt-t hlt-d" xmlns="http://www.w3.org/2000/svg">
+  <title id="hlt-t">Arquitectura de mi homelab</title>
+  <desc id="hlt-d">Diagrama de flujo de arriba abajo. Internet llega por un Cloudflare Tunnel, que sale desde una LXC dentro de un único servidor Proxmox, hasta Nginx Proxy Manager, que reparte el tráfico a los stacks Docker de una VM (n8n, Vikunja, openGym y una web), gestionados con Portainer. Una segunda vía, Tailscale, da acceso VPN a la red local mediante una LXC subnet router. Dentro del servidor hay también una LXC con AdGuard Home y otra con el panel homepanel, solo en red local. Fuera del servidor, un móvil Android reutilizado vigila que el servidor responde. No hay puertos de entrada abiertos y el servidor está detrás de CG-NAT.</desc>
+  <defs>
+    <marker id="hlt-ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path class="hl-arrow" d="M0 0L10 5L0 10z"/></marker>
+  </defs>
+  <rect class="hl-panel" x="0.5" y="0.5" width="339" height="769" rx="14"/>
+
+  <!-- Internet -->
+  <rect class="hl-box s-mut" x="20" y="16" width="300" height="56" rx="14"/>
+  <text class="hl-t" x="170" y="39" text-anchor="middle">Internet</text>
+  <text class="hl-s" x="170" y="58" text-anchor="middle">visitantes y mis equipos fuera de casa</text>
+  <text class="hl-m" x="138" y="98">túnel saliente</text>
+  <text class="hl-m" x="278" y="98">VPN</text>
+
+  <!-- Servidor -->
+  <rect class="hl-frame s-org" x="8" y="108" width="324" height="560" rx="16"/>
+  <text class="hl-t f-org" x="24" y="132">Proxmox VE</text>
+  <text class="hl-m" x="140" y="130">un solo servidor</text>
+  <text class="hl-m" x="140" y="147">sin puertos abiertos</text>
+
+  <rect class="hl-box s-acc" x="24" y="164" width="140" height="62" rx="14"/>
+  <text class="hl-t" x="94" y="189" text-anchor="middle">Cloudflare Tunnel</text>
+  <text class="hl-s" x="94" y="208" text-anchor="middle">LXC · solo saliente</text>
+
+  <rect class="hl-box s-vio" x="176" y="164" width="140" height="62" rx="14"/>
+  <text class="hl-t" x="246" y="189" text-anchor="middle">Tailscale</text>
+  <text class="hl-s" x="246" y="208" text-anchor="middle">LXC · subnet router</text>
+  <text class="hl-m" x="246" y="243" text-anchor="middle">acceso a la red local</text>
+
+  <!-- VM Docker -->
+  <rect class="hl-frame s-acc" x="20" y="256" width="300" height="326" rx="14"/>
+  <text class="hl-t f-acc" x="36" y="278">VM Docker</text>
+  <text class="hl-m" x="146" y="278">Debian + Docker</text>
+
+  <rect class="hl-box s-vio" x="36" y="292" width="268" height="52" rx="12"/>
+  <text class="hl-t" x="170" y="314" text-anchor="middle">Proxy inverso</text>
+  <text class="hl-s" x="170" y="332" text-anchor="middle">Nginx Proxy Manager</text>
+
+  <rect class="hl-box s-acc" x="36" y="370" width="268" height="134" rx="12"/>
+  <text class="hl-t" x="48" y="392">Stacks</text>
+  <text class="hl-m" x="100" y="392">un compose por servicio</text>
+  <rect class="hl-chip s-acc" x="48" y="404" width="118" height="30" rx="8"/><text class="hl-c" x="107" y="424" text-anchor="middle">n8n</text>
+  <rect class="hl-chip s-acc" x="176" y="404" width="116" height="30" rx="8"/><text class="hl-c" x="234" y="424" text-anchor="middle">Vikunja</text>
+  <rect class="hl-chip s-acc" x="48" y="442" width="118" height="30" rx="8"/><text class="hl-c" x="107" y="462" text-anchor="middle">openGym</text>
+  <rect class="hl-chip s-acc" x="176" y="442" width="116" height="30" rx="8"/><text class="hl-c" x="234" y="462" text-anchor="middle">Web propia</text>
+  <text class="hl-m" x="170" y="494" text-anchor="middle">… y lo que vaya llegando</text>
+
+  <rect class="hl-box s-acc" x="36" y="526" width="268" height="44" rx="12"/>
+  <text class="hl-t" x="170" y="544" text-anchor="middle">Portainer</text>
+  <text class="hl-s" x="170" y="561" text-anchor="middle">gestiona cada stack</text>
+  <path class="hl-dash" d="M170 526V504"/>
+
+  <!-- LXC de red y servicios -->
+  <rect class="hl-box s-mut" x="24" y="598" width="140" height="58" rx="12"/>
+  <text class="hl-t" x="94" y="623" text-anchor="middle">AdGuard Home</text>
+  <text class="hl-s" x="94" y="642" text-anchor="middle">DNS de casa · LXC</text>
+  <rect class="hl-box s-mut" x="176" y="598" width="140" height="58" rx="12"/>
+  <text class="hl-t" x="246" y="623" text-anchor="middle">homepanel</text>
+  <text class="hl-s" x="246" y="642" text-anchor="middle">solo red local · LXC</text>
+
+  <!-- Móvil Android, fuera del servidor -->
+  <rect class="hl-box s-ok" x="40" y="710" width="260" height="46" rx="14"/>
+  <text class="hl-t" x="170" y="729" text-anchor="middle">Móvil Android</text>
+  <text class="hl-s" x="170" y="746" text-anchor="middle">monitor independiente · vigila al vigilante</text>
+
+  <!-- Líneas base y flujo animado -->
+  <path class="hl-line" d="M130 72V162" marker-end="url(#hlt-ar)"/>
+  <path class="hl-line" d="M270 72V162" marker-end="url(#hlt-ar)"/>
+  <path class="hl-line" d="M130 226V290" marker-end="url(#hlt-ar)"/>
+  <path class="hl-line" d="M170 344V368" marker-end="url(#hlt-ar)"/>
+  <path class="hl-line" d="M170 710V672" marker-end="url(#hlt-ar)"/>
+  <g aria-hidden="true">
+    <path class="hl-flow s-acc" d="M130 72V162"/>
+    <path class="hl-flow s-vio" d="M270 72V162"/>
+    <path class="hl-flow s-acc" d="M130 226V290"/>
+    <path class="hl-flow s-acc" d="M170 344V368"/>
+    <path class="hl-flow s-ok" d="M170 710V672"/>
+  </g>
+</svg>
+        </div>
+        <figcaption>
+          <ul class="legend" aria-label="Leyenda del diagrama">
+            <li><i style="background:var(--accent)"></i>Tráfico web (Cloudflare Tunnel)</li>
+            <li><i style="background:var(--violet)"></i>VPN (Tailscale)</li>
+            <li><i style="background:var(--ok)"></i>Monitorización desde fuera del servidor</li>
+          </ul>
+        </figcaption>
+      </figure>
+
+      <h3 class="sub-h">Decisiones</h3>
+      <p>Cada una como problema, decisión y por qué.</p>
+      <ul class="decisions">
+        <li class="dec">
+          <h4>Sin puertos entrantes</h4>
+          <dl>
+            <dt>Problema</dt><dd>Estoy detrás de CG-NAT, no puedo abrir puertos.</dd>
+            <dt>Decisión</dt><dd>Cloudflare Tunnel desde una LXC dedicada.</dd>
+            <dt>Por qué</dt><dd>La conexión es solo saliente y no hace falta IP pública.</dd>
+          </dl>
+        </li>
+        <li class="dec">
+          <h4>VPN con CG-NAT</h4>
+          <dl>
+            <dt>Problema</dt><dd>Acceder a casa desde fuera.</dd>
+            <dt>Decisión</dt><dd>Tailscale, con un subnet router en una LXC.</dd>
+            <dt>Por qué</dt><dd>WireGuard necesita un puerto entrante, y Cloudflare WARP caería con los bloqueos de LaLiga a rangos de Cloudflare.</dd>
+            <dt>Límite</dt><dd>Si el servidor cae, la VPN cae con él.</dd>
+          </dl>
+        </li>
+        <li class="dec key">
+          <h4>Vigilar al vigilante</h4>
+          <dl>
+            <dt>Problema</dt><dd>Un monitor que vive en el servidor no avisa de que el servidor se ha apagado.</dd>
+            <dt>Decisión</dt><dd>Usar un móvil Android reutilizado como nodo de monitorización independiente (en marcha).</dd>
+            <dt>Por qué</dt><dd>Tiene que vivir en hardware distinto; es el mismo razonamiento que la LXC aparte de homepanel.</dd>
+          </dl>
+        </li>
+        <li class="dec">
+          <h4>Docker en VM, no en LXC</h4>
+          <dl>
+            <dt>Problema</dt><dd>Dónde correr Docker.</dd>
+            <dt>Decisión</dt><dd>En una VM.</dd>
+            <dt>Por qué</dt><dd>Evitar Docker anidado en contenedores sin privilegios, según mi nivel de entonces (cómodo con Linux, aprendiendo Docker y redes).</dd>
+          </dl>
+        </li>
+        <li class="dec">
+          <h4>Servidor de correo descartado</h4>
+          <dl>
+            <dt>Problema</dt><dd>Quería correo propio.</dd>
+            <dt>Decisión</dt><dd>No montarlo.</dd>
+            <dt>Por qué</dt><dd>Con CG-NAT no puedo recibir correo ni enviarlo con buena reputación desde una IP residencial. Solo sería viable con un VPS como relay.</dd>
+          </dl>
+        </li>
+        <li class="dec">
+          <h4>Backups sencillos</h4>
+          <dl>
+            <dt>Problema</dt><dd>Proteger VMs y LXC.</dd>
+            <dt>Decisión</dt><dd>Backups nativos de Proxmox, sin Proxmox Backup Server.</dd>
+            <dt>Por qué</dt><dd>Con un solo nodo sería excesivo. Política: diario, retención de 3.</dd>
+          </dl>
+        </li>
+        <li class="dec">
+          <h4>Red propia para el homelab</h4>
+          <dl>
+            <dt>Problema</dt><dd>El homelab y mis equipos convivían con la red del proveedor, con un arranque caótico.</dd>
+            <dt>Decisión</dt><dd>Un router propio para el homelab y mis equipos, separado del router del operador.</dd>
+            <dt>Por qué</dt><dd>Controlo yo la red con la que trabajo, y queda aparte del wifi de casa.</dd>
+          </dl>
+        </li>
+      </ul>
+
+      <h3 class="sub-h">Anécdota de depuración</h3>
+      <article class="story panel">
+        <h4>Cortes intermitentes</h4>
+        <p>Algunos días el acceso a mis servicios se cortaba sin error, solo con timeout. Resultó ser un bloqueo de los ISP a rangos de Cloudflare durante partidos de fútbol, que afecta de rebote a todo lo que está detrás de Cloudflare. No hay arreglo posible desde mi lado: la lección fue comprobar el calendario antes de depurar la red.</p>
+      </article>
+    </div>
+  </section>
+
+  <section id="stack" aria-labelledby="h-stack">
+    <div class="wrap rail">
+      <h2 class="node" id="h-stack">Stack y certificaciones</h2>
+      <div class="levels">
+        <div class="level">
+          <h3>Uso diario</h3>
+          <ul class="run l1" aria-label="Uso diario">
+            <li>Java 8</li><li>Spring Framework</li><li>JPA</li><li>Oracle Database</li><li>SQL</li><li>PL/SQL</li><li>Optimización de consultas</li><li>REST</li><li>SOAP</li><li>SoapUI</li><li>ExtJS</li><li>Maven</li><li>Git</li><li>IntelliJ IDEA</li><li>Scrum</li>
+          </ul>
+        </div>
+        <div class="level">
+          <h3>Conozco</h3>
+          <div>
+            <ul class="run l2" aria-label="Conozco">
+              <li>Docker</li><li>Portainer</li><li>Proxmox</li><li>Debian</li><li>Linux</li><li>Cloudflare Tunnel</li><li>Nginx Proxy Manager</li><li>AdGuard Home</li><li>Tailscale</li><li>n8n</li><li>Python</li><li>FastAPI</li><li>htmx</li><li>Claude Code</li><li>Desarrollo con agentes</li>
+            </ul>
+            <p class="mini">Solo formación, no es dominio: Angular, Ionic, NestJS.</p>
+          </div>
+        </div>
+        <div class="level">
+          <h3>Exploro</h3>
+          <ul class="run l3" aria-label="Exploro">
+            <li>Modelos de IA ligeros en local</li><li>Más servicios self-hosted</li><li>Servidor multimedia</li><li>Orquestación de subagentes de IA (con esta propia web)</li>
+          </ul>
+        </div>
+      </div>
+      <h3 class="certs-h">Certificaciones</h3>
+      <ul class="certs" aria-label="Certificaciones">
+        <li><b>Oracle Certified Associate, Java SE 8 Programmer</b><span>Oracle, mar 2026</span></li>
+        <li><b>Claude Code 101 (curso completado)</b><span>Anthropic, abr 2026</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="formacion" aria-labelledby="h-edu">
+    <div class="wrap rail">
+      <h2 class="node" id="h-edu">Formación</h2>
+      <div class="edu">
+        <article>
+          <h3>CFGS Desarrollo de Aplicaciones Web (DAW)</h3>
+          <p>Institut Joan d'Àustria, Barcelona, sept 2021 – jun 2023</p>
+          <p><b>Nota media:</b> 8,92/10</p>
+          <p>Módulos destacados: Java, JavaScript, Angular, bases de datos relacionales, despliegue web.</p>
+        </article>
+        <article>
+          <h3>CFGM Administración de Sistemas Informáticos en Red (ASIR)</h3>
+          <p>IES Biel Martí, Menorca, sept 2019 – dic 2020</p>
+          <p><b>Nota media:</b> 7/10</p>
+        </article>
+        <article>
+          <h3>Idiomas</h3>
+          <p><b>Catalán:</b> nativo</p>
+          <p><b>Castellano:</b> nativo</p>
+          <p><b>Inglés:</b> C1</p>
+        </article>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer id="contacto" class="contact" aria-labelledby="h-contact">
+  <div class="wrap rail rail-end">
+    <h2 class="node" id="h-contact">Hablemos</h2>
+    <p class="say">Si tienes una oferta, una duda sobre alguno de mis proyectos o simplemente quieres comentar algo de backend o infraestructura, escríbeme.</p>
+    <a class="mail" href="mailto:toni.gomila7@gmail.com">toni.gomila7@gmail.com</a>
+    <ul class="links">
+      <li><a class="btn" href="https://www.linkedin.com/in/toni-gomila/" rel="noopener">LinkedIn</a></li>
+      <li><a class="btn" href="https://github.com/gomila17" rel="noopener">GitHub</a></li>
+    </ul>
+    <aside class="longterm panel">
+      <p>Abierto a conversar sobre roles técnicos con vocación de liderazgo.</p>
+    </aside>
+    <p class="fine">Barcelona. Esta web está hecha con agentes de IA.</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var root=document.documentElement,btn=document.getElementById('theme'),lab=document.getElementById('theme-label');
+  var order=['auto','light','dark'],names={auto:'Auto',light:'Claro',dark:'Oscuro'};
+  var cur='auto';
+  try{var s=localStorage.getItem('tg-theme');if(s==='light'||s==='dark')cur=s}catch(e){}
+  function apply(){
+    if(cur==='auto')root.removeAttribute('data-theme');else root.setAttribute('data-theme',cur);
+    lab.textContent=names[cur];
+    btn.setAttribute('aria-label','Tema de color: '+names[cur].toLowerCase()+(cur==='auto'?' (sistema)':'')+'. Pulsa para cambiar.');
+  }
+  btn.addEventListener('click',function(){
+    cur=order[(order.indexOf(cur)+1)%3];
+    apply();
+    try{if(cur==='auto')localStorage.removeItem('tg-theme');else localStorage.setItem('tg-theme',cur)}catch(e){}
+  });
+  apply();
+  /* Nodo activo del riel: la seccion que cruza la franja superior de la ventana */
+  var secs=[].slice.call(document.querySelectorAll('main section[id],footer[id]'));
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(es){
+      es.forEach(function(e){e.target.classList.toggle('on',e.isIntersecting)});
+    },{rootMargin:'-30% 0px -60% 0px'});
+    secs.forEach(function(s){io.observe(s)});
+  }
+})();
+</script>
+<!--
+DISEÑO (v2). Memoria visual unica: el subrayado del logo girado 90 grados es un riel que recorre toda la pagina; secciones y puestos de la experiencia son nodos del mismo riel. Detalle y razones en v2-plan.md.
+-->
+</body>
+</html>

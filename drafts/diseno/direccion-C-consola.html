@@ -1,0 +1,398 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Toni Gomila · Backend Java</title>
+<meta name="description" content="Toni Gomila, desarrollador backend Java en Barcelona. Oracle, Spring, automatización e IA, de la base de datos al despliegue.">
+<meta name="color-scheme" content="dark light">
+<style>
+:root{
+  --bg:#0a0a0c;
+  --panel:#0f0f11;
+  --panel-2:#0b0b0d;
+  --border:#26282c;
+  --border-soft:#18191b;
+  --grid:rgba(255,255,255,.03);
+
+  --text:#eceef0;
+  --text-2:#cfd1d4;
+  --text-3:#b7b9bd;
+  --muted:#8e9197;      /* AA sobre --bg y --panel */
+  --link:#c4c7cc;
+  --link-hover:#ffffff;
+  --focus:#e6c06a;
+
+  --ok:#46d08b;
+  --warn:#e6a93a;
+  --error:#e0503c;
+
+  --font-mono:ui-monospace,"Cascadia Mono","SF Mono",Menlo,Consolas,"Liberation Mono",monospace;
+  --font-sans:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --gutter:16px;
+  --maxw:960px;
+}
+@media (prefers-color-scheme:light){
+  :root{
+    --bg:#f4f4f2;
+    --panel:#ffffff;
+    --panel-2:#eeeeec;
+    --border:#cfd0d2;
+    --border-soft:#e1e2e3;
+    --grid:rgba(0,0,0,.035);
+
+    --text:#15161a;
+    --text-2:#26282c;
+    --text-3:#34363b;
+    --muted:#5a5d63;
+    --link:#2b2d33;
+    --link-hover:#000000;
+    --focus:#8a5a00;
+
+    --ok:#0f7a45;
+    --warn:#8a5a00;
+    --error:#b3341f;
+  }
+}
+
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;
+  background:var(--bg);
+  background-image:
+    linear-gradient(var(--grid) 1px,transparent 1px),
+    linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:44px 44px;
+  color:var(--text-2);
+  font-family:var(--font-sans);
+  font-size:16px;
+  line-height:1.65;
+}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 var(--gutter)}
+a{color:var(--link);text-decoration:underline;text-decoration-color:var(--border);text-underline-offset:3px}
+a:hover{color:var(--link-hover);text-decoration-color:currentColor}
+:focus-visible{outline:2px solid var(--focus);outline-offset:3px;border-radius:2px}
+::selection{background:#34363b;color:#fff}
+h1,h2,h3{color:var(--text);line-height:1.2;margin:0}
+p{margin:0 0 1em}
+ul{margin:0;padding:0;list-style:none}
+
+.mono{font-family:var(--font-mono)}
+.label{
+  font-family:var(--font-mono);font-size:12px;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--muted)
+}
+.skip{position:absolute;left:var(--gutter);top:-60px;background:var(--panel);color:var(--text);
+  padding:8px 12px;border:1px solid var(--border);z-index:10}
+.skip:focus{top:8px}
+
+/* ---------- cabecera ---------- */
+.top{border-bottom:1px solid var(--border);background:var(--panel-2)}
+.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:52px}
+.brand{font-family:var(--font-mono);font-size:13px;color:var(--text);text-decoration:none;letter-spacing:.02em}
+.brand span{color:var(--muted)}
+.lang{display:flex;font-family:var(--font-mono);font-size:12px;border:1px solid var(--border);border-radius:4px;overflow:hidden}
+.lang span{padding:4px 10px;color:var(--muted)}
+.lang span.on{background:var(--border);color:var(--text)}
+
+/* ---------- secciones ---------- */
+section{padding:48px 0 8px}
+.sec-head{display:flex;align-items:baseline;gap:12px;margin-bottom:24px;
+  border-bottom:1px solid var(--border-soft);padding-bottom:10px}
+.sec-head .idx{font-family:var(--font-mono);font-size:12px;color:var(--muted)}
+.sec-head h2{font-size:1.35rem;font-weight:600}
+
+/* ---------- hero ---------- */
+.hero{padding-top:40px}
+.hero-grid{display:grid;gap:28px}
+.photo{
+  width:112px;height:112px;border-radius:6px;border:1px solid var(--border);
+  object-fit:cover;background:var(--panel);display:block;
+  filter:grayscale(1) contrast(1.05);
+}
+.hero h1{font-size:clamp(1.9rem,6.5vw,3rem);font-weight:700;letter-spacing:-.02em;margin:10px 0 14px}
+.hero .sub{font-family:var(--font-mono);font-size:.95rem;color:var(--text-3);margin:0 0 20px}
+.hero .value{max-width:62ch;font-size:1.05rem;color:var(--text-2)}
+.ai-note{
+  display:inline-flex;align-items:center;gap:8px;margin:4px 0 22px;
+  font-family:var(--font-mono);font-size:12.5px;color:var(--text-3);
+  border:1px solid var(--border);border-radius:4px;padding:5px 10px;background:var(--panel)
+}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--muted);display:inline-block;flex:none}
+.dot.ok{background:var(--ok)} .dot.warn{background:var(--warn)}
+.links{display:flex;flex-wrap:wrap;gap:10px}
+.links a{
+  font-family:var(--font-mono);font-size:13px;text-decoration:none;color:var(--text);
+  border:1px solid var(--border);background:var(--panel);border-radius:4px;padding:9px 14px;
+  min-height:44px;display:inline-flex;align-items:center;transition:border-color .15s,background .15s
+}
+.links a:hover{border-color:var(--muted);background:var(--panel-2)}
+.links a::before{content:"> ";color:var(--muted);white-space:pre}
+
+/* ---------- panel genérico ---------- */
+.panel{background:var(--panel);border:1px solid var(--border);border-radius:6px;padding:20px}
+
+/* ---------- sobre mí ---------- */
+.about p{max-width:68ch}
+.longterm{
+  margin-top:28px;max-width:68ch;border:1px dashed var(--border);border-left:3px solid var(--muted);
+  background:var(--panel-2);padding:16px 18px;border-radius:4px
+}
+.longterm .label{display:block;margin-bottom:6px}
+.longterm p{margin:0;color:var(--text)}
+
+/* ---------- pilares ---------- */
+.pillars-intro{max-width:68ch;color:var(--text-3);margin-bottom:24px}
+.pillars{display:grid;gap:16px}
+.pillar h3{font-size:1.05rem;margin:6px 0 14px}
+.pillar li{position:relative;padding-left:18px;margin-bottom:10px;font-size:.95rem}
+.pillar li::before{content:"–";position:absolute;left:0;color:var(--muted);font-family:var(--font-mono)}
+
+/* ---------- línea de tiempo ---------- */
+.exp-intro{max-width:68ch;color:var(--text-3);margin-bottom:28px}
+.timeline{position:relative;margin:0;padding:0 0 0 22px;border-left:1px solid var(--border)}
+.tl{position:relative;padding:0 0 32px 18px}
+.tl:last-child{padding-bottom:4px}
+.tl::before{
+  content:"";position:absolute;left:-28px;top:6px;width:11px;height:11px;border-radius:50%;
+  background:var(--bg);border:2px solid var(--muted)
+}
+.tl.current::before{border-color:var(--ok);background:var(--ok)}
+.tl h3{font-size:1.1rem}
+.tl .meta{font-family:var(--font-mono);font-size:12.5px;color:var(--muted);margin:4px 0 12px}
+.tl li{position:relative;padding-left:18px;margin-bottom:7px;font-size:.95rem}
+.tl li::before{content:"–";position:absolute;left:0;color:var(--muted);font-family:var(--font-mono)}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.tags span{font-family:var(--font-mono);font-size:12px;color:var(--text-3);
+  border:1px solid var(--border);border-radius:3px;padding:2px 8px}
+
+/* ---------- proyecto ---------- */
+.proj-head{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:8px 16px;
+  border-bottom:1px solid var(--border-soft);padding-bottom:14px;margin-bottom:6px}
+.proj-head h3{font-family:var(--font-mono);font-size:1.25rem}
+.proj-tag{color:var(--text-3);margin:6px 0 0}
+.proj .stack{margin:12px 0 0}
+.block{padding:18px 0;border-bottom:1px solid var(--border-soft)}
+.block:last-of-type{border-bottom:0;padding-bottom:4px}
+.block .label{display:block;margin-bottom:8px}
+.block p:last-child{margin-bottom:0}
+.block ol{margin:0;padding-left:20px}
+.block ol li{margin-bottom:8px;padding-left:4px}
+.block ol li::marker{font-family:var(--font-mono);color:var(--muted);font-size:.85em}
+.note{font-size:.92rem;color:var(--muted);border-left:2px solid var(--warn);padding-left:12px;margin-top:14px}
+
+/* ---------- pie ---------- */
+footer{margin-top:64px;border-top:1px solid var(--border);background:var(--panel-2);padding:24px 0 40px}
+footer .wrap{display:grid;gap:10px;font-family:var(--font-mono);font-size:12.5px;color:var(--muted)}
+footer .legend{display:flex;align-items:center;gap:8px}
+footer a{color:var(--text-3)}
+
+/* ---------- escritorio ---------- */
+@media (min-width:720px){
+  :root{--gutter:32px}
+  .hero-grid{grid-template-columns:152px 1fr;gap:40px;align-items:start}
+  .photo{width:152px;height:152px}
+  .pillars{grid-template-columns:repeat(3,1fr)}
+  section{padding-top:72px}
+  .hero{padding-top:56px}
+  .panel{padding:24px}
+}
+@media (prefers-reduced-motion:reduce){
+  *{transition:none!important;animation:none!important;scroll-behavior:auto!important}
+}
+@media (prefers-reduced-motion:no-preference){
+  html{scroll-behavior:smooth}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Saltar al contenido</a>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#inicio">toni<span>@</span>gomila<span>:~$</span></a>
+    <!-- Selector decorativo: no cambia de idioma en este borrador -->
+    <div class="lang" aria-hidden="true"><span class="on">ES</span><span>EN</span></div>
+  </div>
+</header>
+
+<main id="main">
+
+<section class="hero" id="inicio" aria-labelledby="h-hero">
+  <div class="wrap hero-grid">
+    <img class="photo" src="foto.jpg" alt="Retrato de Toni Gomila" width="152" height="152">
+    <div>
+      <span class="label">Antonio (Toni) Gomila · Backend Developer · Barcelona</span>
+      <h1 id="h-hero">Backend Java que entiende el sistema completo</h1>
+      <p class="sub">Oracle, Spring, automatización e IA, de la base de datos al despliegue.</p>
+      <p class="value">Desarrollo y evoluciono aplicaciones Java para la Administración Pública, y decido cómo se construyen de principio a fin. Fuera del trabajo opero mi propio homelab, así que conozco también lo que hay debajo del código.</p>
+      <p class="ai-note"><span class="dot" aria-hidden="true"></span>Esta web está hecha con agentes de IA.</p>
+      <div class="links">
+        <a href="https://www.linkedin.com/in/toni-gomila/">LinkedIn</a>
+        <a href="https://github.com/gomila17">GitHub</a>
+        <a href="mailto:toni.gomila7@gmail.com">toni.gomila7@gmail.com</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="about" id="sobre-mi" aria-labelledby="h-about">
+  <div class="wrap">
+    <div class="sec-head"><span class="idx">01</span><h2 id="h-about">Sobre mí</h2></div>
+    <p>Soy desarrollador backend Java en Barcelona. Llevo más de cuatro años en Inetum, desde las prácticas hasta Senior Software Developer, evolucionando aplicaciones de la Administración Pública con Java, Spring y Oracle. En el día a día tomo la mayoría de decisiones de arquitectura de los evolutivos que trabajo.</p>
+    <p>Me centro en que los sistemas hagan solos lo que antes se hacía a mano: optimizar consultas pesadas, migrar lógica compleja de PL/SQL a Java y automatizar procesos. Creo que un backend no se entiende aislado, así que fuera del trabajo opero mi homelab, automatizo con n8n y desarrollo con agentes de IA. Esta web está hecha así.</p>
+    <aside class="longterm" aria-label="Interés a largo plazo">
+      <span class="label">A largo plazo</span>
+      <p>A largo plazo me interesa evolucionar hacia la gestión de equipos: me gusta trabajar con personas y ayudar a que otros crezcan.</p>
+    </aside>
+  </div>
+</section>
+
+<section id="que-hago" aria-labelledby="h-pillars">
+  <div class="wrap">
+    <div class="sec-head"><span class="idx">02</span><h2 id="h-pillars">Qué hago</h2></div>
+    <p class="pillars-intro">Un mismo hilo en tres frentes: entender el sistema entero, no solo mi capa.</p>
+    <div class="pillars">
+      <article class="panel pillar">
+        <span class="label">Pilar 1</span>
+        <h3>Backend Java</h3>
+        <ul>
+          <li>Consultas Oracle pesadas optimizadas. Ejemplos típicos: de ~30 s a ~5 s, o de ~1 min a ~10 s; las pequeñas, de ~10 s a ≤1 s.</li>
+          <li>Migración de lógica compleja de PL/SQL a Java para que sea más fácil de mantener.</li>
+          <li>Integración de datos de otras administraciones públicas con las aplicaciones propias.</li>
+          <li>Integraciones REST y SOAP; trabajo con sistemas legacy.</li>
+          <li>Oracle Certified Associate, Java SE 8 Programmer (mar 2026).</li>
+        </ul>
+      </article>
+      <article class="panel pillar">
+        <span class="label">Pilar 2</span>
+        <h3>Sistemas e infraestructura</h3>
+        <ul>
+          <li>Homelab sobre Proxmox: una VM con Docker, LXC para red y servicios, Nginx Proxy Manager y AdGuard Home.</li>
+          <li>Servicios publicados con Cloudflare Tunnel desde detrás de CG-NAT, sin abrir puertos.</li>
+          <li>Cloudflare Access con 2FA delante de lo expuesto, fail2ban, firewall de Proxmox solo para la red local y servicios sensibles únicamente en red local.</li>
+          <li>Backups nativos de Proxmox con política definida (diario, retención de 3).</li>
+        </ul>
+      </article>
+      <article class="panel pillar">
+        <span class="label">Pilar 3</span>
+        <h3>IA y automatización</h3>
+        <ul>
+          <li>Procesos automáticos en el trabajo: extracciones periódicas que ahora genera un job y avisa al usuario por Excel o email; revisiones semanales de cambios hechos a mano.</li>
+          <li>n8n propio, con un resumen diario por Telegram (tiempo, noticias, tareas, mercados y novedades de mis apps).</li>
+          <li>Gestión de tareas del homelab con Claude Code y un MCP de Vikunja.</li>
+          <li>Desarrollo con agentes de IA. Curso Claude Code 101 completado (Anthropic, abr 2026).</li>
+        </ul>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section id="experiencia" aria-labelledby="h-exp">
+  <div class="wrap">
+    <div class="sec-head"><span class="idx">03</span><h2 id="h-exp">Experiencia · Inetum</h2></div>
+    <p class="exp-intro">Proyectos de Administración Pública. De prácticas a Senior, con más de cuatro años de trayectoria (desde oct 2022).</p>
+
+    <ol class="timeline" style="list-style:none">
+      <li class="tl current">
+        <h3>Senior Software Developer</h3>
+        <p class="meta">ene 2026 – actualidad · híbrido</p>
+        <ul>
+          <li>Gestiono evolutivos de principio a fin, casi en solitario, y decido la arquitectura: si algo es un job, un servicio manual u otra solución.</li>
+          <li>Integro datos de otras administraciones con las aplicaciones propias.</li>
+          <li>Automatizo procesos para que no requieran acción del usuario.</li>
+          <li>Resuelvo incidencias complejas en producción y ayudo a compañeros, incluida la incorporación de gente nueva al proyecto.</li>
+        </ul>
+        <div class="tags"><span>Java</span><span>Spring Framework</span><span>Oracle</span><span>SQL</span><span>PL/SQL</span><span>REST</span><span>SOAP</span><span>ExtJS</span></div>
+      </li>
+      <li class="tl">
+        <h3>Java Developer</h3>
+        <p class="meta">jul 2023 – ene 2026 · Barcelona, híbrido</p>
+        <ul>
+          <li>Consultas Oracle de alto coste reducidas a la mitad o menos de su tiempo, y a menudo a una cuarta parte.</li>
+          <li>Jobs que sustituyen tareas manuales recurrentes: extracciones, informes y verificaciones.</li>
+          <li>Migración de lógica de PL/SQL a Java.</li>
+          <li>Sistema de notificación automática de errores por email.</li>
+          <li>Integración con servicios REST y SOAP.</li>
+        </ul>
+        <div class="tags"><span>Java 8</span><span>Spring Framework</span><span>Oracle</span><span>SQL</span><span>PL/SQL</span><span>REST</span><span>SOAP</span><span>ExtJS</span><span>JPA</span><span>SoapUI</span></div>
+      </li>
+      <li class="tl">
+        <h3>Software Developer Intern</h3>
+        <p class="meta">oct 2022 – jul 2023 · Barcelona</p>
+        <ul>
+          <li>Soporte en mejoras y corrección de incidencias en aplicaciones web internas.</li>
+          <li>Primer contacto con el stack Java, Spring, ExtJS y Oracle, y con Scrum.</li>
+          <li>Formación en Angular, Ionic y NestJS (formación, no es mi stack de trabajo).</li>
+        </ul>
+        <div class="tags"><span>Java</span><span>Spring Framework</span><span>Oracle</span><span>ExtJS</span><span>Scrum</span></div>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<section id="proyectos" aria-labelledby="h-proj">
+  <div class="wrap">
+    <div class="sec-head"><span class="idx">04</span><h2 id="h-proj">Proyecto destacado</h2></div>
+    <article class="panel proj">
+      <div class="proj-head">
+        <div>
+          <h3>homepanel</h3>
+          <p class="proj-tag">Panel propio para el homelab, hecho a medida.</p>
+        </div>
+        <a class="mono" style="font-size:13px" href="https://github.com/gomila17/homepanel">github.com/gomila17/homepanel</a>
+      </div>
+      <p class="stack label" style="text-transform:none;letter-spacing:.02em">Python · FastAPI · Jinja2 · htmx — integraciones con n8n, Proxmox, Vikunja, AdGuard, Nginx Proxy Manager y Cloudflare</p>
+
+      <div class="block">
+        <span class="label">Problema</span>
+        <p>Usaba Homepage, pero no cruza datos entre apps (por ejemplo, una línea de tiempo única con caídas, fallos de ejecución de n8n y eventos de Proxmox) ni se integra con n8n. Además quería una página de inicio con enlaces y buscador.</p>
+      </div>
+      <div class="block">
+        <span class="label">Decisiones</span>
+        <ol>
+          <li>FastAPI con páginas renderizadas en servidor y htmx. Sin SPA ni build de JS: pocas dependencias y código legible.</li>
+          <li>Desplegarlo en una LXC propia, no como stack Docker. Un panel que agrega el estado de la infraestructura no puede caer junto con lo que vigila.</li>
+          <li>Actualización automática: un timer de systemd comprueba <code class="mono">main</code> cada 5 minutos y, si hay cambios, actualiza y reinicia. Solo peticiones salientes: sin puertos de entrada ni runner.</li>
+          <li>Accesible solo desde la red local, porque reúne mucha información sensible de la infraestructura.</li>
+        </ol>
+      </div>
+      <div class="block">
+        <span class="label">Resultado</span>
+        <p>En producción en mi red, con tests que corren sin servicios externos (cada integración cae a «sin configurar») y CI en cada PR. Reemplazó a Homepage. Hoy muestra el estado de cada integración en una sola pantalla; cruzar datos entre ellas (la línea de tiempo única) sigue siendo un objetivo pendiente.</p>
+        <p class="note">Lección: empecé sin un diseño detallado y fui descubriendo necesidades por el camino, así que algunas cosas quedaron peor de lo que quería. Hoy planificaría antes. Esta web empieza justo con esa lección.</p>
+      </div>
+    </article>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div>Toni Gomila · Backend Developer · Barcelona</div>
+    <div>
+      <a href="https://www.linkedin.com/in/toni-gomila/">LinkedIn</a> ·
+      <a href="https://github.com/gomila17">GitHub</a> ·
+      <a href="mailto:toni.gomila7@gmail.com">Email</a>
+    </div>
+    <div class="legend"><span class="dot ok" aria-hidden="true"></span>Punto verde: marca decorativa del estilo, no un estado en vivo.</div>
+    <div>Esta web está hecha con agentes de IA.</div>
+  </div>
+</footer>
+
+<!--
+DECISIONES DE DISEÑO (dirección C, consola casi negra)
+1. Paleta tomada de homepanel (#0a0a0c, bordes #26282c, grises) con rejilla de 44px muy tenue: da identidad "sala de operaciones" sin ruido. El tema claro es un derivado con los mismos roles de variable, no un invertido plano.
+2. Monospace solo en etiquetas, metadatos, fechas, tags y enlaces; los párrafos van en sans-serif del sistema a 16px/1.65 con medida de ~68ch. Así el carácter técnico no cuesta legibilidad a un reclutador.
+3. Color de estado con sobriedad: el único acento fijo es un punto verde en el puesto actual de la línea de tiempo (dato real: "actualidad") y en la leyenda del pie. Ámbar solo en el borde de la nota de lección; rojo definido pero sin usar. El selector ES/EN y los puntos son decorativos y el pie lo dice explícitamente; no hay datos "en vivo".
+4. Bloque de largo plazo separado con borde discontinuo, barra lateral y etiqueta, en lugar de un párrafo más: se ve distinto de un vistazo sin competir con el resto.
+5. Tarjeta de homepanel en el patrón problema / decisiones / resultado con etiquetas mono y filas separadas por hairlines; recorto a 4 de las 5 decisiones (omito la del root) y mantengo honesto el estado pendiente de la línea de tiempo única.
+
+QUÉ ME PREOCUPA
+- El fondo casi negro con rejilla puede leerse frío o "de hacker/devops" para perfiles de RR. HH. no técnicos, y en pantallas con poco brillo los grises secundarios (#8e9197) quedan justos aunque cumplen AA. Además, la estética de consola favorece a una web de infraestructura más que a una de backend corporativo para Administración Pública; si el público objetivo es conservador, convendría arrancar en tema claro.
+- Pendientes de contenido: el email aparece visible con marca [REVISAR] en la fuente; omití el PDF del CV (FALTA); la foto es foto.jpg relativa y se muestra en escala de grises por CSS (decisión estética que Toni puede revertir). Se omitió la decisión 5 de homepanel (servicio como root) por brevedad, no por contenido.
+-->
+</body>
+</html>

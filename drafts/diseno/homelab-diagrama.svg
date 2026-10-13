@@ -1,0 +1,114 @@
+<svg class="hl-svg" width="900" height="520" viewBox="0 0 900 520" role="img" aria-labelledby="hlw-t hlw-d" xmlns="http://www.w3.org/2000/svg">
+  <title id="hlw-t">Arquitectura de mi homelab</title>
+  <desc id="hlw-d">Diagrama de flujo de izquierda a derecha. Internet llega por un Cloudflare Tunnel, que sale desde una LXC dentro de un único servidor Proxmox, hasta Nginx Proxy Manager, que reparte el tráfico a los stacks Docker de una VM (n8n, Vikunja, openGym y una web), gestionados con Portainer. Una segunda vía, Tailscale, da acceso VPN a la red local mediante una LXC subnet router. Junto al servidor hay una LXC con AdGuard Home y otra con el panel homepanel, solo en red local. Fuera del servidor, un móvil Android reutilizado vigila que el servidor responde. No hay puertos de entrada abiertos y el servidor está detrás de CG-NAT.</desc>
+  <style>
+svg.hl-svg{--card:#FBFBFA;--card-2:#F2F2F0;--line:#A9AFC2;--text:#202A42;--muted:#4A5470;--accent:#526DE5;--violet:#6639BA;--ok:#1A7F37;--orange:#B3470A}
+@media (prefers-color-scheme:dark){svg.hl-svg{--card:#21262d;--card-2:#161b22;--line:#30363d;--text:#e6edf3;--muted:#9aa4b0;--accent:#58a6ff;--violet:#a78bfa;--ok:#3fb950;--orange:#f0883e}}
+.hl-svg{display:block;width:100%;height:auto}
+.hl-svg text{font-family:var(--sans,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif)}
+.hl-panel{fill:var(--card);stroke:var(--line);stroke-width:1}
+.hl-t{font-size:14px;font-weight:600;fill:var(--text)}
+.hl-s{font-size:12px;fill:var(--muted)}
+.hl-m{font-family:var(--mono,ui-monospace,SFMono-Regular,Menlo,Consolas,monospace)!important;font-size:11.5px;fill:var(--muted)}
+.hl-c{font-family:var(--mono,ui-monospace,SFMono-Regular,Menlo,Consolas,monospace)!important;font-size:13px;font-weight:700;fill:var(--text)}
+.hl-box{fill:var(--card-2);stroke-width:1.8}
+.hl-chip{fill:var(--card);stroke-width:1.4}
+.hl-frame{fill:none;stroke-width:1.6;stroke-dasharray:4 6}
+.hl-line{fill:none;stroke:var(--muted);stroke-width:1.4;opacity:.6}
+.hl-dash{fill:none;stroke:var(--muted);stroke-width:1.4;stroke-dasharray:3 4;opacity:.8}
+.hl-flow{fill:none;stroke-width:5;stroke-linecap:round;stroke-dasharray:.1 18;animation:hl-mv 1.6s linear infinite}
+.hl-arrow{fill:var(--muted)}
+.s-acc{stroke:var(--accent)}.s-vio{stroke:var(--violet)}.s-ok{stroke:var(--ok)}.s-warn{stroke:var(--warn)}.s-org{stroke:var(--orange)}.s-mut{stroke:var(--line)}
+.f-org{fill:var(--orange)}.f-acc{fill:var(--accent)}
+@keyframes hl-mv{to{stroke-dashoffset:-18.1}}
+@media (prefers-reduced-motion:reduce){.hl-flow{animation:none}}
+
+</style>
+  <defs>
+    <marker id="hlw-ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path class="hl-arrow" d="M0 0L10 5L0 10z"/></marker>
+  </defs>
+  <rect class="hl-panel" x="0.5" y="0.5" width="899" height="519" rx="14"/>
+
+  <!-- Servidor Proxmox -->
+  <rect class="hl-frame s-org" x="200" y="24" width="676" height="470" rx="16"/>
+  <text class="hl-t f-org" x="220" y="50">Proxmox VE</text>
+  <text class="hl-m" x="312" y="50">un solo servidor físico · sin puertos abiertos · detrás de CG-NAT</text>
+
+  <!-- Internet -->
+  <rect class="hl-box s-mut" x="24" y="100" width="120" height="190" rx="14"/>
+  <text class="hl-t" x="84" y="128" text-anchor="middle">Internet</text>
+  <text class="hl-s" x="84" y="147" text-anchor="middle">visitantes</text>
+  <path class="hl-dash" d="M40 190H128"/>
+  <text class="hl-t" x="84" y="226" text-anchor="middle">Mis equipos</text>
+  <text class="hl-s" x="84" y="245" text-anchor="middle">fuera de casa</text>
+
+  <!-- LXC Cloudflare -->
+  <rect class="hl-box s-acc" x="225" y="90" width="134" height="80" rx="14"/>
+  <text class="hl-t" x="292" y="123" text-anchor="middle">Cloudflare Tunnel</text>
+  <text class="hl-s" x="292" y="142" text-anchor="middle">LXC · solo saliente</text>
+  <text class="hl-m" x="292" y="159" text-anchor="middle">tras CG-NAT</text>
+
+  <!-- LXC Tailscale -->
+  <rect class="hl-box s-vio" x="225" y="215" width="134" height="80" rx="14"/>
+  <text class="hl-t" x="292" y="248" text-anchor="middle">Tailscale</text>
+  <text class="hl-s" x="292" y="267" text-anchor="middle">LXC · subnet router</text>
+  <text class="hl-m" x="292" y="284" text-anchor="middle">VPN sin puertos</text>
+
+  <!-- LXC AdGuard -->
+  <rect class="hl-box s-mut" x="225" y="325" width="134" height="64" rx="12"/>
+  <text class="hl-t" x="292" y="354" text-anchor="middle">AdGuard Home</text>
+  <text class="hl-s" x="292" y="373" text-anchor="middle">DNS de casa · LXC</text>
+
+  <!-- LXC homepanel -->
+  <rect class="hl-box s-mut" x="225" y="405" width="134" height="64" rx="12"/>
+  <text class="hl-t" x="292" y="434" text-anchor="middle">homepanel</text>
+  <text class="hl-s" x="292" y="453" text-anchor="middle">solo red local · LXC</text>
+
+  <!-- VM Docker -->
+  <rect class="hl-frame s-acc" x="390" y="64" width="470" height="350" rx="14"/>
+  <text class="hl-t f-acc" x="410" y="88">VM Docker</text>
+  <text class="hl-m" x="488" y="88">Debian + Docker</text>
+
+  <rect class="hl-box s-vio" x="410" y="100" width="130" height="60" rx="12"/>
+  <text class="hl-t" x="475" y="125" text-anchor="middle">Proxy inverso</text>
+  <text class="hl-s" x="475" y="144" text-anchor="middle">Nginx Proxy Manager</text>
+
+  <rect x="570" y="100" width="272" height="190" rx="12" class="hl-box s-acc"/>
+  <text class="hl-t" x="586" y="124">Stacks</text>
+  <text class="hl-m" x="640" y="124">un compose por servicio</text>
+  <rect class="hl-chip s-acc" x="586" y="138" width="118" height="38" rx="8"/><text class="hl-c" x="645" y="162" text-anchor="middle">n8n</text>
+  <rect class="hl-chip s-acc" x="716" y="138" width="118" height="38" rx="8"/><text class="hl-c" x="775" y="162" text-anchor="middle">Vikunja</text>
+  <rect class="hl-chip s-acc" x="586" y="186" width="118" height="38" rx="8"/><text class="hl-c" x="645" y="210" text-anchor="middle">openGym</text>
+  <rect class="hl-chip s-acc" x="716" y="186" width="118" height="38" rx="8"/><text class="hl-c" x="775" y="210" text-anchor="middle">Web propia</text>
+  <rect class="hl-chip s-mut" x="586" y="234" width="248" height="38" rx="8" stroke-dasharray="4 4"/><text class="hl-m" x="710" y="258" text-anchor="middle">… y lo que vaya llegando</text>
+
+  <rect class="hl-box s-acc" x="410" y="330" width="432" height="62" rx="12"/>
+  <text class="hl-t" x="626" y="358" text-anchor="middle">Portainer</text>
+  <text class="hl-s" x="626" y="377" text-anchor="middle">despliega y gestiona cada stack</text>
+  <path class="hl-dash" d="M706 330V290"/>
+
+  <text class="hl-s" x="410" y="446">Un solo nodo físico, sin RAID ni</text>
+  <text class="hl-s" x="410" y="464">redundancia de hardware.</text>
+
+  <!-- Móvil Android, fuera del servidor -->
+  <rect class="hl-box s-ok" x="24" y="345" width="120" height="110" rx="14"/>
+  <text class="hl-t" x="84" y="376" text-anchor="middle">Móvil Android</text>
+  <text class="hl-s" x="84" y="396" text-anchor="middle">monitor</text>
+  <text class="hl-s" x="84" y="413" text-anchor="middle">independiente</text>
+  <text class="hl-m" x="84" y="437" text-anchor="middle">otro hardware</text>
+  <text class="hl-m" x="84" y="486" text-anchor="middle">vigila al vigilante</text>
+
+  <!-- Líneas base y flujo animado -->
+  <path class="hl-line" d="M144 130H223" marker-end="url(#hlw-ar)"/>
+  <path class="hl-line" d="M359 130H408" marker-end="url(#hlw-ar)"/>
+  <path class="hl-line" d="M540 130H568" marker-end="url(#hlw-ar)"/>
+  <path class="hl-line" d="M144 255H223" marker-end="url(#hlw-ar)"/>
+  <path class="hl-line" d="M144 400H198" marker-end="url(#hlw-ar)"/>
+  <g aria-hidden="true">
+    <path class="hl-flow s-acc" d="M144 130H223"/>
+    <path class="hl-flow s-acc" d="M359 130H408"/>
+    <path class="hl-flow s-acc" d="M540 130H568"/>
+    <path class="hl-flow s-vio" d="M144 255H223"/>
+    <path class="hl-flow s-ok" d="M144 400H198"/>
+  </g>
+</svg>
