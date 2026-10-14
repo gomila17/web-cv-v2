@@ -17,7 +17,7 @@ export default function render(ctx) {
   const { t, esc, facts, locale, paths } = ctx;
   const attr = (key) => esc(t(key));
   const nav = [['sobre-mi', t('n.about')], ['que-hago', t('n.what')], ['experiencia', t('n.exp')],
-    ['proyectos', t('n.proj')], ['homelab', 'Homelab'], ['stack', 'Stack']]
+    ['proyectos', t('n.proj')], ['homelab', t('n.hm')], ['stack', t('n.stack')]]
     .map(([id, label]) => `      <a href="#${id}">${label}</a>`).join('\n');
   const langs = facts.site.locales.map((l) => `        <a href="${esc(paths.alternates[l.code])}" hreflang="${esc(l.code)}" lang="${esc(l.code)}" aria-label="${esc(l.name)}"${l.code === locale ? ' aria-current="true"' : ''}>${esc(l.label)}</a>`).join('\n');
   const themeData = ['auto', 'light', 'dark', 'pre', 'sys', 'post'].map((k) => ` data-${k}="${attr(`th.${k}`)}"`).join('');

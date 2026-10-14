@@ -18,6 +18,8 @@
   "n.what": "What I do",
   "n.exp": "Experience",
   "n.proj": "Projects",
+  "n.hm": "Homelab",
+  "n.stack": "Stack",
   "h.title": "Java backend developer who sees the <em>whole system</em>",
   "h.sub": "Oracle, Spring, automation and AI, from the database to deployment.",
   "h.value": "I build and evolve Java applications for the public sector, and I make the design calls from start to finish. Outside work I run my own homelab, so I also know what sits underneath the code.",

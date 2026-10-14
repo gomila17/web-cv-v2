@@ -1,6 +1,7 @@
 # CONTRACTS: fase 4 (implementación)
 
-Lo que varios subagentes comparten y nadie cambia por su cuenta. Vale tanto para un generador propio (≤ 300 líneas) como para Eleventy (`ARCHITECTURE.md` decisión 3).
+Lo que varios subagentes comparten y nadie cambia por su cuenta. Generador: **propio** (`scripts/build.mjs`, sin dependencias), elegido frente a Eleventy tras una prueba en paralelo (`ARCHITECTURE.md` decisión 3, `drafts/generador-propio.md` y `drafts/generador-eleventy.md`).
+Comandos: `npm run build` (genera `dist/` y pasa el validador sobre la salida), `npm run dev` (build + servidor local con recarga), `npm run check`, `npm test`.
 Referencia visual: `drafts/diseno/versiones/v6-aprobada/hibrido-v6.html` (`DESIGN.md`).
 
 ## 1. Estructura
@@ -22,7 +23,7 @@ Por qué así: una carpeta por tipo de trabajo, así cada subagente edita ficher
 
 ## 2. Contenido
 
-**`es.json` / `en.json`**: objeto plano `{ "clave": "texto" }`, mismas claves en el mismo orden. 191 claves: las 180 de la v6, sin renombrar, más 11 nuevas (`th.*`, `a.newtab`, `num.words`, `st.c3t`, `st.c3`, `st.verify`).
+**`es.json` / `en.json`**: objeto plano `{ "clave": "texto" }`, mismas claves en el mismo orden. 193 claves: las 180 de la v6, sin renombrar, más 13 nuevas (`th.*`, `a.newtab`, `num.words`, `st.c3t`, `st.c3`, `st.verify`, `n.hm`, `n.stack`).
 - HTML en línea permitido: `em`, `strong`, `b`, `code`, `br`, y las mismas etiquetas en los dos idiomas. Se inserta sin escapar.
 - Hueco permitido: `{years}` (años completos desde `facts.career.start`; el build lo sustituye por la palabra de `num.words`, o por cifras si pasa de diez).
 - `t.title` y `t.desc` son el `<title>` y la meta descripción de cada idioma.
@@ -67,8 +68,10 @@ Un elemento de lista es un literal (`"Java 8"`) o una referencia `{ "i18n": "st.
 
 ## 5. Partials (`src/templates/*.mjs`)
 
-Un partial por sección: `export default function render(ctx) → string`, función pura. `ctx = { locale, t(key), facts, esc(s), tr(item), years, paths }` (detalle en `src/templates/README.md`). `t()` devuelve HTML de confianza; cualquier valor de `facts` pasa por `esc()`. Cada cabecera de partial lista sus claves y datos.
+Un partial por sección: `export default function render(ctx) → string`, función pura. `ctx = { locale, t(key), facts, esc(s), tr(item), years, today, headScript, paths }` (detalle en `src/templates/README.md`). `t()` devuelve HTML de confianza; cualquier valor de `facts` pasa por `esc()`. Cada cabecera de partial lista sus claves y datos.
 Partials: `layout`, `head`, `header`, `hero`, `about`, `pillars`, `experience`, `project`, `homelab`, `homelab-diagram` (única fuente del diagrama), `stack`, `education`, `footer`, `totop`, `language-picker` (página `/`).
+
+**Decisiones de la integración del generador:** las rutas de recursos son absolutas desde la raíz del sitio (`paths.asset`), así que se revisa con `npm run dev`, no abriendo el HTML con `file://`. El selector de idioma son **enlaces** (`<a aria-current>` a la página equivalente), no botones: el CSS usa `.lang a`. El conmutador de tema sale con `hidden` hasta que `main.js` lo active (sin JS no hace nada).
 
 ## 6. Quién toca qué
 

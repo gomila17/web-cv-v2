@@ -29,6 +29,9 @@ function fullYears(start, date) {
   return date.getFullYear() - y - (date.getMonth() + 1 < m ? 1 : 0);
 }
 const years = fullYears(facts.career.start, now);
+const today = now.toISOString().slice(0, 7); // 'AAAA-MM': fin del tramo en curso de la cota
+const headJs = fromRoot('src/scripts/head.js');
+const headScript = fs.existsSync(headJs) ? fs.readFileSync(headJs, 'utf8').trim() : '';
 
 const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
 
@@ -44,7 +47,7 @@ function makeCtx(locale, home) {
   const tr = (item) => (typeof item === 'string' ? esc(item) : t(item.i18n));
   const alternates = Object.fromEntries(site.locales.map((l) => [l.code, l.path]));
   const asset = (p) => '/' + String(p).replace(/^\/+/, ''); // ruta absoluta desde la raíz de dist/
-  return { locale, t, facts, esc, tr, years, paths: { home, alternates, asset } };
+  return { locale, t, facts, esc, tr, years, today, headScript, paths: { home, alternates, asset } };
 }
 
 /** Importa cada partial por separado (layout al final). Un error de sintaxis en un partial que importa
