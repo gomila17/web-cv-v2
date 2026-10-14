@@ -1,0 +1,15 @@
+/* =====================================================================
+   sections/footer.css — Contacto / pie. Copiado de la v6: banda oscura
+   con mancha y red de nodos (firma del hero), botones invertidos.
+   ===================================================================== */
+footer{position:relative;isolation:isolate;overflow:hidden;background:var(--band-bg);color:var(--band-fg);padding-block:56px 60px}
+footer::before{content:"";position:absolute;z-index:-1;right:-160px;top:-200px;width:560px;height:560px;border-radius:50%;background:radial-gradient(circle,var(--orb-1),transparent 68%);pointer-events:none}
+footer .net2{position:absolute;z-index:-1;left:-30px;bottom:-10px;width:min(60%,340px);opacity:.28;pointer-events:none}
+footer h2{font-size:1.6rem;margin-bottom:12px}
+footer p{color:var(--band-muted)}
+footer .links{margin:20px 0 28px}
+footer .btn{--fill:var(--band-fg);--fill-fg:var(--band-bg);--btn-fg:var(--band-fg);--btn-bd:var(--band-fg)}
+footer .btn.primary{--btn-bg:var(--band-primary);--btn-fg:var(--band-on-primary);--btn-bd:var(--band-primary)}
+footer :focus-visible{outline-color:var(--band-label)}
+.fine{font-family:var(--mono);font-size:.78rem;color:var(--band-muted);margin:0}
+.open{max-width:var(--measure);padding-left:14px;border-left:3px solid var(--band-label);font-size:.98rem;margin-top:8px;color:var(--band-fg)}

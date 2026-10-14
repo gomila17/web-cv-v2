@@ -1,0 +1,18 @@
+/* =====================================================================
+   sections/pillars.css — Qué hago (#que-hago, plano). Copiado de la v6.
+   Tres tarjetas con icono: una columna hasta 900px, tres desde ahí.
+   El pop de los iconos al revelarse está en motion.css.
+   ===================================================================== */
+.pillars{display:grid;grid-template-columns:minmax(0,1fr);gap:18px}
+.pillar{padding:24px 22px;min-width:0}
+.pillar .ico{width:44px;height:44px;border-radius:50%;background:var(--wash);color:var(--accent-ink);display:grid;place-items:center;margin-bottom:14px;transition:transform .5s var(--pop)}
+.pillar:hover .ico{transform:rotate(-10deg) scale(1.1)}
+.pillar .ico svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.pillar h3{font-size:1.25rem;margin:0 0 16px;padding-bottom:10px;border-bottom:3px solid var(--accent);display:block}
+.pillar ul{margin:0;padding:0 0 0 1.2em}
+.pillar li{margin-bottom:.7em;font-size:.97rem;line-height:1.55;overflow-wrap:break-word}
+.pillar li::marker{color:var(--accent);font-size:1.15em}
+
+@media (min-width:900px){
+  .pillars{grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+}

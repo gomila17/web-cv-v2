@@ -1,0 +1,32 @@
+/* =====================================================================
+   sections/stack.css — Stack y certificaciones (#stack, plano).
+   Niveles copiados de la v6 (las etiquetas .tags están en components.css;
+   su pop en cascada, en motion.css).
+   Certificaciones: la v6 tenía dos (rejilla de 2 desde 720px); ahora hay
+   tres, cada una con enlace de verificación. Para que no quede una
+   huérfana: 1 columna en móvil; 2 desde 720px con la tercera a todo el
+   ancho; 3 desde 900px (mismo corte que los niveles). El enlace va al pie
+   de la tarjeta, así los tres quedan alineados aunque los textos midan
+   distinto, y mide 44px de alto (objetivo táctil, DESIGN.md §9).
+   ===================================================================== */
+.levels{display:grid;grid-template-columns:minmax(0,1fr);gap:16px}
+.level{padding:22px;min-width:0}
+.level h3{font-size:1.1rem;margin-bottom:14px;padding-bottom:8px;border-bottom:3px solid var(--accent);display:block}
+.level p.mini{margin:14px 0 0;font-size:.9rem;color:var(--muted)}
+
+.certs{list-style:none;padding:0;margin:28px 0 0;display:grid;gap:12px}
+.certs li{padding:16px 20px;display:flex;flex-direction:column;gap:2px;min-width:0;overflow-wrap:break-word}
+.certs b{font-size:1.02rem}
+.certs span{color:var(--muted);font-size:.92rem}
+.certs a{align-self:flex-start;margin-top:auto;display:inline-flex;align-items:center;gap:.35em;min-height:44px;padding-top:4px;font-family:var(--mono);font-size:.82rem}
+.certs a span{color:inherit;font-size:inherit}
+
+@media (min-width:720px){
+  .certs{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .certs li:last-child:nth-child(odd){grid-column:1/-1}
+}
+@media (min-width:900px){
+  .levels{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .certs{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .certs li:last-child:nth-child(odd){grid-column:auto}
+}
