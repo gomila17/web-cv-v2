@@ -43,6 +43,11 @@ html.anim .prog{display:block}
 .btn:active{transform:translateY(1px) scale(.98)}
 .btn.primary{--btn-bg:var(--primary-bg);--btn-fg:var(--on-accent);--btn-bd:var(--primary-bg)}
 
+/* Bloque de largo plazo (Sobre mí): filete violeta, solo esquinas derechas redondeadas */
+.longterm{margin:32px 0 0;padding:22px 22px 22px 26px;background:var(--card);border:1px solid var(--line);border-left:4px solid var(--violet);border-radius:0 var(--r-aside) var(--r-aside) 0;max-width:var(--measure);box-shadow:var(--shadow)}
+.longterm .mono{display:block;color:var(--violet);text-transform:uppercase;letter-spacing:.08em;font-size:.72rem;margin-bottom:6px}
+.longterm p{margin:0;font-size:1.05rem}
+
 @media (min-width:1000px){
   .top nav{display:flex;gap:22px}
   .top nav a{position:relative;color:var(--text);text-decoration:none;font-size:.92rem;padding:.4rem 0}
