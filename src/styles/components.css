@@ -1,6 +1,7 @@
 /* =====================================================================
    components.css — capa "components" (CONTRACTS.md §4): cabecera,
-   selector de idioma, tema, botones.
+   selector de idioma, tema, botones, tarjeta, etiquetas, viñetas,
+   volver arriba y bloque de largo plazo.
    El selector de idioma son enlaces (no botones como en la v6): cada
    idioma es su URL, así que button[aria-pressed] pasa a a[aria-current].
    ===================================================================== */
@@ -43,6 +44,34 @@ html.anim .prog{display:block}
 .btn:active{transform:translateY(1px) scale(.98)}
 .btn.primary{--btn-bg:var(--primary-bg);--btn-fg:var(--on-accent);--btn-bd:var(--primary-bg)}
 
+/* Tarjeta: base común de pilares, puestos, proyecto, decisiones, niveles, certificaciones y formación */
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r-card);box-shadow:var(--shadow);transition:border-color var(--dur-micro),box-shadow var(--dur-micro)}
+.card:hover{border-color:var(--accent)}
+
+/* Etiquetas de tecnología (puestos y stack) */
+.tags{display:flex;flex-wrap:wrap;gap:6px;list-style:none;padding:0;margin:0}
+.tags li{font-family:var(--mono);font-size:.74rem;padding:.2rem .55rem;border:1px solid var(--line);border-radius:var(--r-sm);background:var(--card);color:var(--muted);transition:border-color var(--dur-fast),color var(--dur-fast)}
+.tags li:hover{border-color:var(--accent);color:var(--text)}
+
+/* Lista con viñetas de acento (puestos) */
+.bul{list-style:disc;margin:0 0 14px;padding-left:1.2em;max-width:var(--measure)}
+.bul li{margin-bottom:.45em;font-size:.97rem}
+.bul li::marker{color:var(--accent);font-size:1.15em}
+
+/* Volver arriba: abajo a la derecha, aparece pasado el hero (.show, main.js).
+   El anillo replica la barra de lectura: main.js escribe --tp (0..1) en el botón.
+   La flecha: la v6 la colocaba con style en línea; aquí va en CSS (.totop svg.arrow)
+   para no depender de él. */
+.totop{position:fixed;right:16px;bottom:16px;z-index:40;width:52px;height:52px;display:grid;place-items:center;border:1px solid var(--line);border-radius:50%;background:var(--card);color:var(--text);box-shadow:var(--shadow);cursor:pointer;opacity:0;transform:translateY(16px) scale(.9);pointer-events:none;transition:opacity var(--dur-fade) var(--ease),transform var(--dur-state) var(--ease),border-color var(--dur-fast)}
+.totop[hidden]{display:none}
+.totop.show{opacity:1;transform:none;pointer-events:auto}
+.totop:hover{border-color:var(--accent);transform:translateY(-3px)}
+.totop:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.totop svg{position:absolute;inset:-1px;width:52px;height:52px;transform:rotate(-90deg);pointer-events:none}
+.totop .ring{fill:none;stroke:var(--accent);stroke-width:2.5;stroke-linecap:round;stroke-dasharray:157;stroke-dashoffset:calc(157 - 157 * var(--tp,0))}
+.totop svg.arrow{position:static;inset:auto;width:20px;height:20px;transform:none;transition:transform var(--dur-micro) var(--ease)}
+.totop:hover svg.arrow{transform:translateY(-2px)}
+
 /* Bloque de largo plazo (Sobre mí): filete violeta, solo esquinas derechas redondeadas */
 .longterm{margin:32px 0 0;padding:22px 22px 22px 26px;background:var(--card);border:1px solid var(--line);border-left:4px solid var(--violet);border-radius:0 var(--r-aside) var(--r-aside) 0;max-width:var(--measure);box-shadow:var(--shadow)}
 .longterm .mono{display:block;color:var(--violet);text-transform:uppercase;letter-spacing:.08em;font-size:.72rem;margin-bottom:6px}
@@ -54,4 +83,5 @@ html.anim .prog{display:block}
   .top nav a::after{content:"";position:absolute;left:0;right:0;bottom:0;height:2px;background:var(--accent);transform:scaleX(0);transform-origin:left;transition:transform .4s var(--ease)}
   .top nav a:hover::after,.top nav a:focus-visible::after,.top nav a[aria-current]::after{transform:scaleX(1)}
   .top nav a[aria-current]{color:var(--accent-ink)}
+  .totop{right:28px;bottom:28px}
 }
