@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://gomila.dev/sitemap.xml
