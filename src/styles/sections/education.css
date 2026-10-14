@@ -1,0 +1,13 @@
+/* =====================================================================
+   sections/education.css — Formación e idiomas (#formacion). Copiado de
+   la v6: una columna en móvil, tres desde 720px.
+   ===================================================================== */
+.edu{display:grid;grid-template-columns:minmax(0,1fr);gap:16px}
+.edu article{padding:22px;min-width:0}
+.edu h3{font-size:1.1rem;margin-bottom:6px}
+.edu p{margin:0 0 .4em;font-size:.95rem;color:var(--muted)}
+.edu p b{color:var(--text)}
+
+@media (min-width:720px){
+  .edu{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
