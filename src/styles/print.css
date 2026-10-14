@@ -1,8 +1,13 @@
 /* =====================================================================
-   print.css — capa "print" (CONTRACTS.md §4). Mínimo de la v6.
+   print.css — capa "print" (CONTRACTS.md §4). Copiado de la v6: sin
+   animaciones, todo lo que el movimiento oculta queda visible, sin barra
+   de lectura ni barrido, cabecera no fija y sin volver arriba.
    ===================================================================== */
 @media print{
   html.anim *,html.anim *::before,html.anim *::after{animation:none!important;translate:none!important;scale:none!important}
-  .prog{display:none!important}
+  html.anim .rv:not(.in),html.anim .pillar .ico,html.anim .dec .num,html.anim .level .tags li,html.anim .fig .hl-g,html.anim .cota .nd,html.anim .cota .lbl,html.anim .cota .tk{opacity:1!important}
+  html.anim .cota .bar,html.anim .fig .hl-g,html.anim .sec-head h2,html.anim .sec-head .sec-no,html.anim .sec-head h2::after{transform:none!important}
+  .sweep,.prog{display:none!important}
+  .totop{display:none!important}
   html.js .topbar{position:relative}
 }
