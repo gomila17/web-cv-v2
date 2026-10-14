@@ -269,7 +269,7 @@ Decisiones, cada una en formato problema → decisión → por qué (`.decisions
 - EN: *Problem*: protecting VMs and LXCs. *Decision*: native Proxmox backups, no Proxmox Backup Server. *Why*: it would be overkill for a single node. Policy: daily, keep last 3.
 
 **7. Red propia para el homelab (`.d7`)**
-- ES: *Problema*: el homelab y mis equipos convivían con la red del proveedor, con un arranque caótico. *Decisión*: un router propio para el homelab y mis equipos, separado del router del operador. *Por qué*: controlo yo la red con la que trabajo, y queda aparte del wifi de casa. `[REVISAR: Toni, ¿te sirve esta redacción?]`
+- ES: *Problema*: el homelab y mis equipos convivían con la red del proveedor, con un arranque caótico. *Decisión*: un router propio para el homelab y mis equipos, separado del router del operador. *Por qué*: controlo yo la red con la que trabajo, y queda aparte del wifi de casa. (redacción aprobada por Toni, 2026-10-14)
 - EN: *Problem*: the homelab and my machines shared the ISP's network, and the start was chaotic. *Decision*: my own router for the homelab and my machines, separate from the ISP router. *Why*: I control the network I work on, and it's kept apart from the home Wi-Fi.
 
 **Anécdotas de depuración (`.stories`)**

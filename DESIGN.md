@@ -108,6 +108,6 @@ AA calculado; foco visible; enlace de salto; objetivos táctiles ≥ 44 px; un s
 
 - **Por verificar en fase 5:** Firefox y Safari reales, lector de pantalla, movimiento reducido y sin JS reales, escritorio a tamaño real, 320 px, impresión, fluidez a 60 fps.
 - **Rasgos que las guías desaconsejan y se mantienen por decisión de Toni:** números de sección, etiqueta sobre los títulos, filetes laterales de color. Candidatos a pulir más adelante.
-- **Contenido abierto:** decisión 7 del homelab `[REVISAR]`, Spring Boot `[REVISAR]`, ThePower `[FALTA]`, PDF del CV, capturas de homepanel.
+- **Contenido abierto:** Spring Boot `[REVISAR]`, PDF del CV (sin teléfono) y capturas de homepanel. Resueltos: decisión 7 del homelab (redacción aprobada por Toni, 2026-10-14) y ThePower (programa PowerSkills, con enlace de verificación).
 - **SEO de redacción** (títulos y descripciones por idioma, `ARCHITECTURE.md` §SEO): se redacta al inicio de la fase 4.
 - En oscuro, el pelo que sobresale del disco tiene poco contraste con el hero: aceptado; se ajusta con `--pop` si molesta.
