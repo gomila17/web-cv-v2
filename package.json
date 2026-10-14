@@ -1,0 +1,14 @@
+{
+  "name": "web-cv-v2",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Web CV bilingüe de Toni Gomila (estática, sin dependencias de producción).",
+  "type": "module",
+  "engines": {
+    "node": ">=21"
+  },
+  "scripts": {
+    "check": "node scripts/check-content.mjs",
+    "test": "node --test tests/check-content.test.mjs"
+  }
+}
