@@ -1,0 +1,26 @@
+/* =====================================================================
+   layout.css — capa "layout" (CONTRACTS.md §4): secciones, planos,
+   cabeceras de sección y la página de elección de idioma (/).
+   ===================================================================== */
+section[id],main>div[id]{scroll-margin-top:12px}
+html.js section[id]{scroll-margin-top:calc(var(--hh) + 8px)}
+
+/* Secciones: planos tonales alternos */
+.sec{position:relative;isolation:isolate;overflow-x:clip;padding-block:56px}
+.sec>.wrap{position:relative}
+.plane{background:var(--plane);box-shadow:inset 0 1px 0 var(--edge),inset 0 -1px 0 var(--edge)}
+.plane::before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(38rem 20rem at var(--wx,100%) var(--wy,0),var(--plane-wash),transparent 70%)}
+.sec-head{display:grid;gap:6px;margin-bottom:28px;justify-items:start}
+.sec-no{font-family:var(--mono);font-size:.8rem;color:var(--accent-ink)}
+.sec-head h2{font-size:var(--fs-h2)}
+.sec-head h2::after{content:"";display:block;height:3px;margin-top:8px;background:var(--accent);transform-origin:left}
+.lead{color:var(--muted);font-size:1.1rem;margin-bottom:28px}
+
+/* Página raíz: elección de idioma (ARCHITECTURE.md decisión 5). No existe en la v6: usa sus piezas. */
+.picker{min-height:100vh;min-height:100svh;display:grid;place-content:center;justify-items:center;gap:20px;padding:40px var(--gutter);text-align:center;background:var(--hero-bg)}
+.picker h1{font-size:var(--fs-h2)}
+.picker p{margin:0;color:var(--muted)}
+
+@media (min-width:720px){
+  .sec{padding-block:80px}
+}

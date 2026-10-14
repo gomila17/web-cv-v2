@@ -1,0 +1,21 @@
+/* =====================================================================
+   motion.css — capa "motion" (CONTRACTS.md §4). Por ahora solo las
+   entradas CSS del hero y la cabecera (no dependen de JS) y el
+   movimiento reducido. Falta: revelados .rv, scroll (sd-css/sd-js),
+   fundido de tema.
+   ===================================================================== */
+@keyframes rise{from{opacity:0;transform:translateY(.35em)}}
+@keyframes settle{from{opacity:0;transform:translateY(20px) scale(.95)}}
+@keyframes slide-in{from{opacity:0;transform:translateX(-14px)}}
+@keyframes fade{from{opacity:0}}
+@keyframes pop{from{opacity:0;transform:scale(.4)}}
+@keyframes pop-up{from{opacity:0;transform:translateY(8px) scale(.9)}}
+@keyframes underline-in{from{background-size:0 .07em}}
+@keyframes ping{0%{opacity:.7;transform:scale(1)}70%,100%{opacity:0;transform:scale(2.6)}}
+@keyframes drift{to{transform:translate3d(-48px,34px,0) scale(1.1)}}
+@keyframes focus-in{from{outline-offset:8px;outline-color:transparent}}
+
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation:none!important;transition:none!important}
+}

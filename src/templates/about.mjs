@@ -10,5 +10,17 @@
  * @returns {string} HTML
  */
 export default function render(ctx) {
-  return '';
+  const { t, esc } = ctx;
+  return `<section class="sec" id="sobre-mi" aria-labelledby="h-sobre">
+    <span class="ghost" aria-hidden="true">tg</span>
+    <div class="wrap">
+      <div class="sec-head"><span class="sec-no">01</span><h2 id="h-sobre">${t('n.about')}</h2></div>
+      <p class="rv rv-fade">${t('a.p1')}</p>
+      <p class="rv rv-fade">${t('a.p2')}</p>
+      <aside class="longterm rv rv-left" aria-label="${esc(t('a.lt'))}">
+        <span class="mono">${t('a.lt')}</span>
+        <p>${t('a.ltp')}</p>
+      </aside>
+    </div>
+  </section>`;
 }

@@ -1,0 +1,57 @@
+/* =====================================================================
+   components.css — capa "components" (CONTRACTS.md §4): cabecera,
+   selector de idioma, tema, botones.
+   El selector de idioma son enlaces (no botones como en la v6): cada
+   idioma es su URL, así que button[aria-pressed] pasa a a[aria-current].
+   ===================================================================== */
+
+/* Cabecera: flota sobre el plano del hero; con JS queda fija y toma fondo al salir del hero */
+.topbar{position:relative;z-index:5;height:var(--hh);animation:fade .8s ease-out backwards}
+html.js .topbar{position:sticky;top:0}
+.topbar::before{content:"";position:absolute;inset:0;z-index:-1;background:var(--head-bg);box-shadow:0 1px 0 var(--edge);opacity:0;transition:opacity var(--dur-fade) ease}
+.topbar.stuck::before{opacity:1}
+.prog{position:absolute;left:0;right:0;bottom:-1px;height:2px;background:linear-gradient(90deg,var(--accent),var(--violet));transform-origin:left;transform:scaleX(0);display:none;pointer-events:none}
+html.anim .prog{display:block}
+.top{display:flex;align-items:center;justify-content:space-between;gap:.75rem;height:100%}
+.mark{font-family:var(--mono);font-weight:700;font-size:1.35rem;color:var(--text);text-decoration:none;position:relative;padding:8px 0 6px}
+.mark::after{content:"";position:absolute;left:0;right:0;bottom:0;height:3px;background:var(--accent);transform-origin:left;transition:transform .4s var(--ease)}
+.mark:hover::after,.mark:focus-visible::after{transform:scaleX(1.35)}
+.top nav{display:none}
+.tools{display:flex;align-items:center;gap:8px}
+
+/* Selector de idioma: píldora con dos enlaces */
+.lang{position:relative;display:inline-grid;grid-template-columns:1fr 1fr;min-height:44px;padding:3px;border:1px solid var(--line);border-radius:var(--r-pill);background:var(--card);font-family:var(--mono);font-size:.8rem}
+.lang::before{content:"";position:absolute;top:3px;bottom:3px;left:3px;width:calc((100% - 6px)/2);border-radius:var(--r-pill);background:var(--text);transition:transform var(--dur-state) var(--ease)}
+.lang[data-cur="en"]::before{transform:translateX(100%)}
+.lang a{position:relative;z-index:1;display:grid;place-items:center;min-width:42px;padding:0 .5rem;border-radius:var(--r-pill);color:var(--muted);text-decoration:none;transition:color var(--dur-micro)}
+.lang a[aria-current]{color:var(--bg);font-weight:700}
+.lang a:not([aria-current]):hover{color:var(--text)}
+
+/* Conmutador de tema: sin JS no hace nada, así que va oculto (hidden) hasta que main.js lo active */
+.theme{font:inherit;font-family:var(--mono);font-size:.8rem;display:inline-flex;align-items:center;gap:.4rem;min-height:44px;padding:0 .8rem;border:1px solid var(--line);border-radius:var(--r-pill);background:var(--card);color:var(--text);cursor:pointer;transition:border-color var(--dur-fast),transform var(--dur-fast) var(--ease)}
+.theme[hidden]{display:none}
+.theme:hover{border-color:var(--accent)}
+.theme:active,.lang a:active{transform:scale(.95)}
+.theme svg{width:16px;height:16px;flex:none;transform:rotate(var(--rot,0deg));transition:transform var(--dur-slow) var(--ease)}
+
+/* Botones: relleno que barre desde la izquierda */
+.links{display:flex;flex-wrap:wrap;gap:10px;list-style:none;padding:0;margin:0}
+.btn{--fill:var(--text);--fill-fg:var(--bg);position:relative;isolation:isolate;overflow:hidden;display:inline-flex;align-items:center;padding:.5rem 1.1rem;min-height:44px;border:1.5px solid var(--btn-bd,var(--text));border-radius:var(--r-btn);color:var(--btn-fg,var(--text));background:var(--btn-bg,transparent);text-decoration:none;font-weight:600;font-size:.97rem;overflow-wrap:anywhere;transition:color var(--dur-micro),border-color var(--dur-micro),transform .25s var(--ease)}
+.btn::before{content:"";position:absolute;inset:0;z-index:-1;background:var(--fill);transform:scaleX(0);transform-origin:left;transition:transform var(--dur-state) var(--ease)}
+.btn:hover,.btn:focus-visible{color:var(--fill-fg);border-color:var(--fill);text-decoration:none}
+.btn:hover::before,.btn:focus-visible::before{transform:scaleX(1)}
+.btn:active{transform:translateY(1px) scale(.98)}
+.btn.primary{--btn-bg:var(--primary-bg);--btn-fg:var(--on-accent);--btn-bd:var(--primary-bg)}
+
+/* Bloque de largo plazo (Sobre mí): filete violeta, solo esquinas derechas redondeadas */
+.longterm{margin:32px 0 0;padding:22px 22px 22px 26px;background:var(--card);border:1px solid var(--line);border-left:4px solid var(--violet);border-radius:0 var(--r-aside) var(--r-aside) 0;max-width:var(--measure);box-shadow:var(--shadow)}
+.longterm .mono{display:block;color:var(--violet);text-transform:uppercase;letter-spacing:.08em;font-size:.72rem;margin-bottom:6px}
+.longterm p{margin:0;font-size:1.05rem}
+
+@media (min-width:1000px){
+  .top nav{display:flex;gap:22px}
+  .top nav a{position:relative;color:var(--text);text-decoration:none;font-size:.92rem;padding:.4rem 0}
+  .top nav a::after{content:"";position:absolute;left:0;right:0;bottom:0;height:2px;background:var(--accent);transform:scaleX(0);transform-origin:left;transition:transform .4s var(--ease)}
+  .top nav a:hover::after,.top nav a:focus-visible::after,.top nav a[aria-current]::after{transform:scaleX(1)}
+  .top nav a[aria-current]{color:var(--accent-ink)}
+}

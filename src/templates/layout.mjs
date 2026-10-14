@@ -9,6 +9,40 @@
  * @param {object} ctx  contexto de render (forma en src/templates/README.md)
  * @returns {string} HTML
  */
+import head from './head.mjs';
+import header from './header.mjs';
+import hero from './hero.mjs';
+import about from './about.mjs';
+import pillars from './pillars.mjs';
+import experience from './experience.mjs';
+import project from './project.mjs';
+import homelab from './homelab.mjs';
+import stack from './stack.mjs';
+import education from './education.mjs';
+import footer from './footer.mjs';
+import totop from './totop.mjs';
+
+// Orden de DESIGN.md §4. Un partial que devuelve '' (aún sin hacer) no deja hueco.
+const SECTIONS = [hero, about, pillars, experience, project, homelab, stack, education];
+const join = (parts) => parts.filter(Boolean).join('\n');
+
 export default function render(ctx) {
-  return '';
+  const { t, locale, paths } = ctx;
+  // Pendiente: <script src="/main.js" defer> cuando exista src/scripts/main.js (hoy daría 404).
+  return `<!doctype html>
+<html lang="${locale}">
+<head>
+${head(ctx)}
+<link rel="stylesheet" href="${paths.asset('styles.css')}">
+</head>
+<body>
+<a class="skip" href="#main">${t('skip')}</a>
+${header(ctx)}
+<main id="main">
+${join(SECTIONS.map((section) => section(ctx)))}
+</main>
+${join([footer(ctx), totop(ctx)])}
+</body>
+</html>
+`;
 }
