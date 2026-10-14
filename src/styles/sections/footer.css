@@ -11,5 +11,5 @@ footer .links{margin:20px 0 28px}
 footer .btn{--fill:var(--band-fg);--fill-fg:var(--band-bg);--btn-fg:var(--band-fg);--btn-bd:var(--band-fg)}
 footer .btn.primary{--btn-bg:var(--band-primary);--btn-fg:var(--band-on-primary);--btn-bd:var(--band-primary)}
 footer :focus-visible{outline-color:var(--band-label)}
-.fine{font-family:var(--mono);font-size:.78rem;color:var(--band-muted);margin:0}
+.fine{font-family:var(--mono);font-size:.78rem;color:var(--band-muted);margin:36px 0 0}
 .open{max-width:var(--measure);padding-left:14px;border-left:3px solid var(--band-label);font-size:.98rem;margin-top:8px;color:var(--band-fg)}

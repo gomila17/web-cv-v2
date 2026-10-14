@@ -32,7 +32,6 @@ export default function render(ctx) {
 <html lang="${locale}">
 <head>
 ${head(ctx)}
-<script>${ctx.headScript}</script>
 <link rel="stylesheet" href="${paths.asset('styles.css')}">
 <script src="${paths.asset('main.js')}" defer></script>
 </head>

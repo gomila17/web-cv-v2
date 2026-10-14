@@ -13,6 +13,6 @@ export default function render(ctx) {
   const { t, esc } = ctx;
   return `<button class="totop" id="totop" type="button" hidden aria-label="${esc(t('a.totop'))}">
   <svg viewBox="0 0 52 52" aria-hidden="true"><circle class="ring" cx="26" cy="26" r="25"/></svg>
-  <svg class="arrow" viewBox="0 0 20 20" aria-hidden="true" style="position:static;transform:none;width:20px;height:20px"><path d="M10 15V5M5 10l5-5 5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  <svg class="arrow" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 15V5M5 10l5-5 5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
 </button>`;
 }

@@ -12,7 +12,7 @@
 // No usa t(): la página es de los dos idiomas a la vez, así que cada enlace lleva su lang.
 // <html lang> es el idioma por defecto del sitio; canonical y x-default apuntan aquí.
 export default function render(ctx) {
-  const { esc, facts, paths } = ctx;
+  const { esc, facts, paths, headScript } = ctx;
   const { site, person } = facts;
   const abs = (p) => esc(site.url.replace(/\/+$/, '') + p);
   const alternates = site.locales.map((l) => `<link rel="alternate" hreflang="${esc(l.code)}" href="${abs(l.path)}">`).join('\n');
@@ -25,7 +25,16 @@ export default function render(ctx) {
 <title>${esc(person.tagline)}</title>
 <meta name="description" content="${esc(person.fullName)} · ${esc(person.role)} · ${esc(person.city)}">
 <meta name="color-scheme" content="light dark">
-<link rel="icon" href="${paths.asset('assets/logo.svg')}" type="image/svg+xml">
+<meta name="theme-color" content="#EDEDED" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0d1117" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="${paths.asset('favicon.svg')}" type="image/svg+xml">
+<meta property="og:type" content="website">
+<meta property="og:title" content="${esc(person.tagline)}">
+<meta property="og:url" content="${abs('/')}">
+<meta property="og:image" content="${abs('/og.png')}">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="627">
+<meta name="twitter:card" content="summary_large_image">${headScript ? `\n<script>${headScript.replace(/<\//g, '<\\/')}</script>` : ''}
 <link rel="canonical" href="${abs('/')}">
 ${alternates}
 <link rel="alternate" hreflang="x-default" href="${abs('/')}">

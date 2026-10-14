@@ -27,7 +27,7 @@ export default function render(ctx) {
       <li><a class="btn" href="${esc(links.github)}" rel="noopener">GitHub</a></li>
     </ul>
     <p class="open rv rv-left">${t('f.lt')}</p>
-    <p class="fine" style="margin-top:36px">${t('f.fine')}</p>
+    <p class="fine">${t('f.fine')}</p>
   </div>
 </footer>`;
 }

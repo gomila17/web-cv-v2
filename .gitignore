@@ -26,3 +26,4 @@ dist/
 
 # Worktrees aislados de los subagentes
 .claude/worktrees/
+.claude/launch.json

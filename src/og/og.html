@@ -5,7 +5,7 @@
   Regenerar (Windows, sin instalar nada; desde la raíz del repo, en PowerShell):
     & "C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe" --headless=new --disable-gpu --hide-scrollbars `
       --force-device-scale-factor=1 --window-size=1200,627 --user-data-dir="$env:TEMP\og-edge" `
-      --screenshot="$PWD\src\static\og.png" "file:///$($PWD -replace '\\','/')/src/static/og/og.html"
+      --screenshot="$PWD\src\static\og.png" "file:///$($PWD -replace '\\','/')/src/og/og.html"
   Después: comprobar que og.png mide 1200×627 y verla. El build la copia a dist/og.png.
 -->
 <html lang="es">

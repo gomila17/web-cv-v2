@@ -60,7 +60,7 @@ html.anim .fig.lit .hl-dot{animation-delay:calc(var(--dl,0s) + .4s)}
 /* ---------- 3. Scroll: tres momentos fuertes (parallax del hero, cota, diagrama) y sutiles ----------
    Parámetros comunes a los dos modos. */
 .p1{--py:170px}.p2{--py:90px}.p3{--py:56px}.p-photo{--py:-52px}
-/* Cota: empieza al --S del recorrido y ocupa --L para los 48 meses; --at = mes en que aparece cada pieza */
+/* Cota: empieza al --S del recorrido y ocupa --L para los --total meses (lo pone la plantilla); --at = mes en que aparece cada pieza */
 .cota{--S:12%;--L:44%}
 .seg .nd,.seg .lbl{--at:var(--c)}
 .seg .nd.end{--at:calc(var(--c) + var(--m))}
@@ -79,9 +79,9 @@ html.anim .sec-head{clip-path:inset(-1em -2em 0 -2em)}
   html.sd-css .sec-head h2{animation:mask-rise linear both;animation-timeline:--sh;animation-range:cover 5% cover 26%}
   html.sd-css .sec-head h2::after{animation:grow linear both;animation-timeline:--sh;animation-range:cover 16% cover 40%}
   html.sd-css .cota{view-timeline:--cota block}
-  html.sd-css .cota .bar{animation:grow linear both;animation-timeline:--cota;animation-range:cover calc(var(--S) + var(--c) / 48 * var(--L)) cover calc(var(--S) + (var(--c) + var(--m)) / 48 * var(--L))}
-  html.sd-css .cota .nd{animation:nd-in linear both;animation-timeline:--cota;animation-range:cover calc(var(--S) + var(--at) / 48 * var(--L) - 1%) cover calc(var(--S) + var(--at) / 48 * var(--L) + 3%)}
-  html.sd-css .cota .lbl,html.sd-css .cota .tk{animation:fade linear both;animation-timeline:--cota;animation-range:cover calc(var(--S) + var(--at) / 48 * var(--L)) cover calc(var(--S) + var(--at) / 48 * var(--L) + 6%)}
+  html.sd-css .cota .bar{animation:grow linear both;animation-timeline:--cota;animation-range:cover calc(var(--S) + var(--c) / var(--total,48) * var(--L)) cover calc(var(--S) + (var(--c) + var(--m)) / var(--total,48) * var(--L))}
+  html.sd-css .cota .nd{animation:nd-in linear both;animation-timeline:--cota;animation-range:cover calc(var(--S) + var(--at) / var(--total,48) * var(--L) - 1%) cover calc(var(--S) + var(--at) / var(--total,48) * var(--L) + 3%)}
+  html.sd-css .cota .lbl,html.sd-css .cota .tk{animation:fade linear both;animation-timeline:--cota;animation-range:cover calc(var(--S) + var(--at) / var(--total,48) * var(--L)) cover calc(var(--S) + var(--at) / var(--total,48) * var(--L) + 6%)}
   html.sd-css .fig{view-timeline:--fig block}
   html.sd-css .fig .hl-g{animation:light linear both;animation-timeline:--fig;animation-range:entry calc(4% + var(--i,0) * 13%) entry calc(28% + var(--i,0) * 13%)}
   html.sd-css .sweep{animation:sweep-y linear both;animation-timeline:--fig;animation-range:entry 10% cover 55%}
@@ -96,9 +96,9 @@ html.sd-js .photo{translate:0 calc(var(--hp,0) * var(--py));scale:calc(1 - var(-
 html.sd-js .sec-head:not(.in) h2,html.sd-js .sec-head:not(.in) .sec-no{transform:translateY(115%)}
 html.sd-js .sec-head.in .sec-no{animation:mask-rise .8s var(--ease) backwards}
 html.sd-js .sec-head.in h2{animation:mask-rise .9s var(--ease) .08s backwards}
-html.sd-js .cota .bar{transform:scaleX(clamp(0,(var(--cp,0) * 48 - var(--c)) / var(--m),1))}
+html.sd-js .cota .bar{transform:scaleX(clamp(0,(var(--cp,0) * var(--total,48) - var(--c)) / var(--m),1))}
 html.sd-js .cota .nd{opacity:clamp(0,var(--cp,0) * 50 - var(--at),1);scale:clamp(.3,(var(--cp,0) * 50 - var(--at)) * .7 + .3,1)}
-html.sd-js .cota .lbl,html.sd-js .cota .tk{opacity:clamp(0,(var(--cp,0) * 48 - var(--at)) * .4,1)}
+html.sd-js .cota .lbl,html.sd-js .cota .tk{opacity:clamp(0,(var(--cp,0) * var(--total,48) - var(--at)) * .4,1)}
 html.sd-js .fig .hl-g{--k:clamp(0,(var(--dp,0) - .04 - var(--i,0) * .13) / .24,1);opacity:calc(.12 + .88 * var(--k));transform:translateY(calc((1 - var(--k)) * 10px))}
 html.sd-js .sweep{transform:translateY(calc(-100% + var(--sp,0) * 200%))}
 @media (min-width:820px){html.sd-js .sweep{transform:translateX(calc(-100% + var(--sp,0) * 200%))}}

@@ -26,7 +26,6 @@
 /* Marcas de fecha: año en móvil (.y), mes y año desde 720px (.d) */
 .tk{position:absolute;bottom:0;font-family:var(--mono);font-size:.75rem;line-height:1.2;color:var(--muted);transform:translateX(-50%);white-space:nowrap;font-variant-numeric:tabular-nums}
 .tk.t0{left:0;transform:none}
-.tk.t1{left:18.75%}.tk.t2{left:81.25%}
 .tk .d{display:none}
 
 /* Puestos */

@@ -83,6 +83,17 @@ function copyDir(from, to) {
   return n;
 }
 
+/** sitemap.xml: raíz y una URL por idioma, cada una con sus alternativas hreflang (ARCHITECTURE.md §SEO). */
+function sitemap() {
+  const abs = (p) => site.url.replace(/\/+$/, '') + p, day = now.toISOString().slice(0, 10);
+  const alts = site.locales.map((l) => `    <xhtml:link rel="alternate" hreflang="${l.code}" href="${abs(l.path)}"/>`)
+    .concat(`    <xhtml:link rel="alternate" hreflang="x-default" href="${abs('/')}"/>`).join('\n');
+  const urls = ['/', ...site.locales.map((l) => l.path)]
+    .map((p) => `  <url>\n    <loc>${abs(p)}</loc>\n    <lastmod>${day}</lastmod>\n${alts}\n  </url>`).join('\n');
+  return '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" '
+    + `xmlns:xhtml="http://www.w3.org/1999/xhtml">\n${urls}\n</urlset>\n`;
+}
+
 function concatCss() {
   const dir = fromRoot('src/styles');
   const rank = (f) => { const i = SECTION_ORDER.indexOf(path.basename(f, '.css')); return i < 0 ? SECTION_ORDER.length : i; };
@@ -117,6 +128,7 @@ async function main() {
   for (const l of site.locales) render(`${l.path.replace(/^\/+/, '')}index.html`, partials.layout, makeCtx(l.code, l.path));
   render('index.html', partials['language-picker'], makeCtx(site.defaultLocale, '/'));
   write('styles.css', concatCss());
+  write('sitemap.xml', sitemap());
   fs.copyFileSync(fromRoot('src/scripts/main.js'), path.join(DIST, 'main.js'));
   const copied = copyDir(fromRoot('assets'), path.join(DIST, 'assets')) + copyDir(fromRoot('src/static'), DIST);
   console.log(`build · ${site.locales.length + 1} páginas, ${copied} ficheros copiados, {years}=${years} · ${Math.round(performance.now() - started)} ms`);
