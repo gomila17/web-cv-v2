@@ -25,7 +25,6 @@ Nada de este directorio contiene datos reales de la infraestructura. Los valores
 | `<IP_NPM>` | IP de Nginx Proxy Manager (para `set_real_ip_from`) |
 | `<OWNER>/<REPO>` | repositorio público de GitHub; va en `/etc/web-cv-update.env` |
 | `<UPSTREAM_ACTUAL>` | destino actual del apex en NPM (la web vieja); apuntarlo en notas privadas antes del cambio |
-| `<HASH_HEAD_JS>` | hash sha256 del script en línea del `<head>`; lo imprime `node deploy/check-csp.mjs dist` |
 
 Valores por defecto propuestos (genéricos): usuario `webcv`, raíz `/srv/web-cv`, script en `/usr/local/bin/web-cv-update.sh`. Si se cambian, cambiarlos a la vez en `web-cv-update.service` y `nginx.conf`.
 
@@ -49,7 +48,7 @@ Además: `'unsafe-hashes'` + el hash del `onerror` de la foto del hero (solo aut
 ## Pendiente para el integrador
 
 1. **404 propia**: `nginx.conf` ya usa `/404.html` si el release la trae; hoy `dist/` no la tiene y Nginx sirve su página genérica. Propuesta: `404.html` en la raíz de `dist/` (p. ej. desde `src/static/` o un partial), bilingüe y con enlaces a `/es/` y `/en/`, con rutas absolutas (se sirve en cualquier URL).
-2. **`head.js`**: cuando exista, `npm run build && node deploy/check-csp.mjs dist` imprime su hash: sustituir `<HASH_HEAD_JS>` en `nginx.conf`. Hasta entonces CI fallará en ese paso, a propósito.
+2. **`head.js`**: su hash ya está en `nginx.conf`. Si cambia el script, CI falla en `check-csp` a propósito e imprime el hash nuevo para sustituirlo.
 3. **`onerror` de la foto del hero** (`src/templates/hero.mjs`): si pasa a `main.js` (`addEventListener('error')`, comprobando también `img.complete && !img.naturalWidth` por si ya falló antes), se quitan `'unsafe-hashes'` y su hash.
 4. **Caché**: `styles.css` y `main.js` no llevan hash en el nombre, así que se cachean solo 1 h. Si el build los renombra (`styles.<hash>.css`), subir a 1 año + `immutable` en `nginx.conf`.
 
@@ -101,7 +100,7 @@ El script y las unidades **no se actualizan solos** (a propósito: el timer solo
 
 ```bash
 install -o root -g root -m 644 nginx.conf /etc/nginx/sites-available/web-cv
-# Editar: <HASH_HEAD_JS> (el de nginx.conf del mismo commit ya es el bueno si CI pasa)
+# El hash de head.js de nginx.conf ya es el bueno si CI pasa en ese commit
 # y, opcionalmente, set_real_ip_from <IP_NPM>.
 ln -s /etc/nginx/sites-available/web-cv /etc/nginx/sites-enabled/web-cv
 rm /etc/nginx/sites-enabled/default
