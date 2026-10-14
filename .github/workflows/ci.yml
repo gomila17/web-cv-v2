@@ -1,0 +1,131 @@
+# CI de la web CV (ARCHITECTURE.md decisión 6 y "Comprobaciones automáticas").
+#
+#   push y PR a main → build: npm test, npm run build (incluye la guardia de contenido y privacidad
+#                      sobre dist/) y la comprobación de la CSP de deploy/nginx.conf.
+#   push a main      → release: empaqueta dist/ como web-cv-<sha corto>.tar.gz + .sha256 y lo publica
+#                      como GitHub Release. La LXC lo recoge con deploy/web-cv-update.sh.
+#
+# Secreto opcional PRIVACY_TERMS: términos privados concretos para la guardia (nunca en el repo).
+# En PR desde forks GitHub no pasa secretos: la guardia corre solo con los patrones genéricos.
+#
+# Acciones oficiales fijadas a versión mayor. Para fijarlas a un commit (más estricto), sustituir
+# @vN por @<sha del tag> y activar Dependabot para github-actions (.github/dependabot.yml).
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+# Por defecto, el token no puede nada; cada job pide solo lo suyo.
+permissions: {}
+
+concurrency:
+  group: ci-${{ github.ref }}
+  # En PR se cancela la ejecución anterior; en main nunca, para no dejar un release a medias.
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+env:
+  # Releases que se conservan en GitHub (en la LXC se guardan 3; aquí más, para rollback lejano).
+  KEEP_RELEASES: 10
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    outputs:
+      tag: ${{ steps.pkg.outputs.tag }}
+      asset: ${{ steps.pkg.outputs.asset }}
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: lts/*
+
+      # Sin dependencias (package.json no tiene ninguna): no hay npm ci.
+      - name: Tests
+        run: npm test
+
+      - name: Build y guardia sobre dist/
+        run: npm run build
+        env:
+          PRIVACY_TERMS: ${{ secrets.PRIVACY_TERMS }}
+
+      - name: CSP de deploy/nginx.conf frente a dist/
+        run: node deploy/check-csp.mjs dist
+
+      - name: Empaquetar dist/
+        id: pkg
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: |
+          set -euo pipefail
+          short="${GITHUB_SHA::7}"
+          # Tag por fecha+hora del commit (UTC) y sha: ordena cronológicamente y es estable si se
+          # relanza el workflow (deploy/web-cv-update.sh depende de ese orden para podar).
+          epoch="$(git log -1 --format=%ct "$GITHUB_SHA")"
+          tag="$(date -u -d "@$epoch" +%Y%m%d-%H%M%S)-$short"
+          asset="web-cv-$short.tar.gz"
+          mkdir -p out
+          # Tar reproducible: orden fijo, sin usuarios del runner, fecha del commit.
+          tar -C dist --sort=name --owner=0 --group=0 --numeric-owner --mtime="@$epoch" \
+              -czf "out/$asset" .
+          (cd out && sha256sum "$asset" > "$asset.sha256")
+          cat "out/$asset.sha256"
+          echo "tag=$tag" >> "$GITHUB_OUTPUT"
+          echo "asset=$asset" >> "$GITHUB_OUTPUT"
+
+      - name: Guardar el paquete para el job de release
+        if: steps.pkg.outcome == 'success'
+        uses: actions/upload-artifact@v4
+        with:
+          name: web-cv
+          path: out/
+          retention-days: 1
+          if-no-files-found: error
+
+  release:
+    needs: build
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    # Único sitio con escritura: crear y borrar releases. No ejecuta código del repo.
+    permissions:
+      contents: write
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
+      TAG: ${{ needs.build.outputs.tag }}
+      ASSET: ${{ needs.build.outputs.asset }}
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: web-cv
+          path: out
+
+      - name: Publicar GitHub Release
+        run: |
+          set -euo pipefail
+          (cd out && sha256sum -c "$ASSET.sha256")
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            echo "El release $TAG ya existe (workflow relanzado): no se toca."
+            exit 0
+          fi
+          gh release create "$TAG" "out/$ASSET" "out/$ASSET.sha256" \
+            --target "$GITHUB_SHA" --title "$TAG" --latest \
+            --notes "Build de ${GITHUB_SHA} (dist/ empaquetado). La LXC lo instala con deploy/web-cv-update.sh."
+
+      - name: Conservar solo los últimos ${{ env.KEEP_RELEASES }} releases
+        run: |
+          set -euo pipefail
+          gh release list --limit 200 --json tagName,createdAt \
+            --jq "sort_by(.createdAt) | reverse | .[${KEEP_RELEASES}:] | .[].tagName" |
+          while read -r old; do
+            echo "Borrando release antiguo $old"
+            gh release delete "$old" --yes --cleanup-tag
+          done
