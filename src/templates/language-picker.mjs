@@ -18,7 +18,7 @@ export default function render(ctx) {
   const alternates = site.locales.map((l) => `<link rel="alternate" hreflang="${esc(l.code)}" href="${abs(l.path)}">`).join('\n');
   const choices = site.locales.map((l, i) => `    <li><a class="btn${i === 0 ? ' primary' : ''}" href="${esc(l.path)}" hreflang="${esc(l.code)}" lang="${esc(l.code)}">${esc(l.name)}</a></li>`).join('\n');
   return `<!doctype html>
-<html lang="${esc(site.defaultLocale)}">
+<html lang="${esc(site.defaultLocale)}" data-lang-redirect>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">

@@ -21,11 +21,20 @@ build();
 http.createServer((req, res) => {
   let url;
   try { url = decodeURIComponent(new URL(req.url, 'http://localhost').pathname); } catch { url = '/'; }
+  if (url === '/') { // como Nginx: cookie tg_lang o idioma del navegador (ver deploy/nginx.conf)
+    const c = /(?:^|;\s*)tg_lang=(es|en)\b/.exec(req.headers.cookie ?? '');
+    const a = (req.headers['accept-language'] ?? '').toLowerCase();
+    const l = c ? c[1] : (!a || /^\s*(es|ca|gl|eu)\b/.test(a) ? 'es' : 'en');
+    res.writeHead(302, { location: `/${l}/`, vary: 'Accept-Language, Cookie', 'cache-control': 'no-store' }).end(); return;
+  }
   const file = path.join(DIST, path.normalize(url.endsWith('/') ? url + 'index.html' : url));
   if (!file.startsWith(DIST + path.sep)) { res.writeHead(403).end(); return; }
   if (fs.existsSync(file) && fs.statSync(file).isDirectory()) { res.writeHead(301, { location: url + '/' }).end(); return; }
   fs.readFile(file, (err, body) => {
-    if (err) { res.writeHead(404, { 'content-type': 'text/plain; charset=utf-8' }).end(`404: ${url}`); return; }
+    if (err) { // 404 propia del idioma de la ruta, como Nginx
+      const nf = path.join(DIST, url.startsWith('/en/') ? 'en' : 'es', '404.html');
+      res.writeHead(404, { 'content-type': 'text/html; charset=utf-8' }).end(fs.existsSync(nf) ? fs.readFileSync(nf) : `404: ${url}`); return;
+    }
     res.writeHead(200, { 'content-type': TYPES[path.extname(file)] ?? 'application/octet-stream', 'cache-control': 'no-store' }).end(body);
   });
 }).listen(PORT, '127.0.0.1', () => console.log(`dev · http://127.0.0.1:${PORT}/  (Ctrl+C para parar)`));

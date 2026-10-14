@@ -1,0 +1,6 @@
+/* Página 404: centrada en la ventana, con el código grande en mono como único adorno. */
+.nf{min-height:calc(100vh - var(--hh));display:grid;align-items:center;padding-block:48px}
+.nf h1{font-size:var(--fs-h2);margin:0 0 12px}
+.nf p{color:var(--muted)}
+.nf .nf-code{font-family:var(--mono);font-weight:700;font-size:clamp(4rem,18vw,8rem);line-height:1;letter-spacing:-.04em;color:transparent;-webkit-text-stroke:1.5px var(--accent);margin:0 0 16px}
+.nf .btn{margin-top:8px}

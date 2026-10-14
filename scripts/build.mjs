@@ -125,7 +125,11 @@ function render(out, fn, ctx) {
 async function main() {
   fs.rmSync(DIST, { recursive: true, force: true });
   const partials = await loadPartials();
-  for (const l of site.locales) render(`${l.path.replace(/^\/+/, '')}index.html`, partials.layout, makeCtx(l.code, l.path));
+  for (const l of site.locales) {
+    const dir = l.path.replace(/^\/+/, '');
+    render(`${dir}index.html`, partials.layout, makeCtx(l.code, l.path));
+    render(`${dir}404.html`, partials['not-found'], makeCtx(l.code, l.path)); // Nginx elige la del idioma de la ruta
+  }
   render('index.html', partials['language-picker'], makeCtx(site.defaultLocale, '/'));
   write('styles.css', concatCss());
   write('sitemap.xml', sitemap());

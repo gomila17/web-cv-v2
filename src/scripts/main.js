@@ -142,5 +142,14 @@
     });
   }
 
-  [theme, reveal, scroll, lit, jobs].forEach(run);
+  /* Idioma: elegir ES/EN en la cabecera lo recuerda (cookie tg_lang, 1 año) para que la raíz (/) lleve
+     a ese idioma la próxima vez en lugar de al del navegador. Cookie y no localStorage: la lee Nginx. */
+  function lang() {
+    $$('.lang a[hreflang]').forEach((a) => a.addEventListener('click', () => {
+      const l = a.getAttribute('hreflang');
+      if (l === 'es' || l === 'en') document.cookie = 'tg_lang=' + l + '; path=/; max-age=31536000; SameSite=Lax';
+    }));
+  }
+
+  [theme, lang, reveal, scroll, lit, jobs].forEach(run);
 })();

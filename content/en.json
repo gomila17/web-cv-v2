@@ -191,5 +191,8 @@
   "f.lt": "Open to talking about technical roles with a leadership path.",
   "f.fine": "tg · Barcelona · Built with AI agents",
   "t.title": "Toni Gomila · Java Backend",
-  "t.desc": "Antonio (Toni) Gomila, Java backend developer in Barcelona. Oracle, Spring, automation and AI, from the database to deployment."
+  "t.desc": "Antonio (Toni) Gomila, Java backend developer in Barcelona. Oracle, Spring, automation and AI, from the database to deployment.",
+  "nf.t": "This page doesn't exist",
+  "nf.p": "The link may be mistyped, or the page may have moved.",
+  "nf.home": "Go to the home page"
 }
