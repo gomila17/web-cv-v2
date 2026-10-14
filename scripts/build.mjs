@@ -117,6 +117,7 @@ async function main() {
   for (const l of site.locales) render(`${l.path.replace(/^\/+/, '')}index.html`, partials.layout, makeCtx(l.code, l.path));
   render('index.html', partials['language-picker'], makeCtx(site.defaultLocale, '/'));
   write('styles.css', concatCss());
+  fs.copyFileSync(fromRoot('src/scripts/main.js'), path.join(DIST, 'main.js'));
   const copied = copyDir(fromRoot('assets'), path.join(DIST, 'assets')) + copyDir(fromRoot('src/static'), DIST);
   console.log(`build · ${site.locales.length + 1} páginas, ${copied} ficheros copiados, {years}=${years} · ${Math.round(performance.now() - started)} ms`);
   // El build no termina hasta que la guardia de contenido y privacidad pasa sobre la salida (CONTRACTS.md §7).

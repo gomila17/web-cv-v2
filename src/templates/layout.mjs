@@ -28,12 +28,13 @@ const join = (parts) => parts.filter(Boolean).join('\n');
 
 export default function render(ctx) {
   const { t, locale, paths } = ctx;
-  // Pendiente: <script src="/main.js" defer> cuando exista src/scripts/main.js (hoy daría 404).
   return `<!doctype html>
 <html lang="${locale}">
 <head>
 ${head(ctx)}
+<script>${ctx.headScript}</script>
 <link rel="stylesheet" href="${paths.asset('styles.css')}">
+<script src="${paths.asset('main.js')}" defer></script>
 </head>
 <body>
 <a class="skip" href="#main">${t('skip')}</a>
