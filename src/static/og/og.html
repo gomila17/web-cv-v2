@@ -1,0 +1,91 @@
+<!doctype html>
+<!--
+  Fuente de /og.png (tarjeta para compartir, 1200×627). ARCHITECTURE.md decisión 11: imagen estática.
+  Colores de tokens.css, tema claro (DESIGN.md): papel #EDEDED, marino #202A42, índigo #526DE5, violeta #6639BA.
+  Regenerar (Windows, sin instalar nada; desde la raíz del repo, en PowerShell):
+    & "C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe" --headless=new --disable-gpu --hide-scrollbars `
+      --force-device-scale-factor=1 --window-size=1200,627 --user-data-dir="$env:TEMP\og-edge" `
+      --screenshot="$PWD\src\static\og.png" "file:///$($PWD -replace '\\','/')/src/static/og/og.html"
+  Después: comprobar que og.png mide 1200×627 y verla. El build la copia a dist/og.png.
+-->
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex">
+<title>Tarjeta para compartir</title>
+<style>
+  :root {
+    --bg: #EDEDED; --bg-2: #F6F6F4; --text: #202A42; --muted: #4A5470;
+    --accent: #526DE5; --accent-ink: #3A51C6; --violet: #6639BA; --line: rgba(32,42,66,.14);
+    --sans: "Segoe UI Variable Display", "Segoe UI", system-ui, -apple-system, sans-serif;
+    --mono: ui-monospace, "Cascadia Code", "Cascadia Mono", Consolas, monospace;
+  }
+  * { box-sizing: border-box; margin: 0; }
+  html, body { width: 1200px; height: 627px; overflow: hidden; background: var(--bg); }
+  body { font-family: var(--sans); color: var(--text); position: relative; }
+
+  /* Rejilla de puntos tenue, como el fondo del hero. */
+  .grid {
+    position: absolute; inset: 0;
+    background-image: radial-gradient(rgba(32,42,66,.13) 1.2px, transparent 1.4px);
+    background-size: 28px 28px;
+    -webkit-mask-image: linear-gradient(100deg, transparent 35%, #000 75%);
+            mask-image: linear-gradient(100deg, transparent 35%, #000 75%);
+  }
+  .orb { position: absolute; border-radius: 50%; filter: blur(70px); }
+  .orb-1 { width: 520px; height: 520px; right: -120px; top: -160px; background: rgba(82,109,229,.22); }
+  .orb-2 { width: 380px; height: 380px; right: 260px; bottom: -220px; background: rgba(102,57,186,.14); }
+  /* Banda inferior en acento → violeta (barra de lectura de la web). */
+  .band { position: absolute; left: 0; right: 0; bottom: 0; height: 10px; background: linear-gradient(90deg, var(--accent), var(--violet)); }
+
+  .text { position: absolute; left: 88px; top: 92px; width: 640px; }
+  .mark {
+    display: inline-block; font: 700 40px/1 var(--mono); color: var(--text);
+    padding-bottom: 10px; border-bottom: 5px solid var(--accent); letter-spacing: -.02em;
+  }
+  h1 { margin-top: 54px; font-size: 92px; line-height: .98; font-weight: 700; letter-spacing: -.035em; }
+  .role { margin-top: 20px; font-size: 46px; font-weight: 600; color: var(--accent-ink); letter-spacing: -.01em; }
+  .stack { margin-top: 26px; font: 500 25px/1.3 var(--mono); color: var(--muted); }
+  .url { position: absolute; left: 88px; bottom: 56px; font: 600 28px/1 var(--mono); color: var(--text); }
+  .url span { color: var(--accent-ink); }
+
+  /* Foto recortada sobre disco de marca con anillo; la cabeza sobresale del disco (DESIGN.md, Foto). */
+  .photo { position: absolute; right: 92px; top: 96px; width: 400px; height: 440px; }
+  .ring { position: absolute; left: 10px; bottom: 0; width: 380px; height: 380px; border-radius: 50%; border: 2px solid rgba(82,109,229,.35); }
+  .disc {
+    position: absolute; left: 30px; bottom: 20px; width: 340px; height: 340px; border-radius: 50%;
+    background: radial-gradient(circle at 35% 30%, #6d84ea, var(--accent) 55%, #3f56c8);
+  }
+  /* El recorte se enmascara con el círculo del disco abajo y queda libre arriba, para que la cabeza sobresalga. */
+  .cut {
+    position: absolute; left: 0; bottom: 20px; width: 400px; height: 400px;
+    -webkit-mask-image: radial-gradient(circle 170px at 200px 230px, #000 99.5%, transparent 100%), linear-gradient(#000, #000);
+    -webkit-mask-size: 100% 100%, 100% 52%; -webkit-mask-repeat: no-repeat; -webkit-mask-position: 0 0, 0 0;
+            mask-image: radial-gradient(circle 170px at 200px 230px, #000 99.5%, transparent 100%), linear-gradient(#000, #000);
+            mask-size: 100% 100%, 100% 52%; mask-repeat: no-repeat; mask-position: 0 0, 0 0;
+  }
+  .cut img { width: 100%; height: 100%; display: block; }
+</style>
+</head>
+<body>
+  <div class="grid"></div>
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+
+  <div class="text">
+    <span class="mark">tg</span>
+    <h1>Toni Gomila</h1>
+    <p class="role">Backend Developer</p>
+    <p class="stack">Java · Spring · Oracle · Barcelona</p>
+  </div>
+  <p class="url">gomila<span>.dev</span></p>
+
+  <div class="photo">
+    <div class="ring"></div>
+    <div class="disc"></div>
+    <div class="cut"><img src="../../../assets/foto-recorte.png" alt=""></div>
+  </div>
+
+  <div class="band"></div>
+</body>
+</html>
