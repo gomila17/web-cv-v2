@@ -1,0 +1,10 @@
+/* =====================================================================
+   base.css — capa "base" (ver CONTRACTS.md §4)
+   Contenido previsto: reset mínimo (box-sizing), html/body, enlaces,
+   :focus-visible, ::selection, enlace de salto (.skip), .wrap, .mono/code,
+   encabezados genéricos y utilidades de accesibilidad (.sr-only).
+   Reglas: solo selectores de elemento y utilidades globales; nada de
+   componentes ni secciones. Colores, fuentes, radios y duraciones siempre
+   con var(--…) de tokens.css; nunca valores de color literales.
+   Dueño: subagente de estilos. Vacío hasta la implementación.
+   ===================================================================== */

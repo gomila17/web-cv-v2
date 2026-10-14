@@ -1,0 +1,121 @@
+{
+  "person": {
+    "name": "Toni Gomila",
+    "fullName": "Antonio (Toni) Gomila",
+    "givenName": "Antonio",
+    "familyName": "Gomila",
+    "role": "Backend Developer",
+    "tagline": "Toni Gomila · Backend Developer",
+    "city": "Barcelona",
+    "email": "toni.gomila7@gmail.com"
+  },
+  "site": {
+    "url": "https://gomila.dev",
+    "defaultLocale": "es",
+    "locales": [
+      { "code": "es", "label": "ES", "name": "Español", "path": "/es/" },
+      { "code": "en", "label": "EN", "name": "English", "path": "/en/" }
+    ]
+  },
+  "links": {
+    "linkedin": "https://www.linkedin.com/in/toni-gomila/",
+    "github": "https://github.com/gomila17",
+    "homepanelRepo": "https://github.com/gomila17/homepanel"
+  },
+  "career": {
+    "company": "Inetum",
+    "start": "2022-10",
+    "stages": [
+      {
+        "id": "intern",
+        "title": "Software Developer Intern",
+        "short": "Intern",
+        "start": "2022-10",
+        "end": "2023-07",
+        "tech": ["Java", "Spring Framework", "Oracle", "ExtJS", "Scrum"]
+      },
+      {
+        "id": "dev",
+        "title": "Java Developer",
+        "short": "Java Developer",
+        "start": "2023-07",
+        "end": "2026-01",
+        "tech": ["Java 8", "Spring Framework", "Oracle", "SQL", "PL/SQL", "REST", "SOAP", "ExtJS", "JPA", "SoapUI"]
+      },
+      {
+        "id": "senior",
+        "title": "Senior Software Developer",
+        "short": "Senior",
+        "start": "2026-01",
+        "end": null,
+        "tech": ["Java", "Spring Framework", "Oracle", "SQL", "PL/SQL", "REST", "SOAP", "ExtJS"]
+      }
+    ]
+  },
+  "projects": {
+    "homepanel": {
+      "name": "homepanel",
+      "repo": "https://github.com/gomila17/homepanel",
+      "tech": ["Python", "FastAPI", "Jinja2", "htmx", "n8n", "Proxmox", "Vikunja", "AdGuard", "Nginx Proxy Manager", "Cloudflare"]
+    }
+  },
+  "stack": {
+    "daily": ["Java 8", "Spring Framework", "JPA", "Oracle Database", "SQL", "PL/SQL", { "i18n": "st.tune" }, "REST", "SOAP", "SoapUI", "ExtJS", "Maven", "Git", "IntelliJ IDEA", "Scrum"],
+    "known": ["Docker", "Portainer", "Proxmox", "Debian", "Linux", "Cloudflare Tunnel", "Nginx Proxy Manager", "AdGuard Home", "Tailscale", "n8n", "Python", "FastAPI", "htmx", "Claude Code", { "i18n": "st.agents" }],
+    "trainingOnly": ["Angular", "Ionic", "NestJS"],
+    "exploring": [{ "i18n": "st.x1" }, { "i18n": "st.x2" }, { "i18n": "st.x3" }, { "i18n": "st.x4" }]
+  },
+  "certifications": [
+    {
+      "id": "oca-java8",
+      "name": "Oracle Certified Associate, Java SE 8 Programmer",
+      "issuer": "Oracle",
+      "date": "2026-03-13",
+      "verifyUrl": "https://catalog-education.oracle.com/ords/certview/sharebadge?id=CC8AEE6DE446EA8937D8527713DD99D65B867BFF751361C514D31DCBC22A18CC",
+      "i18n": { "meta": "st.c1" }
+    },
+    {
+      "id": "claude-code-101",
+      "name": "Claude Code 101",
+      "issuer": "Anthropic Education",
+      "date": "2026-04-26",
+      "verifyUrl": "https://verify.skilljar.com/c/2dzsx2a8sixt",
+      "i18n": { "title": "st.c2t", "meta": "st.c2" }
+    },
+    {
+      "id": "powerskills",
+      "name": "PowerSkills",
+      "issuer": "ThePower Business School",
+      "date": "2023-11-20",
+      "verifyUrl": "https://verified.sertifier.com/es/verify/44295763467187/",
+      "i18n": { "title": "st.c3t", "meta": "st.c3" }
+    }
+  ],
+  "education": [
+    {
+      "id": "daw",
+      "title": "CFGS Desarrollo de Aplicaciones Web (DAW)",
+      "school": "Institut Joan d'Àustria",
+      "city": "Barcelona",
+      "start": "2021-09",
+      "end": "2023-06",
+      "grade": { "value": 8.92, "scale": 10 },
+      "i18n": { "meta": "ed.1a", "grade": "ed.1g", "modules": "ed.1m" }
+    },
+    {
+      "id": "asir",
+      "title": "CFGM Administración de Sistemas Informáticos en Red (ASIR)",
+      "school": "IES Biel Martí",
+      "city": "Menorca",
+      "start": "2019-09",
+      "end": "2020-12",
+      "grade": { "value": 7, "scale": 10 },
+      "i18n": { "meta": "ed.2a" }
+    }
+  ],
+  "languages": [
+    { "code": "ca", "level": "native", "i18n": { "name": "ed.ca", "level": "ed.nat" } },
+    { "code": "es", "level": "native", "i18n": { "name": "ed.es", "level": "ed.nat" } },
+    { "code": "en", "level": "C1", "i18n": { "name": "ed.en" } }
+  ]
+}

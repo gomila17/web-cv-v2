@@ -1,0 +1,203 @@
+/* =====================================================================
+   tokens.css — contrato de diseño (ver CONTRACTS.md §3)
+   Fuente: drafts/diseno/versiones/v6-aprobada/hibrido-v6.html.
+   Los valores de color, foto y movimiento son los de la v6, sin cambios.
+   Solo se declaran custom properties: ningún selector de elemento ni clase.
+   Cambiar o añadir un token pasa por el integrador; un color nuevo pasa
+   además por el script de contraste (v5-contraste.js, hoy 0 fallos).
+   ===================================================================== */
+
+/* ---------- 1. Claro (dirección A): valor por defecto ---------- */
+:root{
+  color-scheme:light;
+
+  /* Superficies */
+  --bg:#EDEDED;            /* papel del logo; fondo de página */
+  --bg-2:#F6F6F4;          /* papel alternativo */
+  --plane:#E2E5EF;         /* plano tonal: papel + 8 % de índigo (Qué hago, Proyecto, Stack) */
+  --card:#FBFBFA;          /* tarjetas y controles */
+  --card-2:#F2F2F0;        /* relleno secundario dentro de tarjetas y diagrama */
+  --line:#A9AFC2;          /* bordes de tarjetas y controles */
+  --rule:#C3C7D3;          /* filetes y separadores */
+  --edge:rgba(32,42,66,.10); /* filo de 1px (cabecera fija, bordes de plano) */
+
+  /* Texto y acento */
+  --text:#202A42;
+  --muted:#4A5470;         /* texto secundario (AA sobre --bg, --plane y --card) */
+  --accent:#526DE5;        /* trazos, nodos, subrayados; no para texto pequeño */
+  --accent-ink:#3A51C6;    /* enlaces y texto en acento */
+  --wash:#D9DFF8;          /* fondo suave de acento (iconos de pilares) */
+  --on-accent:#FFFFFF;     /* texto sobre --primary-bg / --accent */
+  --primary-bg:#3A51C6;    /* botón primario */
+  --violet:#6639BA;        /* solo detalles: bloque de largo plazo, pulso "en curso" */
+  --focus:#3A51C6;         /* anillo de foco */
+
+  /* Estados (diagrama del homelab) */
+  --ok:#1A7F37;
+  --warn:#8A5A00;
+  --orange:#B3470A;
+
+  /* Fondos localizados (DESIGN.md §5) */
+  --grid:rgba(32,42,66,.07);       /* rejilla enmascarada (hero, homelab) */
+  --dot:rgba(32,42,66,.2);         /* puntos junto a la cota */
+  --ghost:rgba(82,109,229,.22);    /* trazo del monograma fantasma */
+  --hero-bg:linear-gradient(180deg,#E1E5F3 0%,#E8E9EF 55%,#EDEDED 100%);
+  --orb-1:rgba(82,109,229,.12);    /* manchas que derivan en el hero */
+  --orb-2:rgba(102,57,186,.09);
+  --plane-wash:rgba(82,109,229,.13); /* resplandor de esquina de los planos */
+  --net-op:.5;                     /* opacidad de la red de nodos */
+  --sweep:rgba(82,109,229,.12);    /* barrido sobre el diagrama */
+
+  /* Banda oscura (pie) */
+  --band-bg:#202A42;
+  --band-fg:#EDEDED;
+  --band-muted:#C5CBE0;
+  --band-label:#A9B8FF;
+  --band-primary:#A9B8FF;
+  --band-on-primary:#202A42;
+
+  /* Foto: disco de marca (recorte) y velo frío (respaldo foto.jpg) */
+  --disc:linear-gradient(165deg,#6179E8 0%,#526DE5 45%,#3A51C6 100%);
+  --cut-filter:drop-shadow(0 2px 3px rgba(32,42,66,.28));
+  --photo-tint:rgba(82,109,229,.30);
+
+  /* Cabecera fija */
+  --head-bg:rgba(237,237,237,.97);
+
+  /* Sombra de tarjetas (ninguna en oscuro) */
+  --shadow:0 1px 0 rgba(32,42,66,.05),0 12px 30px -20px rgba(32,42,66,.35);
+
+  /* ---- Independientes del tema ---- */
+
+  /* Tipografía: solo fuentes del sistema (DESIGN.md §3) */
+  --sans:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --mono:ui-monospace,SFMono-Regular,"Cascadia Code",Menlo,Consolas,monospace;
+  --fs-body:1.0625rem;                  /* cuerpo en móvil (1.125rem desde 720px) */
+  --lh-body:1.65;
+  --fs-hero:clamp(2.15rem,8.5vw,4rem);  /* h1 del hero, max-width 16ch */
+  --fs-h2:clamp(1.6rem,5vw,2.2rem);     /* títulos de sección */
+  --fs-sub:1.2rem;                      /* subtítulo del hero */
+
+  /* Layout */
+  --wrap:60rem;            /* ancho máximo del contenedor .wrap */
+  --gutter:16px;           /* margen lateral (32px desde 720px) */
+  --measure:64ch;          /* medida de lectura */
+  --hh:64px;               /* alto de la cabecera fija (76px desde 720px) */
+
+  /* Radios */
+  --r-xs:3px;              /* anillo de foco */
+  --r-sm:4px;              /* etiquetas (.tags), número de decisión, enlace de salto */
+  --r-btn:6px;             /* botones */
+  --r-aside:10px;          /* bloque de largo plazo (solo esquinas derechas) */
+  --r-card:12px;           /* tarjetas */
+  --r-fig:14px;            /* marco del diagrama */
+  --r-pill:999px;          /* selector de idioma, conmutador de tema */
+
+  /* Movimiento (DESIGN.md §7). Solo transform/opacity salvo excepciones. */
+  --ease:cubic-bezier(.16,1,.3,1);      /* curva única */
+  --pop:cubic-bezier(.34,1.56,.64,1);   /* rebote, solo piezas pequeñas (ver nota en CONTRACTS.md §3) */
+  --dur-fast:.2s;          /* micro: hover de etiquetas, conmutador */
+  --dur-micro:.3s;         /* micro: color y borde de botones y tarjetas */
+  --dur-fade:.35s;         /* fundido de tema/idioma, cabecera fija */
+  --dur-state:.45s;        /* cambios de estado: relleno de botón, píldora de idioma */
+  --dur-slow:.6s;          /* giro del icono de tema */
+  --dur-enter:.9s;         /* entradas y revelados */
+}
+
+@media (min-width:720px){
+  :root{--gutter:32px;--hh:76px;--fs-body:1.125rem}
+}
+
+/* ---------- 2. Oscuro (dirección B) ----------
+   Mismo bloque dos veces, a propósito: una por preferencia del sistema
+   (salvo que el usuario fuerce claro) y otra forzada con data-theme="dark".
+   CSS no permite compartirlo sin JS ni preprocesador. Si cambias uno,
+   cambia el otro: scripts/check-content.mjs no lo vigila; la revisión sí. */
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --bg:#0d1117;
+    --bg-2:#111827;
+    --plane:#111827;
+    --card:#21262d;
+    --card-2:#161b22;
+    --line:#30363d;
+    --rule:#30363d;
+    --edge:rgba(255,255,255,.06);
+    --text:#e6edf3;
+    --muted:#9aa4b0;
+    --accent:#58a6ff;
+    --accent-ink:#58a6ff;
+    --wash:rgba(88,166,255,.14);
+    --on-accent:#0d1117;
+    --primary-bg:#58a6ff;
+    --violet:#a78bfa;
+    --focus:#79c0ff;
+    --ok:#3fb950;
+    --warn:#d29922;
+    --orange:#f0883e;
+    --grid:rgba(255,255,255,.06);
+    --dot:rgba(255,255,255,.15);
+    --ghost:rgba(88,166,255,.2);
+    --hero-bg:linear-gradient(135deg,#0d1117,#141a35 55%,#221640);
+    --orb-1:rgba(88,166,255,.17);
+    --orb-2:rgba(139,108,240,.22);
+    --plane-wash:rgba(88,166,255,.08);
+    --net-op:.6;
+    --sweep:rgba(88,166,255,.12);
+    --band-bg:#161b22;
+    --band-fg:#e6edf3;
+    --band-muted:#9aa4b0;
+    --band-label:#58a6ff;
+    --band-primary:#58a6ff;
+    --band-on-primary:#0d1117;
+    --disc:linear-gradient(165deg,#2A4C8C 0%,#22397A 50%,#2B2066 100%);
+    --cut-filter:brightness(.9) drop-shadow(0 2px 4px rgba(0,0,0,.45));
+    --photo-tint:rgba(88,166,255,.26);
+    --head-bg:rgba(13,17,23,.96);
+    --shadow:none;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#0d1117;
+  --bg-2:#111827;
+  --plane:#111827;
+  --card:#21262d;
+  --card-2:#161b22;
+  --line:#30363d;
+  --rule:#30363d;
+  --edge:rgba(255,255,255,.06);
+  --text:#e6edf3;
+  --muted:#9aa4b0;
+  --accent:#58a6ff;
+  --accent-ink:#58a6ff;
+  --wash:rgba(88,166,255,.14);
+  --on-accent:#0d1117;
+  --primary-bg:#58a6ff;
+  --violet:#a78bfa;
+  --focus:#79c0ff;
+  --ok:#3fb950;
+  --warn:#d29922;
+  --orange:#f0883e;
+  --grid:rgba(255,255,255,.06);
+  --dot:rgba(255,255,255,.15);
+  --ghost:rgba(88,166,255,.2);
+  --hero-bg:linear-gradient(135deg,#0d1117,#141a35 55%,#221640);
+  --orb-1:rgba(88,166,255,.17);
+  --orb-2:rgba(139,108,240,.22);
+  --plane-wash:rgba(88,166,255,.08);
+  --net-op:.6;
+  --sweep:rgba(88,166,255,.12);
+  --band-bg:#161b22;
+  --band-fg:#e6edf3;
+  --band-muted:#9aa4b0;
+  --band-label:#58a6ff;
+  --band-primary:#58a6ff;
+  --band-on-primary:#0d1117;
+  --disc:linear-gradient(165deg,#2A4C8C 0%,#22397A 50%,#2B2066 100%);
+  --cut-filter:brightness(.9) drop-shadow(0 2px 4px rgba(0,0,0,.45));
+  --photo-tint:rgba(88,166,255,.26);
+  --head-bg:rgba(13,17,23,.96);
+  --shadow:none;
+}

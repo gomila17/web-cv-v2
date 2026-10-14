@@ -17,3 +17,9 @@ node_modules/
 .DS_Store
 Thumbs.db
 desktop.ini
+
+# Salida del build (se publica como artefacto de CI, no se versiona)
+dist/
+
+# Lista local de términos privados para scripts/check-content.mjs. NUNCA se versiona.
+.privacy-terms
