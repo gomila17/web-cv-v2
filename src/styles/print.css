@@ -1,0 +1,8 @@
+/* =====================================================================
+   print.css — capa "print" (CONTRACTS.md §4). Mínimo de la v6.
+   ===================================================================== */
+@media print{
+  html.anim *,html.anim *::before,html.anim *::after{animation:none!important;translate:none!important;scale:none!important}
+  .prog{display:none!important}
+  html.js .topbar{position:relative}
+}

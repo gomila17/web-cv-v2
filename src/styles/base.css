@@ -1,10 +1,21 @@
 /* =====================================================================
    base.css — capa "base" (ver CONTRACTS.md §4)
-   Contenido previsto: reset mínimo (box-sizing), html/body, enlaces,
-   :focus-visible, ::selection, enlace de salto (.skip), .wrap, .mono/code,
-   encabezados genéricos y utilidades de accesibilidad (.sr-only).
-   Reglas: solo selectores de elemento y utilidades globales; nada de
-   componentes ni secciones. Colores, fuentes, radios y duraciones siempre
-   con var(--…) de tokens.css; nunca valores de color literales.
-   Dueño: subagente de estilos. Vacío hasta la implementación.
+   Reset mínimo, html/body, enlaces, foco, selección, enlace de salto,
+   .wrap, .mono/code y encabezados. Copiado de la v6; donde la v6 tenía un
+   literal que ya es token (tamaños, radios, ancho), se usa el token.
+   Dueño: subagente de estilos.
    ===================================================================== */
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;scrollbar-color:var(--line) var(--bg)}
+body{margin:0;background:var(--bg);color:var(--text);font-family:var(--sans);font-size:var(--fs-body);line-height:var(--lh-body);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+::selection{background:var(--accent);color:var(--on-accent)}
+.wrap{width:100%;max-width:var(--wrap);margin:0 auto;padding-inline:var(--gutter)}
+a{color:var(--accent-ink);text-underline-offset:.2em;text-decoration-thickness:1px;transition:text-decoration-thickness .15s,text-underline-offset .2s var(--ease)}
+a:hover{text-decoration-thickness:2px;text-underline-offset:.3em}
+:focus-visible{outline:3px solid var(--focus);outline-offset:3px;border-radius:var(--r-xs);animation:focus-in .2s var(--ease)}
+.skip{position:absolute;left:var(--gutter);top:-4rem;background:var(--text);color:var(--bg);padding:.5rem .9rem;z-index:30;border-radius:var(--r-sm)}
+.skip:focus{top:.5rem}
+.mono,code{font-family:var(--mono);font-size:.85em;letter-spacing:.01em}
+h1,h2,h3,h4{line-height:1.15;margin:0;font-weight:700;letter-spacing:-.02em}
+p{margin:0 0 1em;max-width:var(--measure)}
+ul,ol,dl,dd{margin:0}
