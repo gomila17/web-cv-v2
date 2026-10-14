@@ -330,13 +330,14 @@ Decisiones, cada una en formato problema → decisión → por qué (`.decisions
 
 ### 6.2 Certificaciones (`stack.certs`)
 
-| Certificación · Certification | Emisor · Issuer | Fecha · Date |
-|---|---|---|
-| Oracle Certified Associate, Java SE 8 Programmer | Oracle | mar 2026 · Mar 2026 |
-| Claude Code 101 (curso completado · course completed) | Anthropic | abr 2026 · Apr 2026 |
-| ThePower Business School | ThePower | nov 2023 · Nov 2023 |
+| Certificación · Certification | Emisor · Issuer | Fecha · Date | Verificación · Verify |
+|---|---|---|---|
+| Oracle Certified Associate, Java SE 8 Programmer | Oracle | 13 mar 2026 · 13 Mar 2026 | https://catalog-education.oracle.com/ords/certview/sharebadge?id=CC8AEE6DE446EA8937D8527713DD99D65B867BFF751361C514D31DCBC22A18CC |
+| Claude Code 101 (curso completado · course completed) | Anthropic Education | 26 abr 2026 · 26 Apr 2026 | https://verify.skilljar.com/c/2dzsx2a8sixt |
+| PowerSkills — programa práctico de soft skills, calificación Sobresaliente · hands-on soft-skills programme, graded Outstanding | ThePower Business School | 20 nov 2023 · 20 Nov 2023 | https://verified.sertifier.com/es/verify/44295763467187/ |
 
-`[FALTA: tema o nombre del programa de ThePower Business School; sin él la línea no dice nada. Si no aporta, omitir.]`
+- PowerSkills cubre productividad, resolución de problemas, gestión de proyectos, comunicación, toma de decisiones y liderazgo. Encaja con la frase de proyección a gestión de equipos (`about.longterm`). · PowerSkills covers productivity, problem solving, project management, communication, decision-making and leadership; it supports the long-term team-leadership line.
+- Cada certificación enlaza a su página de verificación oficial (abre en pestaña nueva).
 
 ---
 
@@ -402,13 +403,12 @@ Decisiones, cada una en formato problema → decisión → por qué (`.decisions
 - La anécdota de LaLiga se cuenta como "bloqueos de ISP a rangos de Cloudflare durante partidos"; se nombra LaLiga solo en la decisión de la VPN, por ser el dato técnico. Toni puede preferir omitir el nombre.
 - La nota sobre Angular, Ionic y NestJS aparece como "solo formación" en dos sitios (prácticas y stack), para que no se lea como dominio.
 - "Exploro": he puesto lo que las fuentes marcan como próximos pasos (modelos de IA ligeros en local, servidor multimedia, más self-hosted) y la orquestación de subagentes (SPEC la declara como aprendizaje).
-- ThePower no lleva enlace ni descripción porque no hay fuente.
+- ThePower: programa PowerSkills (20 nov 2023, Sobresaliente), verificado en su página oficial.
 
 **Datos que faltan**
 - PDF del CV final sin teléfono.
 - Foto (SPEC dice que sí; no hay archivo).
 - Capturas de homepanel sin datos sensibles y diagrama del homelab sin IPs ni nombres internos.
-- Tema del programa ThePower Business School.
 - Confirmar si el email se publica visible y si habrá formulario.
 - Caso de estudio de "esta web" (al terminar el proyecto).
 - Catalán: opcional, fase posterior; no traducido.
