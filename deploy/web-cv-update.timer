@@ -1,0 +1,14 @@
+# Comprueba cada 5 minutos si hay un release nuevo (mismo ritmo que homepanel).
+# Cada ciclo es una petición saliente a la API pública de GitHub: 12/h, por debajo del límite
+# anónimo de 60/h por IP pública (ojo si otras máquinas de la misma red también la usan sin token).
+
+[Unit]
+Description=Comprueba cada 5 min si hay un release nuevo de la web CV
+
+[Timer]
+OnBootSec=1min
+OnUnitActiveSec=5min
+RandomizedDelaySec=30s
+
+[Install]
+WantedBy=timers.target

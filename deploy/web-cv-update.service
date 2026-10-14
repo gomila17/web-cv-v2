@@ -1,0 +1,55 @@
+# Unidad oneshot que lanza web-cv-update.timer cada 5 min. Instalación: deploy/README.md.
+#
+# A diferencia de homepanel (cuyo actualizador corre como root para poder hacer systemctl restart),
+# aquí no hay nada que reiniciar: Nginx sirve el enlace current. Así que el script corre como un
+# usuario dedicado SIN privilegios y systemd lo encierra para que solo pueda escribir en WEB_ROOT.
+#
+# Valores por defecto (genéricos; si se cambian, cambiarlos también en nginx.conf):
+#   usuario webcv · WEB_ROOT /srv/web-cv · script /usr/local/bin/web-cv-update.sh (de root, 755:
+#   el usuario webcv no puede modificar el código que ejecuta).
+# GITHUB_REPO=<OWNER>/<REPO> (y opcionalmente KEEP) va en /etc/web-cv-update.env, fuera del repo.
+
+[Unit]
+Description=Instala el último release de la web CV si hay uno nuevo
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+User=webcv
+Group=webcv
+Environment=WEB_ROOT=/srv/web-cv
+EnvironmentFile=/etc/web-cv-update.env
+ExecStart=/usr/local/bin/web-cv-update.sh
+UMask=0022
+# Un ciclo normal tarda segundos; si se cuelga la red, que no bloquee los siguientes.
+TimeoutStartSec=10min
+
+# --- Endurecimiento (comprobar con: systemd-analyze security web-cv-update.service) -------------
+NoNewPrivileges=yes
+ProtectSystem=strict
+ReadWritePaths=/srv/web-cv
+ProtectHome=yes
+PrivateTmp=yes
+PrivateDevices=yes
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectKernelLogs=yes
+ProtectControlGroups=yes
+ProtectClock=yes
+ProtectHostname=yes
+ProtectProc=invisible
+ProcSubset=pid
+RestrictNamespaces=yes
+RestrictRealtime=yes
+RestrictSUIDSGID=yes
+LockPersonality=yes
+MemoryDenyWriteExecute=yes
+RemoveIPC=yes
+CapabilityBoundingSet=
+AmbientCapabilities=
+# Salida a GitHub (IPv4/IPv6) y sockets locales (resolución de nombres).
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+SystemCallArchitectures=native
+SystemCallFilter=@system-service
+SystemCallFilter=~@privileged
