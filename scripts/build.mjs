@@ -47,8 +47,18 @@ function makeCtx(locale, home) {
   return { locale, t, facts, esc, tr, years, paths: { home, alternates, asset } };
 }
 
-async function partial(name) {
-  return (await import(pathToFileURL(fromRoot('src/templates', `${name}.mjs`)).href)).default;
+/** Importa cada partial por separado (layout al final). Un error de sintaxis en un partial que importa
+ *  layout llegaría sin nombre de fichero (Node 21 no lo pone en err.stack); así se sabe cuál es. */
+async function loadPartials() {
+  const dir = fromRoot('src/templates');
+  const names = fs.readdirSync(dir).filter((f) => f.endsWith('.mjs')).map((f) => f.slice(0, -4))
+    .sort((a, b) => (a === 'layout') - (b === 'layout') || a.localeCompare(b));
+  const partials = {};
+  for (const name of names) {
+    try { partials[name] = (await import(pathToFileURL(path.join(dir, `${name}.mjs`)).href)).default; }
+    catch (err) { err.message = `en src/templates/${name}.mjs: ${err.message}`; throw err; }
+  }
+  return partials;
 }
 
 function write(rel, content) {
@@ -88,6 +98,9 @@ function render(out, fn, ctx) {
   try {
     const html = fn(ctx);
     if (typeof html !== 'string' || !html.trim()) throw new Error('el partial no devolvió HTML');
+    // Un dato que no existe en facts se cuela como texto en un template literal: mejor fallar.
+    const bad = html.match(/.{0,60}(\bundefined\b|\bNaN\b|\[object Object\]).{0,20}/);
+    if (bad) throw new Error(`"${bad[1]}" en el HTML (¿dato inexistente?): …${bad[0].trim()}…`);
     write(out, html);
   } catch (err) {
     err.message = `al generar dist/${out} (${ctx.locale}): ${err.message}`;
@@ -97,9 +110,9 @@ function render(out, fn, ctx) {
 
 async function main() {
   fs.rmSync(DIST, { recursive: true, force: true });
-  const layout = await partial('layout');
-  for (const l of site.locales) render(path.join(l.path, 'index.html'), layout, makeCtx(l.code, l.path));
-  render('index.html', await partial('language-picker'), makeCtx(site.defaultLocale, '/'));
+  const partials = await loadPartials();
+  for (const l of site.locales) render(`${l.path.replace(/^\/+/, '')}index.html`, partials.layout, makeCtx(l.code, l.path));
+  render('index.html', partials['language-picker'], makeCtx(site.defaultLocale, '/'));
   write('styles.css', concatCss());
   const copied = copyDir(fromRoot('assets'), path.join(DIST, 'assets')) + copyDir(fromRoot('src/static'), DIST);
   console.log(`build · ${site.locales.length + 1} páginas, ${copied} ficheros copiados, {years}=${years} · ${Math.round(performance.now() - started)} ms`);
