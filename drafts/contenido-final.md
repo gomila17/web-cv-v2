@@ -415,3 +415,4 @@ Decisiones, cada una en formato problema → decisión → por qué (`.decisions
 - Versión actual de LinkedIn: SPEC indica que se actualizará al terminar el proyecto (hoy dice Full-Stack).
 
 **Comprobaciones de privacidad hechas**: sin teléfono; sin nombres de clientes ni herramientas internas de IA de la empresa; sin IPs, subdominios internos ni identificadores (ni siquiera nombres de máquinas ni el UID de admin del contexto); sin tipo concreto de trámite.
+
