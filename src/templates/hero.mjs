@@ -1,6 +1,6 @@
 /**
  * Partial: hero
- * Hero: eyebrow (fullName · city), h1 único, subtítulo, valor, nota IA, botones (proyectos, LinkedIn, GitHub, Email), foto recortada con respaldo a foto.jpg, capas decorativas aria-hidden.
+ * Hero: h1 único con el nombre (eyebrow: fullName · city) y el titular en dos spans (SEO: nombre y rol en el h1), subtítulo, valor, nota IA, botones (proyectos, LinkedIn, GitHub, Email), foto recortada con respaldo a foto.jpg, capas decorativas aria-hidden.
  *
  * Claves de content/<locale>.json: h.*
  * Datos de facts.json: facts.person, facts.links
@@ -37,8 +37,8 @@ export default function render(ctx) {
     <div class="wrap">
       <div class="hero">
         <div>
-          <p class="eyebrow">${esc(person.fullName)} · ${esc(person.city)}</p>
-          <h1>${t('h.title')}</h1>
+          <h1><span class="eyebrow">${esc(person.fullName)} · ${esc(person.city)}</span>
+            <span class="h-title">${t('h.title')}</span></h1>
           <p class="sub">${t('h.sub')}</p>
           <p class="value">${t('h.value')}</p>
           <p class="ai-note">${t('h.ai')}</p>
@@ -49,7 +49,7 @@ export default function render(ctx) {
             <li><a class="btn" href="mailto:${esc(person.email)}">Email</a></li>
           </ul>
         </div>
-        <div class="photo photo--cutout p-photo"><div class="pic"><img src="${paths.asset('assets/foto-recorte.png')}" width="400" height="400" alt="${esc(t('h.alt'))}"></div></div>
+        <div class="photo photo--cutout p-photo"><div class="pic"><img src="${paths.asset('assets/foto-recorte.webp')}" width="400" height="400" alt="${esc(t('h.alt'))}"></div></div>
       </div>
     </div>
   </div>`;

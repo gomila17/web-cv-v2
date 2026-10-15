@@ -50,7 +50,7 @@ Además: `style-src-attr 'unsafe-inline'` por los `style="--n:…"` del diagrama
 1. **404 propia**: hecha. El build genera `es/404.html` y `en/404.html`, y `nginx.conf` sirve la del idioma de la ruta.
 2. **`head.js`**: su hash ya está en `nginx.conf`. Si cambia el script, CI falla en `check-csp` a propósito e imprime el hash nuevo para sustituirlo.
 3. **Sin manejadores en atributos**: la foto del hero ya no lleva `onerror` (se quitó el respaldo a `foto.jpg`), así que la CSP no necesita `'unsafe-hashes'`. `check-csp` avisa si vuelve a aparecer alguno.
-4. **Caché**: `styles.css` y `main.js` no llevan hash en el nombre, así que se cachean solo 1 h. Si el build los renombra (`styles.<hash>.css`), subir a 1 año + `immutable` en `nginx.conf`.
+4. **Caché**: el build enlaza `styles.css` y `main.js` con `?v=<hash del contenido>`, así que se cachean 1 año con `immutable`; el HTML sigue con `no-cache` y trae la URL nueva en cuanto cambian.
 
 ## Fase 6: puesta en marcha (paso a paso, con Toni aprobando cada paso)
 

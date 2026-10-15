@@ -19,7 +19,7 @@
 .nd{position:absolute;left:0;top:0;width:16px;height:16px;margin-left:-8px;border-radius:50%;border:3px solid var(--accent);background:var(--bg);transition:transform .35s var(--pop)}
 .nd.end{left:auto;right:0;margin-left:0;margin-right:-8px}
 .nd.now{background:var(--accent)}
-.nd.now::after{content:"";position:absolute;inset:-3px;border-radius:50%;border:2px solid var(--violet);opacity:0;animation:ping 3.2s ease-out 2.2s infinite}
+.nd.now::after{content:"";position:absolute;inset:-3px;border-radius:50%;border:2px solid var(--violet);opacity:0;animation:ping 3.2s ease-out 2.2s 3} /* 3 latidos, no infinito (WCAG 2.2.2); con html.anim solo corre a la vista (motion.css) */
 /* Hover en un puesto (clase .hl, la pone main.js) resalta su tramo */
 .seg.hl .lbl{color:var(--accent-ink)}
 .seg.hl .nd{transform:scale(1.3)}

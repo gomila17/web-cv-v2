@@ -128,6 +128,15 @@
       { threshold: [0.5, 0.6] }).observe(fig);
   }
 
+  /* Bucles con fin (WCAG 2.2.2): las manchas y el pulso del hero, el pulso de la cota y los paquetes del diagrama
+     tienen ciclos finitos en CSS y solo avanzan mientras su bloque está a la vista ('play'); fuera, se pausan. */
+  function play() {
+    const els = [$('.hero-band'), id('cota'), id('fig')].filter(Boolean);
+    if (!('IntersectionObserver' in window)) { els.forEach((e) => e.classList.add('play')); return; }
+    const io = new IntersectionObserver((es) => es.forEach((e) => e.target.classList.toggle('play', e.isIntersecting)), { threshold: 0 });
+    els.forEach((e) => io.observe(e));
+  }
+
   /* Cota ↔ puestos: al pasar el puntero por un puesto se resalta su tramo. Como en la v6, el tramo
      #cota .seg[data-job=i] corresponde al puesto i-ésimo (.job), salvo que el .job lleve su propio data-job. */
   function jobs() {
@@ -151,5 +160,5 @@
     }));
   }
 
-  [theme, lang, reveal, scroll, lit, jobs].forEach(run);
+  [theme, lang, reveal, scroll, lit, play, jobs].forEach(run);
 })();
