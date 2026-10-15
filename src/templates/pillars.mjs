@@ -31,7 +31,7 @@ ${items}
   };
   return `<section class="sec plane" id="que-hago" aria-labelledby="h-hago" style="--wx:0%;--wy:0%">
     <div class="wrap">
-      <div class="sec-head"><span class="sec-no">02</span><h2 id="h-hago">${t('n.what')}</h2></div>
+      <div class="sec-head"><span class="sec-no" aria-hidden="true">02</span><h2 id="h-hago">${t('n.what')}</h2></div>
       <p class="lead rv rv-fade">${t('p.lead')}</p>
       <div class="pillars">
 ${PILLARS.map(pillar).join('\n')}

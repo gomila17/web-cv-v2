@@ -24,7 +24,7 @@ export default function render(ctx) {
     const rows = PARTS.filter((p) => has(`d${i}.${p}`))
       .map((p) => `            <dt>${t(`dt.${p}`)}</dt><dd>${t(`d${i}.${p}`)}</dd>`).join('\n');
     decisions.push(`        <li class="dec card${i === FEATURE ? ' feature' : ''} rv rv-settle">
-          <h4><span class="num">${i}</span><span>${t(`d${i}.t`)}</span></h4>
+          <h4><span class="num" aria-hidden="true">${i}</span><span>${t(`d${i}.t`)}</span></h4>
           <dl>
 ${rows}
           </dl>
@@ -32,7 +32,7 @@ ${rows}
   }
   return `<section class="sec" id="homelab" aria-labelledby="h-home">
     <div class="wrap">
-      <div class="sec-head"><span class="sec-no">05</span><h2 id="h-home">${t('n.hm')}</h2></div>
+      <div class="sec-head"><span class="sec-no" aria-hidden="true">05</span><h2 id="h-home">${t('n.hm')}</h2></div>
       <p class="lead rv rv-fade">${t('hm.lead')}</p>
       <p class="rv rv-fade">${t('hm.ctx')}</p>
 
@@ -46,7 +46,7 @@ ${decisions.join('\n')}
 
       <aside class="story card rv rv-left" aria-labelledby="h-story">
         <span class="mono">${t('s.k')}</span>
-        <h4 id="h-story">${t('s.t')}</h4>
+        <h3 id="h-story">${t('s.t')}</h3>
         <p>${t('s.p')}</p>
       </aside>
     </div>

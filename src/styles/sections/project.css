@@ -7,7 +7,8 @@
 .project header{padding:26px 22px 20px;border-bottom:1px solid var(--line);background:linear-gradient(90deg,var(--wash),transparent 70%)}
 .project h3{font-size:1.6rem;font-family:var(--mono);letter-spacing:-.01em}
 .project header p{margin:6px 0 12px;color:var(--muted)}
-.repo{display:inline-block;margin-top:12px;padding:6px 0;font-family:var(--mono);font-size:.85rem;overflow-wrap:anywhere}
+.repo{position:relative;display:inline-block;margin-top:12px;padding:6px 0;font-family:var(--mono);font-size:.85rem;overflow-wrap:anywhere}
+.repo::before{content:"";position:absolute;inset:-6px 0}
 .pgrid{display:grid;grid-template-columns:minmax(0,1fr)}
 .pcol{padding:22px;border-bottom:1px solid var(--line);min-width:0;overflow-wrap:break-word}
 .pcol:last-child{border-bottom:0}
@@ -20,7 +21,8 @@
 .lesson strong{font-family:var(--mono);font-size:.75rem;text-transform:uppercase;letter-spacing:.1em;color:var(--band-label);margin-right:.6em}
 
 @media (min-width:900px){
-  .pgrid{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .repo::before{content:"";position:absolute;inset:-6px 0}
+.pgrid{grid-template-columns:repeat(3,minmax(0,1fr))}
   .pcol{border-bottom:0;border-right:1px solid var(--line)}
   .pcol:last-child{border-right:0}
 }

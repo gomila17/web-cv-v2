@@ -15,6 +15,7 @@ html.js .topbar{position:sticky;top:0}
 html.anim .prog{display:block}
 .top{display:flex;align-items:center;justify-content:space-between;gap:.75rem;height:100%}
 .mark{font-family:var(--mono);font-weight:700;font-size:1.35rem;color:var(--text);text-decoration:none;position:relative;padding:8px 0 6px}
+.mark::before{content:"";position:absolute;inset:-4px -8px}
 .mark::after{content:"";position:absolute;left:0;right:0;bottom:0;height:3px;background:var(--accent);transform-origin:left;transition:transform .4s var(--ease)}
 .mark:hover::after,.mark:focus-visible::after{transform:scaleX(1.35)}
 .top nav{display:none}
@@ -26,11 +27,14 @@ html.anim .prog{display:block}
 .lang[data-cur="en"]::before{transform:translateX(100%)}
 .lang a{position:relative;z-index:1;display:grid;place-items:center;min-width:42px;padding:0 .5rem;border-radius:var(--r-pill);color:var(--muted);text-decoration:none;transition:color var(--dur-micro)}
 .lang a[aria-current]{color:var(--bg);font-weight:700}
+.lang a::before{content:"";position:absolute;inset:-4px -2px}
 .lang a:not([aria-current]):hover{color:var(--text)}
 
-/* Conmutador de tema: sin JS no hace nada, así que va oculto (hidden) hasta que main.js lo active */
+/* Conmutador de tema: va oculto (hidden) hasta que main.js lo active */
 .theme{font:inherit;font-family:var(--mono);font-size:.8rem;display:inline-flex;align-items:center;gap:.4rem;min-height:44px;padding:0 .8rem;border:1px solid var(--line);border-radius:var(--r-pill);background:var(--card);color:var(--text);cursor:pointer;transition:border-color var(--dur-fast),transform var(--dur-fast) var(--ease)}
+/* Sin JS no hace nada: desaparece. Con JS (html.js) reserva su hueco desde el principio (visibility:hidden: ni foco ni lectores) para que ES/EN no salte al activarlo */
 .theme[hidden]{display:none}
+html.js .theme[hidden]{display:inline-flex;visibility:hidden}
 .theme:hover{border-color:var(--accent)}
 .theme:active,.lang a:active{transform:scale(.95)}
 .theme svg{width:16px;height:16px;flex:none;transform:rotate(var(--rot,0deg));transition:transform var(--dur-slow) var(--ease)}
@@ -62,9 +66,10 @@ html.anim .prog{display:block}
    El anillo replica la barra de lectura: main.js escribe --tp (0..1) en el botón.
    La flecha: la v6 la colocaba con style en línea; aquí va en CSS (.totop svg.arrow)
    para no depender de él. */
-.totop{position:fixed;right:16px;bottom:16px;z-index:40;width:52px;height:52px;display:grid;place-items:center;border:1px solid var(--line);border-radius:50%;background:var(--card);color:var(--text);box-shadow:var(--shadow);cursor:pointer;opacity:0;transform:translateY(16px) scale(.9);pointer-events:none;transition:opacity var(--dur-fade) var(--ease),transform var(--dur-state) var(--ease),border-color var(--dur-fast)}
+.totop{position:fixed;right:16px;bottom:16px;z-index:40;width:52px;height:52px;display:grid;place-items:center;border:1px solid var(--line);border-radius:50%;background:var(--card);color:var(--text);box-shadow:var(--shadow);cursor:pointer;opacity:0;visibility:hidden;transform:translateY(16px) scale(.9);pointer-events:none;transition:opacity var(--dur-fade) var(--ease),transform var(--dur-state) var(--ease),border-color var(--dur-fast),visibility 0s linear var(--dur-fade)}
 .totop[hidden]{display:none}
-.totop.show{opacity:1;transform:none;pointer-events:auto}
+/* visibility:hidden mientras no se ve: así no recibe foco con el tabulador ni lo anuncian los lectores */
+.totop.show{opacity:1;visibility:visible;transform:none;pointer-events:auto;transition-delay:0s}
 .totop:hover{border-color:var(--accent);transform:translateY(-3px)}
 .totop:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
 .totop svg{position:absolute;inset:-1px;width:52px;height:52px;transform:rotate(-90deg);pointer-events:none}
@@ -80,6 +85,7 @@ html.anim .prog{display:block}
 @media (min-width:1000px){
   .top nav{display:flex;gap:22px}
   .top nav a{position:relative;color:var(--text);text-decoration:none;font-size:.92rem;padding:.4rem 0}
+  .top nav a::before{content:"";position:absolute;inset:-8px -6px}
   .top nav a::after{content:"";position:absolute;left:0;right:0;bottom:0;height:2px;background:var(--accent);transform:scaleX(0);transform-origin:left;transition:transform .4s var(--ease)}
   .top nav a:hover::after,.top nav a:focus-visible::after,.top nav a[aria-current]::after{transform:scaleX(1)}
   .top nav a[aria-current]{color:var(--accent-ink)}

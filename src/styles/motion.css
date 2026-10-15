@@ -91,7 +91,7 @@ html.anim .sec-head{clip-path:inset(-1em -2em 0 -2em)}
   html.sd-css .fig{view-timeline:--fig block}
   html.sd-css .fig .hl-g{animation:light linear both;animation-timeline:--fig;animation-range:entry calc(4% + var(--i,0) * 13%) entry calc(28% + var(--i,0) * 13%)}
   html.sd-css .sweep{animation:sweep-y linear both;animation-timeline:--fig;animation-range:entry 10% cover 55%}
-  @media (min-width:820px){html.sd-css .sweep{animation-name:sweep-x}}
+  @media (min-width:960px){html.sd-css .sweep{animation-name:sweep-x}}
 }
 
 /* 3b. Respaldo JS: mismas curvas a partir de variables 0..1 que escribe un listener pasivo + rAF
@@ -107,7 +107,7 @@ html.sd-js .cota .nd{opacity:clamp(0,var(--cp,0) * 50 - var(--at),1);scale:clamp
 html.sd-js .cota .lbl,html.sd-js .cota .tk{opacity:clamp(0,(var(--cp,0) * var(--total,48) - var(--at)) * .4,1)}
 html.sd-js .fig .hl-g{--k:clamp(0,(var(--dp,0) - .04 - var(--i,0) * .13) / .24,1);opacity:calc(.12 + .88 * var(--k));transform:translateY(calc((1 - var(--k)) * 10px))}
 html.sd-js .sweep{transform:translateY(calc(-100% + var(--sp,0) * 200%))}
-@media (min-width:820px){html.sd-js .sweep{transform:translateX(calc(-100% + var(--sp,0) * 200%))}}
+@media (min-width:960px){html.sd-js .sweep{transform:translateX(calc(-100% + var(--sp,0) * 200%))}}
 
 /* ---------- 4. Cambio de tema / idioma: fundido suave ---------- */
 ::view-transition-old(root),::view-transition-new(root){animation-duration:.4s;animation-timing-function:ease}

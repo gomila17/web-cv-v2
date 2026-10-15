@@ -18,8 +18,8 @@
 .certs li{padding:16px 20px;display:flex;flex-direction:column;gap:2px;min-width:0;overflow-wrap:break-word}
 .certs b{font-size:1.02rem}
 .certs span{color:var(--muted);font-size:.92rem}
-.certs a{align-self:flex-start;margin-top:auto;display:inline-flex;align-items:center;gap:.35em;min-height:44px;padding-top:4px;font-family:var(--mono);font-size:.82rem}
-.certs a span{color:inherit;font-size:inherit}
+.certs a svg{flex:none;opacity:.8}
+.certs a{align-self:flex-start;margin-top:auto;display:inline-flex;align-items:center;gap:.35em;min-height:44px;margin-bottom:-12px;font-family:var(--mono);font-size:.82rem}
 
 @media (min-width:720px){
   .certs{grid-template-columns:repeat(2,minmax(0,1fr))}

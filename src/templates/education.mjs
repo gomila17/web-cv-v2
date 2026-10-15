@@ -29,7 +29,7 @@ ${lines.map((l) => `          ${l}`).join('\n')}
   }).join('\n');
   return `<section class="sec" id="formacion" aria-labelledby="h-edu">
     <div class="wrap">
-      <div class="sec-head"><span class="sec-no">07</span><h2 id="h-edu">${t('ed.sec')}</h2></div>
+      <div class="sec-head"><span class="sec-no" aria-hidden="true">07</span><h2 id="h-edu">${t('ed.sec')}</h2></div>
       <div class="edu">
 ${studies.join('\n')}
         <article class="card rv rv-settle">
