@@ -59,7 +59,6 @@
   /* Foto: disco de marca (recorte) y velo frío (respaldo foto.jpg) */
   --disc:linear-gradient(165deg,#6179E8 0%,#526DE5 45%,#3A51C6 100%);
   --cut-filter:drop-shadow(0 2px 3px rgba(32,42,66,.28));
-  --photo-tint:rgba(82,109,229,.30);
 
   /* Cabecera fija */
   --head-bg:rgba(237,237,237,.97);
@@ -153,7 +152,6 @@
     --band-on-primary:#0d1117;
     --disc:linear-gradient(165deg,#2A4C8C 0%,#22397A 50%,#2B2066 100%);
     --cut-filter:brightness(.9) drop-shadow(0 2px 4px rgba(0,0,0,.45));
-    --photo-tint:rgba(88,166,255,.26);
     --head-bg:rgba(13,17,23,.96);
     --shadow:none;
   }
@@ -197,7 +195,6 @@
   --band-on-primary:#0d1117;
   --disc:linear-gradient(165deg,#2A4C8C 0%,#22397A 50%,#2B2066 100%);
   --cut-filter:brightness(.9) drop-shadow(0 2px 4px rgba(0,0,0,.45));
-  --photo-tint:rgba(88,166,255,.26);
   --head-bg:rgba(13,17,23,.96);
   --shadow:none;
 }
