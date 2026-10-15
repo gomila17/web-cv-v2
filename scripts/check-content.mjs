@@ -175,6 +175,15 @@ if (facts) {
     need(YMD_RE.test(c.date ?? ''), `certifications[${i}].date (AAAA-MM-DD)`);
     need(HTTPS_RE.test(c.verifyUrl ?? ''), `certifications[${i}].verifyUrl (https://…)`);
   });
+  // Lo que education.mjs, stack.mjs y la lista de idiomas dan por supuesto.
+  need(Array.isArray(facts.education) && facts.education.length > 0, 'education (lista no vacía)');
+  (facts.education ?? []).forEach((x, i) => {
+    need(x.title && x.school, `education[${i}].title/school`);
+    need(x.i18n?.meta, `education[${i}].i18n.meta (centro y fechas: la plantilla lo pinta siempre)`);
+    if (x.grade !== undefined) need(x.grade?.value !== undefined && x.grade?.scale !== undefined, `education[${i}].grade.value/scale (la nota se pinta con ellos si no hay i18n.grade)`);
+  });
+  (certs ?? []).forEach((c, i) => need(c.i18n?.meta, `certifications[${i}].i18n.meta (texto bajo el título)`));
+  (facts.languages ?? []).forEach((l, i) => need(l.i18n?.name, `languages[${i}].i18n.name`));
   for (const f of ['daily', 'known', 'exploring']) need(Array.isArray(facts.stack?.[f]) && facts.stack[f].length > 0, `stack.${f} (lista no vacía)`);
   need(Array.isArray(facts.languages) && facts.languages.length > 0 && facts.languages.every((l) => l.code && l.level), 'languages (code y level)');
   // Nada de teléfono: ni siquiera un campo con ese nombre.
