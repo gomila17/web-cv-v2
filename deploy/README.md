@@ -43,13 +43,13 @@ La CSP solo permite recursos propios (`default-src 'none'` y se abre lo justo). 
 - **Nonce**: un valor aleatorio distinto en cada respuesta, en la cabecera y en el `<script nonce>`. En un sitio estático no hay quien lo genere: haría falta que Nginx reescribiera cada HTML (`sub_filter` con `$request_id`), lo que acopla Nginx al HTML, rompe el ETag y la caché de Cloudflare. Y un nonce fijo escrito en el build no protege nada (cualquiera lo lee).
 - **Hash** (elegido): el sha256 del contenido exacto del script, fijo en la cabecera. Coste cero en cada petición y compatible con cualquier caché. Contrapartida: si `head.js` cambia, el hash cambia y el script dejaría de ejecutarse **sin error visible** (solo un aviso en la consola). Por eso CI ejecuta `check-csp.mjs`, que calcula los hashes sobre `dist/` y falla si `nginx.conf` no los tiene. Tras cambiarlo hay que copiar `nginx.conf` a la LXC y recargar Nginx (paso 4).
 
-Además: `'unsafe-hashes'` + el hash del `onerror` de la foto del hero (solo autoriza ese manejador exacto), y `style-src-attr 'unsafe-inline'` por los `style="--n:…"` del diagrama (variables CSS, no ejecutan nada; un navegador sin soporte de `style-src-attr` solo pierde el escalonado de la animación). Los datos estructurados JSON-LD no se ejecutan y la CSP no les afecta. HSTS va en el borde (NPM o Cloudflare), donde está el HTTPS.
+Además: `style-src-attr 'unsafe-inline'` por los `style="--n:…"` del diagrama (variables CSS, no ejecutan nada; un navegador sin soporte de `style-src-attr` solo pierde el escalonado de la animación). Los datos estructurados JSON-LD no se ejecutan y la CSP no les afecta. HSTS va en el borde (NPM o Cloudflare), donde está el HTTPS.
 
 ## Pendiente para el integrador
 
-1. **404 propia**: `nginx.conf` ya usa `/404.html` si el release la trae; hoy `dist/` no la tiene y Nginx sirve su página genérica. Propuesta: `404.html` en la raíz de `dist/` (p. ej. desde `src/static/` o un partial), bilingüe y con enlaces a `/es/` y `/en/`, con rutas absolutas (se sirve en cualquier URL).
+1. **404 propia**: hecha. El build genera `es/404.html` y `en/404.html`, y `nginx.conf` sirve la del idioma de la ruta.
 2. **`head.js`**: su hash ya está en `nginx.conf`. Si cambia el script, CI falla en `check-csp` a propósito e imprime el hash nuevo para sustituirlo.
-3. **`onerror` de la foto del hero** (`src/templates/hero.mjs`): si pasa a `main.js` (`addEventListener('error')`, comprobando también `img.complete && !img.naturalWidth` por si ya falló antes), se quitan `'unsafe-hashes'` y su hash.
+3. **Sin manejadores en atributos**: la foto del hero ya no lleva `onerror` (se quitó el respaldo a `foto.jpg`), así que la CSP no necesita `'unsafe-hashes'`. `check-csp` avisa si vuelve a aparecer alguno.
 4. **Caché**: `styles.css` y `main.js` no llevan hash en el nombre, así que se cachean solo 1 h. Si el build los renombra (`styles.<hash>.css`), subir a 1 año + `immutable` en `nginx.conf`.
 
 ## Fase 6: puesta en marcha (paso a paso, con Toni aprobando cada paso)

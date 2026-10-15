@@ -32,7 +32,6 @@ export default function render(ctx) {
   const { t, esc, facts, paths } = ctx;
   const { person, links } = facts;
   // Si foto-recorte.png no carga, se cambia a foto.jpg y se quita el disco (respaldo de la v6).
-  const fallback = `this.onerror=null;this.src='${paths.asset('assets/foto.jpg')}';this.parentNode.parentNode.classList.remove('photo--cutout')`;
   return `<div class="hero-band" id="top">
     ${DECOR}
     <div class="wrap">
@@ -50,7 +49,7 @@ export default function render(ctx) {
             <li><a class="btn" href="mailto:${esc(person.email)}">Email</a></li>
           </ul>
         </div>
-        <div class="photo photo--cutout p-photo"><div class="pic"><img src="${paths.asset('assets/foto-recorte.png')}" width="400" height="400" alt="${esc(t('h.alt'))}" onerror="${esc(fallback)}"></div></div>
+        <div class="photo photo--cutout p-photo"><div class="pic"><img src="${paths.asset('assets/foto-recorte.png')}" width="400" height="400" alt="${esc(t('h.alt'))}"></div></div>
       </div>
     </div>
   </div>`;
