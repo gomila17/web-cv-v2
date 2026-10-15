@@ -9,16 +9,25 @@ Lista viva de lo que queda por hacer o decidir. Fuente: revisión de la fase 5 (
 - [x] `?v=<hash>` en CSS y JS, y caché de 1 año con `immutable` en Nginx.
 - [x] El h1 incluye el nombre (sin cambios visuales). Sugerencia abierta: el texto dice "Antonio (Toni) Gomila · Barcelona"; para el SEO del nombre ayudaría "Toni Gomila" seguido literal (p. ej. "Toni Gomila · Backend Developer · Barcelona"). Decisión de Toni.
 
-## Fase 5: menores y limpieza (bloque C, aplazado a petición de Toni: recordárselo)
+## Fase 5: bloque C (hecho el 2026-10-15, con agentes Sonnet y Haiku)
 
-- [ ] Código muerto: CSS del antiguo respaldo JPG de la foto (`hero.css`, `--photo-tint`), `.s-warn`, `.certs a span`, `facts.stack.trainingOnly`, `links.homepanelRepo` duplicado, `assets/logo.svg` sin enlazar, comentarios que describen el respaldo.
-- [ ] Fechas: `years` en hora local y `today` en UTC; unificar. Validar en `check-content` los campos que pueden faltar (nota de formación, `meta` de certificaciones).
-- [ ] Accesibilidad leve: números de sección "01…07" leídos en voz alta, encabezados de decisión ("1Sin puertos…"), objetivos táctiles < 44 px (logo, ES/EN, menú, enlace del repo), botón de volver arriba enfocable cuando está oculto, aviso visual de "pestaña nueva" en "Verificar", anécdota como `h4` en vez de `h3`, `scroll-padding-top`, texto del diagrama de ~9,7 px entre 820 y 960 px.
-- [ ] Visual: el "404" con contorno doble; el botón de tema nace oculto y el selector ES/EN puede saltar con red lenta; las tarjetas de certificación quedan algo huecas; el anillo de `og.png` difiere del de la web; a 320 px el botón de volver arriba tapa la leyenda del diagrama.
-- [ ] Opcional: fundido al cambiar de idioma conservando la sección (`#ancla`).
-- [ ] Documentos desactualizados: SPEC (sigue como borrador de fase 0), DESIGN, PRODUCT, CONTRACTS (número de claves, respaldo de la foto, Spring Boot), notas de `drafts/contenido-final.md` con `[REVISAR]` ya resueltos, y el diagrama, que pone la web dentro de la VM Docker en vez de su LXC propia.
-- [ ] CI: fijar las acciones a SHA, usar Node 21 como en el contrato (hoy `lts/*`), evitar que relanzar un workflow antiguo haga rollback; la respuesta de `/` sale sin CSP por el `add_header` de su `location`.
-- [ ] Tests que faltan: regla de idioma, fechas y salida de `dist/`.
+- [x] Código muerto fuera (respaldo JPG de la foto, `.s-warn`, `trainingOnly`, `--photo-tint`…).
+- [x] Fechas en UTC (`scripts/dates.mjs`) y validación de los campos que daban por supuestos los partials.
+- [x] Accesibilidad leve: números de sección y de decisión ocultos al lector de pantalla, áreas de toque de 44 px, volver arriba sin foco cuando está oculto, icono de "pestaña nueva", anécdota como h3, `scroll-padding-top`.
+- [x] Visual: "404" sin contorno doble, el tema reserva su hueco (sin salto del selector de idioma), tarjetas de certificación sin hueco, leyenda libre a 320 px.
+- [x] Diagrama con la web en su propia LXC, también en la descripción accesible.
+- [x] CI: Node 21, acciones fijadas a SHA (verificados), relanzar un workflow antiguo ya no hace rollback; `/` con cabeceras de seguridad.
+- [x] Tests: de 12 a 27 (regla de idioma en los tres sitios, fechas, salida de `dist/`).
+- [x] Documentos al día (SPEC, PRODUCT, DESIGN, CONTRACTS, notas del contenido, READMEs).
+
+### Queda abierto (menor)
+
+- [ ] Texto del diagrama: entre 960 y ~1100 px queda en ~11,3 px (objetivo 12); subirlo desborda una caja en inglés.
+- [ ] Diagrama: no hay flecha del proxy a "Web CV" (la descripción accesible sí dice que llega por el túnel).
+- [ ] Cookie `tg_lang` con valores raros (`en-US`): Nginx la ignora y el navegador/dev no. No ocurre en la práctica (`main.js` solo escribe `es` o `en`).
+- [ ] `drafts/diseno/homelab-diagrama.svg` está desactualizado (no se usa): borrarlo o regenerarlo si se quiere para el README de GitHub.
+- [ ] Opcional: fundido al cambiar de idioma conservando la sección.
+- [ ] Sin verificar de verdad: `nginx -t`, Firefox/Safari, lector de pantalla, red lenta, el workflow nuevo en GitHub.
 
 ## Decisiones de Toni (resueltas el 2026-10-15)
 
