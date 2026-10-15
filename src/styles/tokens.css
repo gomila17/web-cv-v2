@@ -56,7 +56,7 @@
   --band-primary:#A9B8FF;
   --band-on-primary:#202A42;
 
-  /* Foto: disco de marca (recorte) y velo frío (respaldo foto.jpg) */
+  /* Foto: disco de marca detrás del recorte */
   --disc:linear-gradient(165deg,#6179E8 0%,#526DE5 45%,#3A51C6 100%);
   --cut-filter:drop-shadow(0 2px 3px rgba(32,42,66,.28));
 
