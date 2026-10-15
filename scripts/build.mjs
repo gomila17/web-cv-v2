@@ -7,6 +7,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { execFileSync } from 'node:child_process';
+import { createHash } from 'node:crypto';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -34,6 +35,10 @@ const headJs = fromRoot('src/scripts/head.js');
 // Escapado aquí una sola vez: '</' dentro de un <script> inline cerraría la etiqueta antes de tiempo.
 const headScript = fs.existsSync(headJs) ? fs.readFileSync(headJs, 'utf8').trim().replace(/<\//g, '<\\/') : '';
 
+/** Hash corto del contenido de cada fichero versionado (lo rellena main() al generarlos, antes de las páginas). */
+const versions = {};
+const shortHash = (data) => createHash('sha256').update(data).digest('hex').slice(0, 10);
+
 const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
 
 /** Contexto de render (forma en src/templates/README.md). Igual para todos los partials de una página. */
@@ -47,7 +52,8 @@ function makeCtx(locale, home) {
   };
   const tr = (item) => (typeof item === 'string' ? esc(item) : t(item.i18n));
   const alternates = Object.fromEntries(site.locales.map((l) => [l.code, l.path]));
-  const asset = (p) => '/' + String(p).replace(/^\/+/, ''); // ruta absoluta desde la raíz de dist/
+  // Ruta absoluta desde la raíz de dist/; styles.css y main.js llevan ?v=<hash> para la caché de 1 año (nginx.conf).
+  const asset = (p) => { const rel = String(p).replace(/^\/+/, ''); return '/' + rel + (versions[rel] ? `?v=${versions[rel]}` : ''); };
   return { locale, t, facts, esc, tr, years, today, headScript, paths: { home, alternates, asset } };
 }
 
@@ -126,15 +132,18 @@ function render(out, fn, ctx) {
 async function main() {
   fs.rmSync(DIST, { recursive: true, force: true });
   const partials = await loadPartials();
+  // CSS y JS primero: su hash entra en las URL de las páginas (cambia el contenido → cambia la URL).
+  const css = concatCss(), js = fs.readFileSync(fromRoot('src/scripts/main.js'));
+  write('styles.css', css);
+  write('main.js', js);
+  Object.assign(versions, { 'styles.css': shortHash(css), 'main.js': shortHash(js) });
   for (const l of site.locales) {
     const dir = l.path.replace(/^\/+/, '');
     render(`${dir}index.html`, partials.layout, makeCtx(l.code, l.path));
     render(`${dir}404.html`, partials['not-found'], makeCtx(l.code, l.path)); // Nginx elige la del idioma de la ruta
   }
   render('index.html', partials['language-picker'], makeCtx(site.defaultLocale, '/'));
-  write('styles.css', concatCss());
   write('sitemap.xml', sitemap());
-  fs.copyFileSync(fromRoot('src/scripts/main.js'), path.join(DIST, 'main.js'));
   const copied = copyDir(fromRoot('assets'), path.join(DIST, 'assets')) + copyDir(fromRoot('src/static'), DIST);
   console.log(`build · ${site.locales.length + 1} páginas, ${copied} ficheros copiados, {years}=${years} · ${Math.round(performance.now() - started)} ms`);
   // El build no termina hasta que la guardia de contenido y privacidad pasa sobre la salida (CONTRACTS.md §7).
