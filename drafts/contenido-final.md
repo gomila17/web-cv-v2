@@ -349,7 +349,7 @@ Decisiones, cada una en formato problema → decisión → por qué (`.decisions
 - ES: Módulos destacados: Java, JavaScript, Angular, bases de datos relacionales, despliegue web.
 - EN: Key modules: Java, JavaScript, Angular, relational databases, web deployment.
 
-**CFGM Administración de Sistemas Informáticos en Red (ASIR)** (`education.asir`)
+**CFGM Sistemas Microinformáticos y Redes (SMR)** (`education.smr`; corregido por Toni el 2026-10-15: el CV decía ASIR por error)
 - IES Biel Martí, Menorca · sept 2019 – dic 2020 · Sep 2019 – Dec 2020
 - Nota media · Average grade: 7/10
 

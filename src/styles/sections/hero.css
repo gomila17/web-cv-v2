@@ -33,10 +33,10 @@
 .photo--cutout .pic img{position:absolute;z-index:1;left:0;bottom:0;width:100%;height:calc(100% * (1 + var(--head-pop)));object-fit:cover;object-position:50% 100%;transform:none;filter:var(--cut-filter);border-radius:0 0 50% 50% / 0 0 calc(50% / (1 + var(--head-pop))) calc(50% / (1 + var(--head-pop)))}
 
 .eyebrow{font-family:var(--mono);font-size:.8rem;letter-spacing:.08em;text-transform:uppercase;color:var(--accent-ink);margin:0 0 14px;animation:slide-in .8s var(--ease) .15s backwards}
-.hero h1{font-size:var(--fs-hero);max-width:16ch;animation:rise 1s var(--ease) .25s backwards}
+.hero h1{font-size:var(--fs-hero);max-width:16ch;animation:rise-lcp 1s var(--ease) .1s backwards}
 .hero h1 em{font-style:normal;padding-bottom:.04em;background:linear-gradient(var(--accent),var(--accent)) 0 100%/100% .07em no-repeat;-webkit-box-decoration-break:clone;box-decoration-break:clone;animation:underline-in .9s var(--ease) .85s backwards}
 .sub{font-size:var(--fs-sub);color:var(--muted);margin:20px 0 14px;max-width:44ch;animation:rise .9s var(--ease) .45s backwards}
-.value{max-width:58ch;animation:rise .9s var(--ease) .55s backwards}
+.value{max-width:58ch;animation:rise-lcp .9s var(--ease) .2s backwards}
 .ai-note{display:inline-flex;align-items:center;gap:.6rem;font-family:var(--mono);font-size:.82rem;color:var(--muted);margin:8px 0 28px;animation:fade .8s ease-out .7s backwards}
 .ai-note::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--violet);flex:none;animation:pop .6s var(--pop) .8s backwards}
 .hero .links li{animation:pop-up .7s var(--pop) backwards}

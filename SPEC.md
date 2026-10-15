@@ -40,7 +40,7 @@ Una página principal + páginas de detalle para los proyectos.
    - Homelab (arquitectura, CG-NAT + Cloudflare Tunnel, por qué cada decisión).
    - Esta web y cómo se hizo con agentes.
 5. **Stack y certificaciones**: por nivel (uso diario / conozco / exploro). Certificaciones: Oracle Java SE 8 (mar 2026), Claude Code 101 (abr 2026), ThePower (nov 2023).
-6. **Formación**: CFGS DAW, CFGM ASIR.
+6. **Formación**: CFGS DAW, CFGM SMR (Sistemas Microinformáticos y Redes).
 7. **Contacto**.
 
 Hueco previsto, no en v1: notas/blog, "ahora estoy aprendiendo".

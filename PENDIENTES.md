@@ -20,15 +20,15 @@ Lista viva de lo que queda por hacer o decidir. Fuente: revisión de la fase 5 (
 - [ ] CI: fijar las acciones a SHA, usar Node 21 como en el contrato (hoy `lts/*`), evitar que relanzar un workflow antiguo haga rollback; la respuesta de `/` sale sin CSP por el `add_header` de su `location`.
 - [ ] Tests que faltan: regla de idioma, fechas y salida de `dist/`.
 
-## Decisiones de Toni
+## Decisiones de Toni (resueltas el 2026-10-15)
 
-- [ ] **"CFGM ASIR"**: ASIR es un ciclo de grado superior; ¿es un error del CV?
-- [ ] **Diagrama del homelab**: muestra qué servicios llegan desde Internet (n8n, Vikunja, openGym). ¿Se acepta?
-- [ ] **Entrada del hero**: arranca invisible y retrasa el LCP (1,3–1,5 s). ¿Suavizarla para que el texto aparezca antes?
+- [x] **Formación**: era un CFGM de Sistemas Microinformáticos y Redes (SMR), no ASIR. Corregido en la web y en el contenido. **Falta corregirlo también en el CV en PDF.**
+- [x] **Diagrama del homelab**: se mantienen los nombres de los servicios. Ya son públicos en el README de GitHub, están detrás de autenticación propia y el diagrama no da direcciones, versiones ni accesos: no añade riesgo. Si en el futuro se expone algo sin autenticación, quitarlo del diagrama.
+- [x] **Entrada del hero**: el titular y la propuesta de valor ya no parten de opacidad 0, solo se desplazan, y empiezan antes: el texto principal se ve desde el primer fotograma.
 
 ## Contenido y materiales
 
-- [ ] PDF del CV **sin teléfono ni metadatos**, y su botón "Descargar CV". El CV provisional tiene el teléfono y la experiencia que no se publica: ambos fuera.
+- [ ] PDF del CV **sin teléfono ni metadatos**, y su botón "Descargar CV". El CV provisional tiene el teléfono y la experiencia que no se publica (ambos fuera) y pone ASIR donde es SMR.
 - [ ] Spring Boot: decidir si va en "conozco" o fuera.
 - [ ] Capturas de homepanel sin datos sensibles (opcional).
 

@@ -103,8 +103,8 @@
       "i18n": { "meta": "ed.1a", "grade": "ed.1g", "modules": "ed.1m" }
     },
     {
-      "id": "asir",
-      "title": "CFGM Administración de Sistemas Informáticos en Red (ASIR)",
+      "id": "smr",
+      "title": "CFGM Sistemas Microinformáticos y Redes (SMR)",
       "school": "IES Biel Martí",
       "city": "Menorca",
       "start": "2019-09",

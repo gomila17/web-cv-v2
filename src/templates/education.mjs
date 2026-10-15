@@ -1,6 +1,6 @@
 /**
  * Partial: education
- * Sección 07 Formación (#formacion): títulos (DAW, ASIR) con centro, fechas y nota, e idiomas.
+ * Sección 07 Formación (#formacion): títulos (DAW, SMR) con centro, fechas y nota, e idiomas.
  *
  * Claves de content/<locale>.json: ed.sec, ed.avg, ed.lang (+ las ed.* a las que apunta facts: meta, grade, modules, name, level)
  * Datos de facts.json: facts.education (title, grade, i18n), facts.languages (level, i18n)
