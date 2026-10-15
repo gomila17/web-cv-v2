@@ -2,12 +2,12 @@
 
 Lista viva de lo que queda por hacer o decidir. Fuente: revisión de la fase 5 (informes en `drafts/privado/revision/`, fuera del repo) y acuerdos con Toni. Se actualiza al cerrar cada bloque.
 
-## Fase 5: correcciones que faltan (bloque B)
+## Fase 5: bloque B (hecho el 2026-10-15)
 
-- [ ] **Animaciones infinitas** (paquetes del diagrama, pulsos, manchas del hero): pararlas al salir de pantalla o tras unos ciclos, o dar un control (WCAG 2.2.2).
-- [ ] **Foto en WebP**: de ~156 KB a ~14 KB; la primera visita pasa de ~186 KB a ~44 KB.
-- [ ] **Versión en CSS y JS** (`?v=<hash>` desde `paths.asset`) y caché de 1 año con `immutable` en Nginx.
-- [ ] **h1 con el nombre** ("Toni Gomila" + rol), como pide la estrategia SEO, sin cambiar el aspecto.
+- [x] Animaciones finitas: manchas del hero un recorrido, pulsos 3 latidos, paquetes del diagrama 3 viajes; se pausan fuera de pantalla.
+- [x] Foto en WebP con transparencia: de 159.580 a 14.166 bytes; /es/ sin comprimir de 266 KB a 122 KB.
+- [x] `?v=<hash>` en CSS y JS, y caché de 1 año con `immutable` en Nginx.
+- [x] El h1 incluye el nombre (sin cambios visuales). Sugerencia abierta: el texto dice "Antonio (Toni) Gomila · Barcelona"; para el SEO del nombre ayudaría "Toni Gomila" seguido literal (p. ej. "Toni Gomila · Backend Developer · Barcelona"). Decisión de Toni.
 
 ## Fase 5: menores y limpieza (bloque C, aplazado a petición de Toni: recordárselo)
 
