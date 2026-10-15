@@ -19,7 +19,7 @@ function runOnCopy(mutate, env = {}) {
   try {
     for (const f of ['es.json', 'en.json', 'facts.json']) fs.copyFileSync(path.join(ROOT, 'content', f), path.join(dir, f));
     if (mutate) mutate(dir);
-    const r = spawnSync(process.execPath, [SCRIPT, '--content', dir], { encoding: 'utf8', env: { ...process.env, PRIVACY_TERMS: '', ...env } });
+    const r = spawnSync(process.execPath, [SCRIPT, '--content', dir], { encoding: 'utf8', env: { ...process.env, PRIVACY_TERMS: '', PRIVACY_TERMS_FILE: path.join(dir, 'no-existe'), ...env } });
     return { code: r.status, out: r.stdout + r.stderr };
   } finally {
     fs.rmSync(dir, { recursive: true, force: true });

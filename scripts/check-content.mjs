@@ -65,7 +65,8 @@ function* strings(value, where) {
 
 function loadPrivacyTerms() {
   const terms = [];
-  const file = path.join(ROOT, '.privacy-terms');
+  // PRIVACY_TERMS_FILE cambia la ruta (los tests la apuntan a un fichero inexistente para no mezclar la lista local).
+  const file = process.env.PRIVACY_TERMS_FILE || path.join(ROOT, '.privacy-terms');
   if (fs.existsSync(file)) {
     for (const line of fs.readFileSync(file, 'utf8').split(/\r?\n/)) {
       const t = line.trim();
