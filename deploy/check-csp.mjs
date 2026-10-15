@@ -20,8 +20,12 @@ const htmlFiles = (dir) => fs.readdirSync(dir, { withFileTypes: true }).flatMap(
 });
 
 if (!fs.existsSync(DIST)) { console.error(`check-csp: no existe ${DIST} (¿falta npm run build?)`); process.exit(1); }
-const csp = fs.readFileSync(NGINX, 'utf8').match(/add_header\s+Content-Security-Policy\s+"([^"]+)"/)?.[1];
-if (!csp) { console.error('check-csp: no encuentro la cabecera Content-Security-Policy en deploy/nginx.conf'); process.exit(1); }
+// Puede haber varias copias (la del server y la de `location = /`, que repite las cabeceras porque su add_header
+// descarta las heredadas): deben ser idénticas, para que ninguna respuesta lleve una CSP distinta.
+const csps = [...fs.readFileSync(NGINX, 'utf8').matchAll(/add_header\s+Content-Security-Policy\s+"([^"]+)"/g)].map((m) => m[1]);
+if (!csps.length) { console.error('check-csp: no encuentro la cabecera Content-Security-Policy en deploy/nginx.conf'); process.exit(1); }
+if (new Set(csps).size > 1) { console.error('check-csp: las copias de la cabecera Content-Security-Policy de deploy/nginx.conf no son idénticas'); process.exit(1); }
+const csp = csps[0];
 
 const needed = new Map(); // hash → ficheros
 const handlers = new Map(); // manejadores en atributos on*: necesitan además 'unsafe-hashes'

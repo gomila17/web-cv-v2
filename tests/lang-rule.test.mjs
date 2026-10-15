@@ -24,6 +24,14 @@ test('head.js, dev.mjs y nginx.conf usan la misma alternancia de idiomas con sus
   assert.match(nginx, /map \$http_accept_language \$web_cv_lang_browser \{\s*""\s+es;/);
 });
 
+test('nginx.conf: la redirección de / lleva las mismas cabeceras de seguridad que el server', () => {
+  const nginx = read('deploy/nginx.conf');
+  const block = nginx.match(/location = \/ \{[\s\S]*?\n    \}/)[0];
+  for (const h of ['Content-Security-Policy', 'X-Content-Type-Options', 'X-Frame-Options', 'Referrer-Policy', 'Permissions-Policy', 'Cross-Origin-Opener-Policy']) {
+    assert.match(block, new RegExp(`add_header ${h} `), `location = / sin ${h}`);
+  }
+});
+
 let server, port;
 const freePort = () => new Promise((res) => { const s = net.createServer().listen(0, '127.0.0.1', () => { const p = s.address().port; s.close(() => res(p)); }); });
 const get = (headers) => new Promise((res, rej) => {
