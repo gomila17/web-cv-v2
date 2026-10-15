@@ -15,7 +15,7 @@ Funciona igual con un generador propio (importa y llama) que con Eleventy (plant
 | `years` | número | Años completos desde `facts.career.start` hasta la fecha del build. |
 | `today` | `'AAAA-MM'` | Mes del build. Solo para cerrar el tramo en curso de la cota de experiencia (la etapa con `end: null`). |
 | `headScript` | string | Contenido de `src/scripts/head.js` (vacío si no existe). Ya escapado en el build (`</` pasa a `<\/`): se inserta tal cual en un `<script>` inline antes de pintar. |
-| `paths` | objeto | `{ home, alternates: { es, en }, asset(ruta) }`: URLs de la página actual, de sus equivalentes y de los recursos. `asset('assets/foto.jpg')` → `/assets/foto.jpg`; `styles.css` y `main.js` salen con `?v=<hash del contenido>` para la caché larga (absoluta desde la raíz del sitio: hay que verlo con `npm run dev`, no con `file://`). |
+| `paths` | objeto | `{ home, alternates: { es, en }, asset(ruta) }`: URLs de la página actual, de sus equivalentes y de los recursos. `asset('assets/foto-recorte.webp')` → `/assets/foto-recorte.webp`; `styles.css` y `main.js` salen con `?v=<hash del contenido>` para la caché larga (absoluta desde la raíz del sitio: hay que verlo con `npm run dev`, no con `file://`). |
 
 Reglas: funciones puras (sin E/S, sin estado global, sin fecha actual: usan `years` y `today`). Un solo `h1` (en `hero`). Ids de sección y clases, los de la v6. Las claves de cada partial están en su cabecera; si necesitas una nueva, sigue `CONTRACTS.md` §2.
 Quién lo toca: subagente de plantillas; `head.mjs`, del de SEO; `layout.mjs` y `language-picker.mjs`, del integrador.

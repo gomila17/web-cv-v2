@@ -12,8 +12,8 @@ src/templates/  un partial .mjs por sección (render(ctx) → HTML)
 src/styles/     tokens.css + capas CSS (orden en §4)
 src/scripts/    head.js (inline) y main.js
 src/static/     copiado tal cual a la raíz de dist/ (robots.txt, favicon, tarjeta)
-assets/         foto y logo (se mantiene: PRODUCT y DESIGN ya fijan esas rutas)
-scripts/        herramientas de Node: validador y build
+assets/         foto recortada (foto-recorte.webp) y logo; foto.jpg y foto-recorte.png se mantienen como fuente o metadatos (se mantiene: PRODUCT y DESIGN ya fijan esas rutas)
+scripts/        herramientas de Node: build, validador (check-content), fechas (dates.mjs) y servidor de desarrollo (dev.mjs)
 tests/          node:test, sin dependencias
 deploy/         Nginx, timer de usuario y script de releases (+ .github/workflows/)
 dist/           salida del build (ignorada)
@@ -23,7 +23,7 @@ Por qué así: una carpeta por tipo de trabajo, así cada subagente edita ficher
 
 ## 2. Contenido
 
-**`es.json` / `en.json`**: objeto plano `{ "clave": "texto" }`, mismas claves en el mismo orden. 196 claves: las 180 de la v6, sin renombrar, más 16 nuevas (`th.*`, `a.newtab`, `num.words`, `st.c3t`, `st.c3`, `st.verify`, `n.hm`, `n.stack`, `nf.*` de la 404).
+**`es.json` / `en.json`**: objeto plano `{ "clave": "texto" }`, mismas claves en el mismo orden. 196 claves por idioma, idénticas en ES y EN (contadas con `node` el 2026-10-15): las de la v6 sin renombrar, más las nuevas (`th.*`, `a.newtab`, `num.words`, `st.c3t`, `st.c3`, `st.verify`, `n.hm`, `n.stack`, `nf.*` de la 404).
 - HTML en línea permitido: `em`, `strong`, `b`, `code`, `br`, y las mismas etiquetas en los dos idiomas. Se inserta sin escapar.
 - Hueco permitido: `{years}` (años completos desde `facts.career.start`; el build lo sustituye por la palabra de `num.words`, o por cifras si pasa de diez).
 - `t.title` y `t.desc` son el `<title>` y la meta descripción de cada idioma.
@@ -41,7 +41,7 @@ Por qué así: una carpeta por tipo de trabajo, así cada subagente edita ficher
 | `e.*`, `k.*` | experiencia (`e.s/d/i` puesto, `.w` fechas, `.1…` viñetas) y fechas de la cota | `t.*`, `num.*` | título/descripción; utilidades |
 
 **`facts.json`**: lo único y no traducible. Campos que el validador exige:
-`person{name, fullName, role, city, email}` · `site{url, defaultLocale, locales[{code,label,name,path}]}` · `links{linkedin, github, homepanelRepo}` · `career{start: AAAA-MM, stages[{id, title, short, start, end|null, tech[]}]}` · `certifications[{id, name, issuer, date: AAAA-MM-DD, verifyUrl}]` · `stack{daily[], known[], exploring[]}` (+ `trainingOnly[]`) · `languages[{code, level}]`. También `projects.homepanel` y `education[]`.
+`person{name, fullName, role, city, email}` · `site{url, defaultLocale, locales[{code,label,name,path}]}` · `links{linkedin, github, homepanelRepo}` (los tres son obligatorios y deben ser `https://`; `homepanelRepo` lo exige `check-content.mjs`) · `career{start: AAAA-MM, stages[{id, title, short, start, end|null, tech[]}]}` · `certifications[{id, name, issuer, date: AAAA-MM-DD, verifyUrl}]` · `stack{daily[], known[], exploring[]}` · `languages[{code, level}]`. También `projects.homepanel` y `education[]`. `stack.trainingOnly` ya no existe.
 Un elemento de lista es un literal (`"Java 8"`) o una referencia `{ "i18n": "st.tune" }`; los objetos con `"i18n": {…}` apuntan a claves de los diccionarios, y deben existir.
 
 **¿facts o es/en?** Si cambia con el idioma → es/en. Nombres propios, URLs, fechas ISO, tecnologías y notas → facts. Las fechas *mostradas* ("mar 2026") son texto de cada idioma y deben coincidir con las ISO de facts (lo vigila la revisión).
@@ -68,8 +68,9 @@ Un elemento de lista es un literal (`"Java 8"`) o una referencia `{ "i18n": "st.
 
 ## 5. Partials (`src/templates/*.mjs`)
 
-Un partial por sección: `export default function render(ctx) → string`, función pura. `ctx = { locale, t(key), facts, esc(s), tr(item), years, today, headScript, paths }` (detalle en `src/templates/README.md`). `t()` devuelve HTML de confianza; cualquier valor de `facts` pasa por `esc()`. Cada cabecera de partial lista sus claves y datos.
-Partials: `layout`, `head`, `header`, `hero`, `about`, `pillars`, `experience`, `project`, `homelab`, `homelab-diagram` (única fuente del diagrama), `stack`, `education`, `footer`, `totop`, `language-picker` (página `/`: respaldo de la redirección automática de idioma), `not-found` (404 de cada idioma, `es/404.html` y `en/404.html`).
+Un partial por sección: `export default function render(ctx) → string`, función pura. `ctx = { locale, t(key), facts, esc(s), tr(item), years, today, headScript, paths }` (lo construye `makeCtx` en `scripts/build.mjs`; detalle en `src/templates/README.md`). `today` es el mes del build (`AAAA-MM`, UTC) y `headScript` ya viene escapado (`</` pasa a `<\/`).
+Fechas (`scripts/dates.mjs`): todo se calcula en UTC, así el resultado no depende de la zona horaria de la máquina. `buildDate()` usa `SOURCE_DATE_EPOCH` si existe; `fullYears` da los años completos (`{years}`); `monthOf` da el mes del tramo en curso de la cota. `t()` devuelve HTML de confianza; cualquier valor de `facts` pasa por `esc()`. Cada cabecera de partial lista sus claves y datos.
+Partials: `layout`, `head`, `header`, `hero`, `about`, `pillars`, `experience`, `project`, `homelab`, `homelab-diagram` (única fuente del diagrama), `stack`, `education`, `footer`, `totop`, `language-picker` (página `/`: respaldo de la redirección automática de idioma), `not-found` (`src/templates/not-found.mjs`: 404 de cada idioma, que el build escribe en `es/404.html` y `en/404.html`).
 
 **Decisiones de la integración del generador:** las rutas de recursos son absolutas desde la raíz del sitio (`paths.asset`), así que se revisa con `npm run dev`, no abriendo el HTML con `file://`. El selector de idioma son **enlaces** (`<a aria-current>` a la página equivalente), no botones: el CSS usa `.lang a`. El conmutador de tema sale con `hidden` hasta que `main.js` lo active (sin JS no hace nada).
 

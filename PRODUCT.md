@@ -28,8 +28,10 @@ Directa, honesta, sin inflar. Nada de clichés de CV. Lo que se explora se etiqu
 - Estática, mantenimiento mínimo (ver `ARCHITECTURE.md`).
 
 ## Evidencia y activos
-- Foto: `assets/foto.jpg`. Logo: `assets/logo.svg` (monograma "tg", gris `#EDEDED`, marino `#202A42`, índigo `#526DE5`).
-- Diagrama del homelab: `drafts/diseno/homelab-diagrama.svg`.
+- Foto principal del hero: `assets/foto-recorte.webp` (WebP con alfa, generado desde la fuente `assets/foto-recorte.png`). Ya no hay respaldo a `assets/foto.jpg`: ese fichero sigue en `assets/` solo como imagen de metadatos (`og:image` en `head.mjs`).
+- Logo: `assets/logo.svg` (monograma "tg", gris `#EDEDED`, marino `#202A42`, índigo `#526DE5`).
+- Diagrama del homelab: única fuente `src/templates/homelab-diagram.mjs` (SVG en línea). El fichero `drafts/diseno/homelab-diagrama.svg` está desactualizado y no se usa.
+- Textos y datos publicados: `content/es.json`, `content/en.json` y `content/facts.json`. `drafts/contenido-final.md` es el borrador de origen de la redacción.
 
 ## Decisiones de dirección ya tomadas por Toni
 - Tema claro basado en la dirección A y tema oscuro basado en la B (le gustó mucho el oscuro de B y no el oscuro de A: demasiado azul-violeta).
