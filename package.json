@@ -11,6 +11,6 @@
     "build": "node scripts/build.mjs",
     "dev": "node scripts/dev.mjs",
     "check": "node scripts/check-content.mjs",
-    "test": "node --test tests/check-content.test.mjs"
+    "test": "node --test --test-concurrency=1 tests/*.test.mjs"
   }
 }

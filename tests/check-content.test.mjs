@@ -104,3 +104,21 @@ test('falla si el HTML en línea o los huecos difieren entre idiomas', () => {
   assert.equal(runOnCopy((d) => edit(d, 'en.json', (j) => { j['a.p1'] = j['a.p1'].replace('{years}', 'four'); })).code, 1);
   assert.equal(runOnCopy((d) => edit(d, 'es.json', (j) => { j['h.ai'] += ' <script>x</script>'; })).code, 1);
 });
+
+test('falla si a la formación le falta la clave de centro y fechas, o a una certificación su meta', () => {
+  const a = runOnCopy((d) => edit(d, 'facts.json', (j) => { delete j.education[0].i18n.meta; }));
+  assert.equal(a.code, 1);
+  assert.match(a.out, /education\[0\]\.i18n\.meta/);
+  const b = runOnCopy((d) => edit(d, 'facts.json', (j) => { delete j.certifications[0].i18n; }));
+  assert.equal(b.code, 1);
+  assert.match(b.out, /certifications\[0\]\.i18n\.meta/);
+});
+
+test('falla si una nota de formación no trae valor y escala, o a un idioma le falta su nombre', () => {
+  const a = runOnCopy((d) => edit(d, 'facts.json', (j) => { delete j.education[1].grade.scale; }));
+  assert.equal(a.code, 1);
+  assert.match(a.out, /education\[1\]\.grade/);
+  const b = runOnCopy((d) => edit(d, 'facts.json', (j) => { delete j.languages[0].i18n; }));
+  assert.equal(b.code, 1);
+  assert.match(b.out, /languages\[0\]\.i18n\.name/);
+});
