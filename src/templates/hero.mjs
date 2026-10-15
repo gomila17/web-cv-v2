@@ -1,6 +1,6 @@
 /**
  * Partial: hero
- * Hero: h1 único con el nombre (eyebrow: fullName · city) y el titular en dos spans (SEO: nombre y rol en el h1), subtítulo, valor, nota IA, botones (proyectos, LinkedIn, GitHub, Email), foto recortada con respaldo a foto.jpg, capas decorativas aria-hidden.
+ * Hero: h1 único con el nombre (eyebrow: fullName · city) y el titular en dos spans (SEO: nombre y rol en el h1), subtítulo, valor, nota IA, botones (proyectos, LinkedIn, GitHub, Email), foto recortada (WebP con alfa), capas decorativas aria-hidden.
  *
  * Claves de content/<locale>.json: h.*
  * Datos de facts.json: facts.person, facts.links
@@ -31,7 +31,6 @@ const DECOR = `<div class="par p1" aria-hidden="true"><span class="orb o1"></spa
 export default function render(ctx) {
   const { t, esc, facts, paths } = ctx;
   const { person, links } = facts;
-  // Si foto-recorte.png no carga, se cambia a foto.jpg y se quita el disco (respaldo de la v6).
   return `<div class="hero-band" id="top">
     ${DECOR}
     <div class="wrap">

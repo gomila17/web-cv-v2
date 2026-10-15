@@ -62,7 +62,6 @@
   "stack": {
     "daily": ["Java 8", "Spring Framework", "JPA", "Oracle Database", "SQL", "PL/SQL", { "i18n": "st.tune" }, "REST", "SOAP", "SoapUI", "ExtJS", "Maven", "Git", "IntelliJ IDEA", "Scrum"],
     "known": ["Docker", "Portainer", "Proxmox", "Debian", "Linux", "Cloudflare Tunnel", "Nginx Proxy Manager", "AdGuard Home", "Tailscale", "n8n", "Python", "FastAPI", "htmx", "Claude Code", { "i18n": "st.agents" }],
-    "trainingOnly": ["Angular", "Ionic", "NestJS"],
     "exploring": [{ "i18n": "st.x1" }, { "i18n": "st.x2" }, { "i18n": "st.x3" }, { "i18n": "st.x4" }]
   },
   "certifications": [

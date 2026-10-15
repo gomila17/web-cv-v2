@@ -34,7 +34,7 @@
 .hl-line{fill:none;stroke:var(--muted);stroke-width:1.4;opacity:.6}
 .hl-dash{fill:none;stroke:var(--muted);stroke-width:1.4;stroke-dasharray:3 4;opacity:.8}
 .hl-arrow{fill:var(--muted)}
-.s-acc{stroke:var(--accent)}.s-vio{stroke:var(--violet)}.s-ok{stroke:var(--ok)}.s-warn{stroke:var(--warn)}.s-org{stroke:var(--orange)}.s-mut{stroke:var(--line)}
+.s-acc{stroke:var(--accent)}.s-vio{stroke:var(--violet)}.s-ok{stroke:var(--ok)}.s-org{stroke:var(--orange)}.s-mut{stroke:var(--line)}
 .f-org{fill:var(--orange)}.f-acc{fill:var(--accent)}
 text.f-acc{fill:var(--accent-ink)} /* como texto, --accent no llega a AA en claro (4,34:1) */.f-vio{fill:var(--violet)}.f-ok{fill:var(--ok)}
 /* Paquetes de flujo: círculos que viajan por transform (cada tramo es recto; --dx --dy --dl en el SVG).
