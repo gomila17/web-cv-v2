@@ -38,8 +38,9 @@
 .f-org{fill:var(--orange)}.f-acc{fill:var(--accent)}
 text.f-acc{fill:var(--accent-ink)} /* como texto, --accent no llega a AA en claro (4,34:1) */.f-vio{fill:var(--violet)}.f-ok{fill:var(--ok)}
 /* Paquetes de flujo: círculos que viajan por transform (cada tramo es recto; --dx --dy --dl en el SVG).
-   Corren sin JS; con html.anim esperan a que el diagrama se encienda (motion.css). */
-.hl-dot{opacity:0;animation:hl-go 3.4s linear infinite;animation-delay:var(--dl,0s)}
+   Tres viajes y se apagan (WCAG 2.2.2: nada se mueve sin fin); quedan las flechas estáticas. Corren sin JS;
+   con html.anim esperan a que el diagrama se encienda y se pausan fuera de pantalla (motion.css). */
+.hl-dot{opacity:0;animation:hl-go 3.4s linear 3;animation-delay:var(--dl,0s)}
 
 /* Decisiones: problema → decisión → por qué */
 .sub-h{font-size:1.3rem;margin:44px 0 6px}

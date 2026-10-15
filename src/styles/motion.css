@@ -57,6 +57,10 @@ html.anim .level:not(.in) .tags li{opacity:0}
 html.anim .level.in .tags li{animation:pop .5s var(--pop) calc(var(--k,0) * 28ms + .25s) backwards}
 /* Paquetes del diagrama: solo cuando el diagrama ya está encendido (.lit, main.js) */
 html.anim .fig:not(.lit) .hl-dot{animation-play-state:paused}
+/* Bucles con fin (WCAG 2.2.2): manchas y pulso del hero, pulso de la cota y paquetes tienen ciclos finitos
+   y solo avanzan con su bloque a la vista (.play, main.js); así no se gastan fuera de pantalla. */
+html.anim .hero-band:not(.play) .orb,html.anim .hero-band:not(.play) .net .ping,
+html.anim .cota:not(.play) .nd.now::after,html.anim .fig:not(.play) .hl-dot{animation-play-state:paused}
 html.anim .fig.lit .hl-dot{animation-delay:calc(var(--dl,0s) + .4s)}
 
 /* ---------- 3. Scroll: tres momentos fuertes (parallax del hero, cota, diagrama) y sutiles ----------
