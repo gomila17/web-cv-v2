@@ -82,9 +82,9 @@ function privacyIssues(text, terms) {
   const issues = [];
   const plain = text.replace(URL_RE, ' ');
   const ip = text.match(PRIVATE_IP_RE);
-  if (ip) issues.push(`IP privada (${ip[0]})`);
+  if (ip) issues.push(`IP privada (carácter ${ip.index})`);
   const phone = plain.match(PHONE_RE);
-  if (phone) issues.push(`posible teléfono (${phone[0].trim()})`);
+  if (phone) issues.push(`posible teléfono (carácter ${phone.index})`);
   const folded = fold(text);
   terms.forEach((t, i) => { if (folded.includes(t)) issues.push(`término privado n.º ${i + 1} de la lista local`); });
   return issues;
@@ -212,6 +212,12 @@ if (scanPaths.length) {
     const text = raw.replace(/<style[\s\S]*?<\/style>/gi, ' ').replace(/<[^>]*>/g, ' ');
     const rel = path.relative(ROOT, p);
     if (MARKER_RE.test(raw)) cScan.errors.push(`${rel}: marca [FALTA]/[REVISAR]`);
+    if (/href\s*=\s*["']?\s*tel:/i.test(raw)) cScan.errors.push(`${rel}: enlace tel:`);
+    // Valores de atributos que no son geometría ni estilo (d, points, viewBox, transform, style… tienen números largos).
+    for (const m of raw.matchAll(/\s([a-zA-Z:-]+)\s*=\s*"([^"]*)"/g)) {
+      if (/^(d|points|viewbox|transform|style|x\d?|y\d?|cx|cy|r|width|height|offset|stroke-dasharray|integrity|content-security-policy)$/i.test(m[1])) continue;
+      if (PHONE_RE.test(m[2].replace(URL_RE, ' '))) { cScan.errors.push(`${rel}: posible teléfono en el atributo ${m[1]}`); break; }
+    }
     for (const issue of new Set([...privacyIssues(text, terms), ...privacyIssues(raw, terms).filter((i) => !i.startsWith('posible teléfono'))])) cScan.errors.push(`${rel}: ${issue}`);
   };
   scanPaths.forEach(visit);

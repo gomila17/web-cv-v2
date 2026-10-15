@@ -16,14 +16,16 @@ const THEME_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" s
 export default function render(ctx) {
   const { t, esc, facts, locale, paths } = ctx;
   const attr = (key) => esc(t(key));
+  // Fuera de la portada (404) las anclas necesitan la ruta de la portada del idioma.
+  const base = ctx.linkBase ? esc(ctx.linkBase) : '';
   const nav = [['sobre-mi', t('n.about')], ['que-hago', t('n.what')], ['experiencia', t('n.exp')],
     ['proyectos', t('n.proj')], ['homelab', t('n.hm')], ['stack', t('n.stack')]]
-    .map(([id, label]) => `      <a href="#${id}">${label}</a>`).join('\n');
+    .map(([id, label]) => `      <a href="${base}#${id}">${label}</a>`).join('\n');
   const langs = facts.site.locales.map((l) => `        <a href="${esc(paths.alternates[l.code])}" hreflang="${esc(l.code)}" lang="${esc(l.code)}" aria-label="${esc(l.name)}"${l.code === locale ? ' aria-current="true"' : ''}>${esc(l.label)}</a>`).join('\n');
   const themeData = ['auto', 'light', 'dark', 'pre', 'sys', 'post'].map((k) => ` data-${k}="${attr(`th.${k}`)}"`).join('');
   return `<header class="topbar">
   <div class="wrap top">
-    <a class="mark" href="#top" aria-label="${attr('a.home')}">tg</a>
+    <a class="mark" href="${base}#top" aria-label="${attr('a.home')}">tg</a>
     <nav aria-label="${attr('a.nav')}">
 ${nav}
     </nav>

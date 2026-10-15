@@ -34,7 +34,7 @@ export default function render(ctx) {
 <meta property="og:image" content="${abs('/og.png')}">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="627">
-<meta name="twitter:card" content="summary_large_image">${headScript ? `\n<script>${headScript.replace(/<\//g, '<\\/')}</script>` : ''}
+<meta name="twitter:card" content="summary_large_image">${headScript ? `\n<script>${headScript}</script>` : ''}
 <link rel="canonical" href="${abs('/')}">
 ${alternates}
 <link rel="alternate" hreflang="x-default" href="${abs('/')}">

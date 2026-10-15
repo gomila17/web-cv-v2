@@ -120,7 +120,7 @@ export default function render(ctx) {
     .map((l) => `<meta property="og:locale:alternate" content="${esc(OG_LOCALE[l.code] ?? l.code)}">`)
     .join('\n');
   // head.js va inline y antes de pintar (fija el tema sin parpadeo). "</" se rompe por si acaso.
-  const script = headScript ? `\n<script>${headScript.replace(/<\//g, '<\\/')}</script>` : '';
+  const script = headScript ? `\n<script>${headScript}</script>` : '';
 
   return `<meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">

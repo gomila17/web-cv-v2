@@ -31,7 +31,8 @@ function fullYears(start, date) {
 const years = fullYears(facts.career.start, now);
 const today = now.toISOString().slice(0, 7); // 'AAAA-MM': fin del tramo en curso de la cota
 const headJs = fromRoot('src/scripts/head.js');
-const headScript = fs.existsSync(headJs) ? fs.readFileSync(headJs, 'utf8').trim() : '';
+// Escapado aquí una sola vez: '</' dentro de un <script> inline cerraría la etiqueta antes de tiempo.
+const headScript = fs.existsSync(headJs) ? fs.readFileSync(headJs, 'utf8').trim().replace(/<\//g, '<\\/') : '';
 
 const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
 
@@ -88,7 +89,7 @@ function sitemap() {
   const abs = (p) => site.url.replace(/\/+$/, '') + p, day = now.toISOString().slice(0, 10);
   const alts = site.locales.map((l) => `    <xhtml:link rel="alternate" hreflang="${l.code}" href="${abs(l.path)}"/>`)
     .concat(`    <xhtml:link rel="alternate" hreflang="x-default" href="${abs('/')}"/>`).join('\n');
-  const urls = ['/', ...site.locales.map((l) => l.path)]
+  const urls = site.locales.map((l) => l.path)
     .map((p) => `  <url>\n    <loc>${abs(p)}</loc>\n    <lastmod>${day}</lastmod>\n${alts}\n  </url>`).join('\n');
   return '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" '
     + `xmlns:xhtml="http://www.w3.org/1999/xhtml">\n${urls}\n</urlset>\n`;

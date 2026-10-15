@@ -27,6 +27,7 @@ http.createServer((req, res) => {
     const l = c ? c[1] : (!a || /^\s*(es|ca|gl|eu)\b/.test(a) ? 'es' : 'en');
     res.writeHead(302, { location: `/${l}/`, vary: 'Accept-Language, Cookie', 'cache-control': 'no-store' }).end(); return;
   }
+  if (url.includes('\0')) { res.writeHead(400).end(); return; }
   const file = path.join(DIST, path.normalize(url.endsWith('/') ? url + 'index.html' : url));
   if (!file.startsWith(DIST + path.sep)) { res.writeHead(403).end(); return; }
   if (fs.existsSync(file) && fs.statSync(file).isDirectory()) { res.writeHead(301, { location: url + '/' }).end(); return; }

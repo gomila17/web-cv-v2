@@ -14,7 +14,7 @@ import header from './header.mjs';
 
 export default function render(ctx) {
   const { t, esc, facts, locale, paths, headScript } = ctx;
-  const script = headScript ? `\n<script>${headScript.replace(/<\//g, '<\/')}</script>` : '';
+  const script = headScript ? `\n<script>${headScript}</script>` : '';
   return `<!doctype html>
 <html lang="${esc(locale)}">
 <head>
@@ -29,7 +29,7 @@ export default function render(ctx) {
 </head>
 <body>
 <a class="skip" href="#main">${t('skip')}</a>
-${header(ctx)}
+${header({ ...ctx, linkBase: paths.home })}
 <main id="main" class="nf">
   <div class="wrap">
     <p class="nf-code" aria-hidden="true">404</p>
