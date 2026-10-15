@@ -8,8 +8,11 @@
 # Secreto opcional PRIVACY_TERMS: términos privados concretos para la guardia (nunca en el repo).
 # En PR desde forks GitHub no pasa secretos: la guardia corre solo con los patrones genéricos.
 #
-# Acciones oficiales fijadas a versión mayor. Para fijarlas a un commit (más estricto), sustituir
-# @vN por @<sha del tag> y activar Dependabot para github-actions (.github/dependabot.yml).
+# Acciones oficiales fijadas al SHA del commit de su etiqueta (comentario con la versión). SHA obtenidos con
+#   gh api repos/actions/<acción>/git/ref/tags/<vN>
+# Para actualizar: repetir la consulta (o activar Dependabot para github-actions en .github/dependabot.yml).
+# Node 21, como el contrato (engines >=21 y ninguna API de Node 22): setup-node sigue descargándolo de
+# nodejs.org aunque ya no tenga mantenimiento; así CI prueba la versión mínima que promete el repo.
 name: CI
 
 on:
@@ -40,13 +43,13 @@ jobs:
       tag: ${{ steps.pkg.outputs.tag }}
       asset: ${{ steps.pkg.outputs.asset }}
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
         with:
           persist-credentials: false
 
-      - uses: actions/setup-node@v5
+      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
         with:
-          node-version: lts/*
+          node-version: 21
 
       # Sin dependencias (package.json no tiene ninguna): no hay npm ci.
       - name: Tests
@@ -82,7 +85,7 @@ jobs:
 
       - name: Guardar el paquete para el job de release
         if: steps.pkg.outcome == 'success'
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: web-cv
           path: out/
@@ -103,7 +106,7 @@ jobs:
       TAG: ${{ needs.build.outputs.tag }}
       ASSET: ${{ needs.build.outputs.asset }}
     steps:
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
         with:
           name: web-cv
           path: out
@@ -116,8 +119,15 @@ jobs:
             echo "El release $TAG ya existe (workflow relanzado): no se toca."
             exit 0
           fi
+          # La LXC instala "releases/latest": solo el commit que es la cabeza de main puede serlo. Si se
+          # relanza un workflow antiguo (o entró otro push mientras tanto), el release se publica sin
+          # marcar como latest y no hace rollback de la web.
+          head="$(gh api "repos/$GH_REPO/commits/main" --jq .sha)"
+          latest=--latest=false
+          if [ "$head" = "$GITHUB_SHA" ]; then latest=--latest; fi
+          echo "cabeza de main: $head · este commit: $GITHUB_SHA · $latest"
           gh release create "$TAG" "out/$ASSET" "out/$ASSET.sha256" \
-            --target "$GITHUB_SHA" --title "$TAG" --latest \
+            --target "$GITHUB_SHA" --title "$TAG" "$latest" \
             --notes "Build de ${GITHUB_SHA} (dist/ empaquetado). La LXC lo instala con deploy/web-cv-update.sh."
 
       - name: Conservar solo los últimos ${{ env.KEEP_RELEASES }} releases

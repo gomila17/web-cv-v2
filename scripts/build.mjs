@@ -3,12 +3,13 @@
 //   node scripts/build.mjs        → dist/ (es/, en/, index.html de elección de idioma, styles.css, assets/)
 // Contrato: CONTRACTS.md. Los partials (src/templates/*.mjs) reciben ctx; aquí solo se construye ctx,
 // se escriben las páginas, se concatena el CSS, se copian los ficheros y se pasa el validador.
-// Fecha del build: hoy, o SOURCE_DATE_EPOCH (segundos) para builds reproducibles. Solo afecta a {years}.
+// Fecha del build: hoy, o SOURCE_DATE_EPOCH (segundos) para builds reproducibles. Afecta a {years}, al tramo en curso y a lastmod; todo en UTC (scripts/dates.mjs).
 import fs from 'node:fs';
 import path from 'node:path';
 import { execFileSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
 import { fileURLToPath, pathToFileURL } from 'node:url';
+import { fullYears, monthOf, buildDate } from './dates.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const DIST = path.join(ROOT, 'dist');
@@ -20,17 +21,12 @@ const CSS_LAYERS = ['tokens', 'base', 'layout', 'components', 'sections/*', 'mot
 const SECTION_ORDER = ['hero', 'about', 'pillars', 'experience', 'project', 'homelab', 'stack', 'education', 'footer'];
 
 const started = performance.now();
-const now = process.env.SOURCE_DATE_EPOCH ? new Date(Number(process.env.SOURCE_DATE_EPOCH) * 1000) : new Date();
+const now = buildDate();
 const facts = readJSON('content/facts.json');
 const site = facts.site;
 
-/** Años completos desde 'AAAA-MM' hasta `date` (decisión 14: se recalcula en cada build, sin cron). */
-function fullYears(start, date) {
-  const [y, m] = start.split('-').map(Number);
-  return date.getFullYear() - y - (date.getMonth() + 1 < m ? 1 : 0);
-}
 const years = fullYears(facts.career.start, now);
-const today = now.toISOString().slice(0, 7); // 'AAAA-MM': fin del tramo en curso de la cota
+const today = monthOf(now); // 'AAAA-MM' (UTC): fin del tramo en curso de la cota
 const headJs = fromRoot('src/scripts/head.js');
 // Escapado aquí una sola vez: '</' dentro de un <script> inline cerraría la etiqueta antes de tiempo.
 const headScript = fs.existsSync(headJs) ? fs.readFileSync(headJs, 'utf8').trim().replace(/<\//g, '<\\/') : '';
