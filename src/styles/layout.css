@@ -3,7 +3,8 @@
    cabeceras de sección y la página de elección de idioma (/).
    ===================================================================== */
 section[id],main>div[id]{scroll-margin-top:12px}
-html.js section[id]{scroll-margin-top:calc(var(--hh) + 8px)}
+html.js{scroll-padding-top:calc(var(--hh) + 8px)}
+html.js section[id]{scroll-margin-top:0}
 
 /* Secciones: planos tonales alternos */
 .sec{position:relative;isolation:isolate;overflow-x:clip;padding-block:56px}

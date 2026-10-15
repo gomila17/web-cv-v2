@@ -19,7 +19,7 @@ export default function render(ctx) {
   const repoText = p.repo.replace(/^https?:\/\//, '').replace(/\/$/, '');
   return `<section class="sec plane" id="proyectos" aria-labelledby="h-proy" style="--wx:0%;--wy:100%">
     <div class="wrap">
-      <div class="sec-head"><span class="sec-no">04</span><h2 id="h-proy">${t('pr.sec')}</h2></div>
+      <div class="sec-head"><span class="sec-no" aria-hidden="true">04</span><h2 id="h-proy">${t('pr.sec')}</h2></div>
       <article class="project card rv rv-settle">
         <header>
           <h3>${esc(p.name)}</h3>

@@ -1,7 +1,7 @@
 /* =====================================================================
    sections/homelab.css — Homelab (#homelab). Copiado de la v6.
    Escenario del diagrama (rejilla + resplandor que sobresalen del marco),
-   las dos disposiciones (.hl-tall en móvil, .hl-wide desde 820px), clases
+   las dos disposiciones (.hl-tall en móvil, .hl-wide desde 960px), clases
    del SVG con colores del tema, decisiones d1–d7 y anécdota.
    El encendido por bloques, el barrido y la pausa de los paquetes están
    en motion.css; aquí solo el estado en reposo (todo visible).
@@ -14,9 +14,11 @@
 .fig .frame{position:relative;overflow:hidden;box-shadow:var(--shadow);border-radius:var(--r-fig)}
 .fig .hl-wide{display:none}
 .fig .hl-tall{max-width:420px;margin-inline:auto}
-/* Barrido de luz sobre el marco: vertical en móvil, horizontal desde 820px. Solo existe con html.anim (motion.css). */
+/* Barrido de luz sobre el marco: vertical en móvil, horizontal desde 960px. Solo existe con html.anim (motion.css). */
 .sweep{display:none;position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(180deg,transparent 0,transparent 62%,var(--sweep) 90%,transparent 100%);transform:translateY(-100%)}
 .legend{display:flex;flex-wrap:wrap;gap:8px 20px;list-style:none;margin:14px 0 0;padding:0;font-size:.88rem;color:var(--muted)}
+/* En móvil el botón de volver arriba (52px + 16px de margen) flota a la derecha: la leyenda se queda a su izquierda */
+@media (max-width:719px){.legend{padding-right:64px}}
 .legend li{display:flex;align-items:center;gap:.5rem}
 .legend i{width:12px;height:12px;border-radius:50%;flex:none}
 
@@ -57,14 +59,15 @@ text.f-acc{fill:var(--accent-ink)} /* como texto, --accent no llega a AA en clar
 /* Anécdota: filete violeta, entra de lado (rv-left) */
 .story{margin-top:28px;padding:20px 22px;border-left:4px solid var(--violet)}
 .story .mono{display:block;text-transform:uppercase;letter-spacing:.08em;font-size:.72rem;color:var(--violet);margin-bottom:6px}
-.story h4{font-size:1.05rem;margin-bottom:8px}
+.story h3{font-size:1.05rem;margin-bottom:8px}
 .story p{margin:0;max-width:var(--measure);font-size:.97rem}
 
 @media (min-width:720px){
   .decisions{grid-template-columns:repeat(2,minmax(0,1fr))}
   .dec.feature{grid-column:1/-1}
 }
-@media (min-width:820px){
+/* 960px = ancho de .wrap: la disposición horizontal solo se escala a ~1:1 (texto de 11,5 px o más); antes, con 820px, el texto quedaba en ~9,7 px */
+@media (min-width:960px){
   .fig .hl-wide{display:block}
   .fig .hl-tall{display:none}
   .sweep{background:linear-gradient(90deg,transparent 0,transparent 62%,var(--sweep) 90%,transparent 100%);transform:translateX(-100%)}

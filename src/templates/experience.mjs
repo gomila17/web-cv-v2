@@ -71,7 +71,7 @@ ${items}
   return `<section class="sec" id="experiencia" aria-labelledby="h-exp">
     <span class="dots" aria-hidden="true"></span>
     <div class="wrap">
-      <div class="sec-head"><span class="sec-no">03</span><h2 id="h-exp">${t('n.exp')}</h2></div>
+      <div class="sec-head"><span class="sec-no" aria-hidden="true">03</span><h2 id="h-exp">${t('n.exp')}</h2></div>
       <p class="company rv rv-fade"><strong>${esc(company)}</strong> · <span>${t('e.co')}</span></p>
 
       <div class="cota rv-cota" id="cota" aria-hidden="true" style="--total:${total}">
