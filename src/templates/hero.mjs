@@ -49,7 +49,7 @@ export default function render(ctx) {
             <li><a class="btn" href="mailto:${esc(person.email)}">Email</a></li>
           </ul>
         </div>
-        <div class="photo photo--cutout p-photo"><div class="pic"><img src="${paths.asset('assets/foto-recorte.png')}" width="400" height="400" alt="${esc(t('h.alt'))}"></div></div>
+        <div class="photo photo--cutout p-photo"><div class="pic"><img src="${paths.asset('assets/foto-recorte.webp')}" width="400" height="400" alt="${esc(t('h.alt'))}"></div></div>
       </div>
     </div>
   </div>`;

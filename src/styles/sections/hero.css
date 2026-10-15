@@ -27,7 +27,7 @@
 .pic::before,.pic::after{content:"";position:absolute;inset:0;z-index:1;border-radius:50%;pointer-events:none}
 .pic::before{background:radial-gradient(circle at 48% 34%,transparent 34%,rgba(128,128,128,.55) 58%,#808080 80%);mix-blend-mode:saturation}
 .pic::after{background:radial-gradient(circle at 48% 34%,transparent 40%,var(--photo-tint) 100%);mix-blend-mode:color}
-/* Recorte (foto-recorte.png, fondo transparente): figura sobre el disco de marca; la cabeza sobresale por arriba */
+/* Recorte (foto-recorte.webp, fondo transparente; fuente: foto-recorte.png): figura sobre el disco de marca; la cabeza sobresale por arriba */
 .photo--cutout{--head-pop:.14}
 .photo--cutout .pic{overflow:visible;background:none;isolation:auto}
 .photo--cutout .pic::before{background:var(--disc);mix-blend-mode:normal;z-index:0}
