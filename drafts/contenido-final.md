@@ -388,11 +388,11 @@ Decisiones, cada una en formato problema → decisión → por qué (`.decisions
 
 **Dudas**
 1. Spring Boot: colocado en "conozco". El CV lo lista en habilidades pero los tres puestos dicen Spring Framework (y Java 8 en el de Java Developer). Toni debe decidir si se queda, pasa a "uso diario" o se quita.
-2. Red aislada con segundo router: está en el primer borrador marcada [confirmar] y no aparece en la documentación del homelab (el contexto solo describe un router como gateway). La he omitido del texto final. Si Toni lo confirma, se puede añadir como decisión 7 del homelab o a la línea de seguridad.
+2. **[RESUELTO 2026-10-15]** Red aislada con segundo router: confirmada por Toni (el router propio del homelab sí existe). Quedó como decisión 7 del homelab (`d7`, redacción aprobada el 2026-10-14). Duda original: estaba en el primer borrador marcada [confirmar] y no aparecía en la documentación del homelab; se omitió del texto final hasta la confirmación.
 3. SSH solo con usuario y contraseña (pendiente, según el contexto del homelab). Honestidad vs. exposición de seguridad: lo dejo como [REVISAR] para que Toni decida si se publica.
 4. Cifras de consultas: puestas como ejemplos típicos, tal como pidió Toni. El texto de Java Developer ("la mitad o menos, a menudo una cuarta parte") es el de el primer borrador; coincide con los ejemplos (6x, 6x, 10x+), pero conviene que Toni lo confirme.
 5. "33 commits" de el primer borrador: omitido, porque el número cambia y no se puede verificar desde las fuentes; añadir si Toni quiere un dato más.
-6. Copilot: una sola mención, dentro de IA y automatización (punto 5), sin protagonismo. La fuente solo dice "agente de incidencias con Copilot, hace un año"; no he puesto la fecha para no inventar su vigencia.
+6. **[RESUELTO 2026-10-12, decisión de Toni]** Copilot: una sola mención, dentro de IA y automatización (punto 5), sin protagonismo. La fuente solo dice "agente de incidencias con Copilot, hace un año"; no he puesto la fecha para no inventar su vigencia.
 
 **Supuestos**
 - "Administración Pública" como único contexto. El texto usa "automatizar procesos", sin tipo de trámite. Se evitó concretar el tipo de trámite.
@@ -403,11 +403,11 @@ Decisiones, cada una en formato problema → decisión → por qué (`.decisions
 - La anécdota de LaLiga se cuenta como "bloqueos de ISP a rangos de Cloudflare durante partidos"; se nombra LaLiga solo en la decisión de la VPN, por ser el dato técnico. Toni puede preferir omitir el nombre.
 - La nota sobre Angular, Ionic y NestJS aparece como "solo formación" en dos sitios (prácticas y stack), para que no se lea como dominio.
 - "Exploro": he puesto lo que las fuentes marcan como próximos pasos (modelos de IA ligeros en local, servidor multimedia, más self-hosted) y la orquestación de subagentes (SPEC la declara como aprendizaje).
-- ThePower: programa PowerSkills (20 nov 2023, Sobresaliente), verificado en su página oficial.
+- ThePower: programa PowerSkills (20 nov 2023, Sobresaliente), verificado en su página oficial. **[RESUELTO 2026-10-15]** Toni confirmó que ThePower es PowerSkills.
 
 **Datos que faltan**
 - PDF del CV final sin teléfono.
-- Foto (SPEC dice que sí; no hay archivo).
+- ~~Foto (SPEC dice que sí; no hay archivo).~~ **[RESUELTO]** Hay foto: el hero usa `assets/foto-recorte.webp` (fuente `foto-recorte.png`).
 - Capturas de homepanel sin datos sensibles y diagrama del homelab sin IPs ni nombres internos.
 - Confirmar si el email se publica visible y si habrá formulario.
 - Caso de estudio de "esta web" (al terminar el proyecto).

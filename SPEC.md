@@ -1,6 +1,6 @@
 # SPEC — Web CV v2 (Toni Gomila)
 
-Estado: **borrador de fase 0 (diseño)**. Sin tecnología ni diseño visual todavía.
+Estado (2026-10-15): **fases 0–4 cerradas** (contenido, arquitectura, diseño e implementación; la web se construye con `npm run build`). **Fase 5 (calidad) en curso**: bloques A y B hechos, bloque C (documentación y limpieza) en marcha. Fase 6 (publicación) pendiente. Las decisiones y el plan de este documento siguen valiendo; el detalle de lo que queda está en `PENDIENTES.md`.
 
 ## 1. Objetivo
 

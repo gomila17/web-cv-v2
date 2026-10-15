@@ -12,7 +12,7 @@ Estado: **aprobado por Toni (2026-10-13)**. Cierra la fase 3. Es el contrato vis
 2. **Legibilidad antes que efecto.** Contraste AA calculado, no a ojo. El movimiento nunca oculta contenido.
 3. **El movimiento codifica algo** (tiempo, flujo, apertura de sección) y responde al scroll en ambos sentidos.
 4. **Claro de la dirección A, oscuro de la dirección B.** Paletas pinneadas por Toni; no se reinterpretan.
-5. **Funciona sin JS, sin animaciones y sin la foto recortada.** Las capas de mejora son eso: mejoras.
+5. **Funciona sin JS y sin animaciones.** Las capas de mejora son eso: mejoras.
 
 ## 2. Color
 
@@ -67,12 +67,12 @@ Sin cuadrícula general y sin fondo monótono. Recursos localizados, cada uno co
 | Componente | Especificación |
 |---|---|
 | **Cabecera** | Fija con JS: transparente sobre el hero, con fondo al bajar. Logo `tg`, navegación (≥ 1000 px) con sección activa (`aria-current`), selector ES/EN (píldora deslizante), conmutador Auto/Claro/Oscuro. **Barra de progreso de lectura** de 2 px (acento → violeta) en su borde inferior. |
-| **Foto** | `foto-recorte.png` sobre disco de marca dentro de un anillo concéntrico; la cabeza sobresale `--pop: .14`. Respaldo automático a `foto.jpg` con encuadre cerrado y pared neutralizada. |
+| **Foto** | `foto-recorte.webp` (fuente `foto-recorte.png`) sobre disco de marca dentro de un anillo concéntrico; la cabeza sobresale `--head-pop: .14`. Sin respaldo automático: la foto recortada es la única versión. |
 | **Botones** | Primario relleno (`--primary-bg`); secundarios con borde, legibles en oscuro. Altura táctil ≥ 44 px. |
 | **Cota de experiencia** | Línea con tramos proporcionales a meses reales (Intern 9, Java Developer 30, Senior 9+), marcas de fecha y nodo final "en curso". Decorativa (`aria-hidden`); los datos están en las tarjetas. Hover en un puesto resalta su tramo. |
 | **Tarjetas** | Radio 12 px, borde `--line`, sombra suave en claro y ninguna en oscuro. Puestos, pilares, proyecto, decisiones, stack, formación. |
 | **Pilares** | Tres tarjetas con icono SVG, una columna hasta 900 px y tres a partir de ahí. |
-| **Homelab** | Diagrama SVG en dos disposiciones (horizontal ≥ 820 px, vertical en móvil), con colores del tema, `role="img"` + `title` + `desc`. Debajo, decisiones d1–d7 (problema → decisión → por qué) y una anécdota. |
+| **Homelab** | Diagrama SVG en dos disposiciones (horizontal ≥ 960 px, vertical en móvil), con colores del tema, `role="img"` + `title` + `desc`. Debajo, decisiones d1–d7 (problema → decisión → por qué) y una anécdota. |
 | **Bloque de largo plazo** | Separado del texto, con filete violeta. |
 | **Volver arriba** | Botón redondo de 52 px abajo a la derecha, aparece pasado el hero, con **anillo de progreso** que replica la barra superior. Lleva el foco al logo. |
 
@@ -82,6 +82,7 @@ Curva única `cubic-bezier(.16,1,.3,1)`; "pop" con rebote solo en piezas pequeñ
 
 - **Entrada del hero** orquestada (~1,6 s, en CSS): foto, titular, subrayado que se dibuja, botones en cascada, red de nodos.
 - **Tres momentos fuertes ligados al scroll:** (1) parallax del hero, (2) la cota se rellena al ritmo del scroll y en proporción a los meses, (3) el diagrama se enciende bloque a bloque en el sentido del tráfico y después arrancan los paquetes de flujo.
+- **Bucles finitos:** ninguna animación se repite sin fin. Las manchas del hero hacen un recorrido, los pulsos del hero tres latidos y los paquetes del diagrama tres viajes; la cota y el diagrama se pausan fuera de pantalla.
 - **Sutiles:** barra de lectura, títulos que salen de una máscara, sección activa, revelados por rol (tarjetas que se asientan, texto que aparece, bloques laterales, pop de iconos y etiquetas).
 - **Los revelados se repiten:** un elemento se reinicia al salir **del todo** de la pantalla y vuelve a animarse al entrar, en ambos sentidos.
 - **Microinteracciones** en botones, enlaces, selectores y tarjetas; fundido al cambiar de tema o idioma.
@@ -90,7 +91,7 @@ Curva única `cubic-bezier(.16,1,.3,1)`; "pop" con rebote solo en piezas pequeñ
 
 ## 8. Idiomas
 
-- Español por defecto, inglés completo (177 claves comprobadas, sin desbordes). Cada cambio actualiza `<html lang>`, título, meta, `aria-label`, `alt` y textos del diagrama.
+- Español por defecto, inglés completo (196 claves, las mismas que el español; sin desbordes). Cada cambio actualiza `<html lang>`, título, meta, `aria-label`, `alt` y textos del diagrama.
 - En el prototipo es un selector en la misma página. **En el sitio real cada idioma tiene su URL** (`/es/`, `/en/`, ver `ARCHITECTURE.md` decisión 5); el selector enlaza a la página equivalente.
 
 ## 9. Accesibilidad (mínimos)
@@ -99,15 +100,15 @@ AA calculado; foco visible; enlace de salto; objetivos táctiles ≥ 44 px; un s
 
 ## 10. Notas para la implementación (fase 4)
 
-- Sacar el CSS y el JS del HTML único a ficheros propios y separar los textos en `content/es` y `content/en` (claves ya existentes en la referencia).
-- **Una sola fuente para el diagrama del homelab**: hoy hay dos disposiciones a mano más `homelab-diagrama.svg`, que está desactualizado. Unificarlo.
-- Rutas definitivas de la foto: `assets/foto-recorte.png` y `assets/foto.jpg` (cambiarlas también en el respaldo `onerror`).
+- Hecho en la fase 4: CSS y JS en ficheros propios (`src/styles`, `src/scripts`) y textos en `content/es.json` y `content/en.json`, con las claves de la referencia.
+- Hecho: una sola fuente para el diagrama del homelab, `src/templates/homelab-diagram.mjs`, con las dos disposiciones (horizontal desde 960 px, vertical en móvil). `drafts/diseno/homelab-diagrama.svg` queda como histórico.
+- Hecho: la foto del hero es `assets/foto-recorte.webp` (fuente `foto-recorte.png`), sin respaldo `onerror`.
 - Los rangos de animación de la cota y el diagrama están afinados para las alturas actuales: revisarlos si cambian mucho.
 
 ## 11. Pendiente y fuera de este documento
 
 - **Por verificar en fase 5:** Firefox y Safari reales, lector de pantalla, movimiento reducido y sin JS reales, escritorio a tamaño real, 320 px, impresión, fluidez a 60 fps.
 - **Rasgos que las guías desaconsejan y se mantienen por decisión de Toni:** números de sección, etiqueta sobre los títulos, filetes laterales de color. Candidatos a pulir más adelante.
-- **Contenido abierto:** Spring Boot `[REVISAR]`, PDF del CV (sin teléfono) y capturas de homepanel. Resueltos: decisión 7 del homelab (redacción aprobada por Toni, 2026-10-14) y ThePower (programa PowerSkills, con enlace de verificación).
-- **SEO de redacción** (títulos y descripciones por idioma, `ARCHITECTURE.md` §SEO): se redacta al inicio de la fase 4.
+- **Contenido abierto:** Spring Boot `[REVISAR]` (en "conozco", pendiente de decisión de Toni), PDF del CV sin teléfono y capturas de homepanel (opcional).
+- **SEO de redacción:** títulos y descripciones por idioma ya escritos (`t.title`, `t.desc` en `content/es.json` y `content/en.json`).
 - En oscuro, el pelo que sobresale del disco tiene poco contraste con el hero: aceptado; se ajusta con `--pop` si molesta.
