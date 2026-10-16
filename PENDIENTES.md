@@ -38,7 +38,7 @@ Lista viva de lo que queda por hacer o decidir. Fuente: revisión de la fase 5 (
 ## Contenido y materiales
 
 - [ ] PDF del CV **sin teléfono ni metadatos**, y su botón "Descargar CV". El CV provisional tiene el teléfono y la experiencia que no se publica (ambos fuera) y pone ASIR donde es SMR.
-- [ ] Spring Boot: decidir si va en "conozco" o fuera.
+- [x] Spring Boot: fuera (decisión de Toni, 2026-10-16). No está en la web; falta quitarlo también del CV en PDF.
 - [ ] Capturas de homepanel sin datos sensibles (opcional).
 
 ## Fase 6: publicación (pasos de Toni o con su aprobación)

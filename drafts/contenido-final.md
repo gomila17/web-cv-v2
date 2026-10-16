@@ -313,7 +313,7 @@ Decisiones, cada una en formato problema → decisión → por qué (`.decisions
 - Scrum
 
 **Conozco (`stack.known`)** · **I know**
-- Spring Boot `[REVISAR: aparece en habilidades del CV, pero los puestos hablan de Spring Framework/Java 8]`
+- (Spring Boot: fuera por decisión de Toni, 2026-10-16)
 - Docker, Portainer
 - Proxmox, Debian, Linux
 - Cloudflare Tunnel, Nginx Proxy Manager, AdGuard Home, Tailscale
