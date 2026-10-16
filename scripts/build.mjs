@@ -137,6 +137,7 @@ async function main() {
     const dir = l.path.replace(/^\/+/, '');
     render(`${dir}index.html`, partials.layout, makeCtx(l.code, l.path));
     render(`${dir}404.html`, partials['not-found'], makeCtx(l.code, l.path)); // Nginx elige la del idioma de la ruta
+    render(`${dir}cv.html`, partials.cv, makeCtx(l.code, l.path)); // fuente del PDF (scripts/make-cv-pdf.mjs)
   }
   render('index.html', partials['language-picker'], makeCtx(site.defaultLocale, '/'));
   write('sitemap.xml', sitemap());

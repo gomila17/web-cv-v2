@@ -40,7 +40,7 @@
 .ai-note{display:inline-flex;align-items:center;gap:.6rem;font-family:var(--mono);font-size:.82rem;color:var(--muted);margin:8px 0 28px;animation:fade .8s ease-out .7s backwards}
 .ai-note::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--violet);flex:none;animation:pop .6s var(--pop) .8s backwards}
 .hero .links li{animation:pop-up .7s var(--pop) backwards}
-.hero .links li:nth-child(1){animation-delay:.8s}.hero .links li:nth-child(2){animation-delay:.88s}.hero .links li:nth-child(3){animation-delay:.96s}.hero .links li:nth-child(4){animation-delay:1.04s}
+.hero .links li:nth-child(1){animation-delay:.8s}.hero .links li:nth-child(2){animation-delay:.88s}.hero .links li:nth-child(3){animation-delay:.96s}.hero .links li:nth-child(4){animation-delay:1.04s}.hero .links li:nth-child(5){animation-delay:1.12s}
 
 @media (min-width:720px){
   .hero{grid-template-columns:minmax(0,1fr) 240px;align-items:center;padding-block:48px 120px;gap:56px}

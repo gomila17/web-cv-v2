@@ -194,5 +194,8 @@
   "t.desc": "Toni Gomila · Backend Developer en Barcelona. Desarrollador Java con Spring y Oracle: de la base de datos al despliegue, con automatización e IA.",
   "nf.t": "Esta página no existe",
   "nf.p": "Puede que el enlace esté mal escrito o que la página se haya movido.",
-  "nf.home": "Ir al inicio"
+  "nf.home": "Ir al inicio",
+  "cv.profile": "Perfil",
+  "cv.skills": "Habilidades técnicas",
+  "cv.dl": "Descargar CV"
 }

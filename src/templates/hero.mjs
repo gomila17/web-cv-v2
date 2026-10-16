@@ -29,7 +29,7 @@ const DECOR = `<div class="par p1" aria-hidden="true"><span class="orb o1"></spa
     </div>`;
 
 export default function render(ctx) {
-  const { t, esc, facts, paths } = ctx;
+  const { t, esc, facts, paths, locale } = ctx;
   const { person, links } = facts;
   return `<div class="hero-band" id="top">
     ${DECOR}
@@ -43,6 +43,7 @@ export default function render(ctx) {
           <p class="ai-note">${t('h.ai')}</p>
           <ul class="links">
             <li><a class="btn primary" href="#proyectos">${t('h.cta')}</a></li>
+            <li><a class="btn" href="${paths.asset('cv/Toni-Gomila-CV-' + locale.toUpperCase() + '.pdf')}" download>${t('cv.dl')}</a></li>
             <li><a class="btn" href="${esc(links.linkedin)}" rel="noopener">LinkedIn</a></li>
             <li><a class="btn" href="${esc(links.github)}" rel="noopener">GitHub</a></li>
             <li><a class="btn" href="mailto:${esc(person.email)}">Email</a></li>

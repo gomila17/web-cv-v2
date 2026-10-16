@@ -37,7 +37,7 @@ Lista viva de lo que queda por hacer o decidir. Fuente: revisión de la fase 5 (
 
 ## Contenido y materiales
 
-- [ ] PDF del CV **sin teléfono ni metadatos**, y su botón "Descargar CV". El CV provisional tiene el teléfono y la experiencia que no se publica (ambos fuera) y pone ASIR donde es SMR.
+- [x] PDF del CV (2026-10-16): generado desde la propia web (`src/templates/cv.mjs` → `scripts/make-cv-pdf.mjs`, Edge sin ventana), ES y EN, 2 páginas, sin teléfono, sin metadatos personales (solo título; creador "Mozilla", productor "Skia"). Botón "Descargar CV" en el hero y en el pie. **Se regenera a mano cuando cambie el contenido**: `npm run build && node scripts/make-cv-pdf.mjs && npm run build`. El CV de Word/PDF provisional de Toni (en `drafts/privado/cv/`) ya no hace falta para la web; si lo sigue usando para enviarlo, corregirlo (SMR, sin Spring Boot, sin la experiencia que no se publica).
 - [x] Spring Boot: fuera (decisión de Toni, 2026-10-16). No está en la web; falta quitarlo también del CV en PDF.
 - [ ] Capturas de homepanel sin datos sensibles (opcional).
 

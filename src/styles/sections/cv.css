@@ -1,0 +1,25 @@
+/* =====================================================================
+   sections/cv.css — currículum imprimible (src/templates/cv.mjs), fuente del PDF.
+   Solo afecta a body.cv-page. A4, tema claro y fondo blanco: se imprime como papel.
+   ===================================================================== */
+@page{size:A4;margin:13mm 15mm}
+body.cv-page{background:#fff;color:#202A42;font-size:10pt;line-height:1.4}
+.cv{max-width:180mm;margin:0 auto;padding:8mm 0}
+.cv h1{font-size:22pt;margin:0;line-height:1.1}
+.cv .cv-role{margin:2pt 0 3pt;font-size:11.5pt;color:#3A51C6;font-weight:600}
+.cv .cv-contact{margin:0;font-size:9pt;color:#4A5470}
+.cv a{color:inherit;text-decoration:none}
+.cv header{border-bottom:1.5pt solid #526DE5;padding-bottom:7pt;margin-bottom:8pt}
+.cv section{margin-top:9pt;padding:0;break-inside:auto}
+.cv h2{font-size:10.5pt;letter-spacing:.02em;margin:0 0 4pt;padding-bottom:1.5pt;border-bottom:.5pt solid #A9AFC2;color:#202A42}
+.cv h3{font-size:10.5pt;margin:0;display:block}
+.cv h3 span{font-weight:400;color:#4A5470}
+.cv p{margin:0 0 3pt;max-width:none}
+.cv .cv-job{margin-bottom:6pt;break-inside:avoid}
+.cv .cv-when{font-size:9pt;color:#4A5470;margin:0 0 2pt}
+.cv ul{margin:0 0 2pt;padding-left:13pt}
+.cv li{margin:0 0 1.5pt}
+.cv .cv-tech{font-size:8.5pt;color:#4A5470}
+.cv .cv-job{padding:0;border:0;background:none;box-shadow:none;border-radius:0}
+.cv .cv-when,.cv .cv-tech{font-family:inherit;font-weight:400}
+.cv h1,.cv h2,.cv h3{font-family:inherit;letter-spacing:0;text-transform:none}
