@@ -50,11 +50,16 @@ Lista viva de lo que queda por hacer o decidir. Fuente: revisión de la fase 5 (
 
 ## Fase 6: publicación (pasos de Toni o con su aprobación)
 
-- [ ] Desplegar en la LXC siguiendo `deploy/README.md`; probar en `next.gomila.dev`; cambiar el apex en NPM; redirecciones 301 de la web antigua; conservar la antigua 2 semanas.
-- [ ] Secreto `PRIVACY_TERMS` en GitHub con los términos privados (copia de `.privacy-terms`).
-- [ ] Google Search Console (y Bing): alta y envío del sitemap.
+Preparada el 2026-10-18: CI verde, release `latest` publicada, guía en `deploy/README.md` y encargo para el agente del homelab actualizado (`drafts/privado/`, fuera de git). No se pudo probar `nginx -t` aquí (sin Nginx, Docker ni distribución de WSL): se hace en la LXC (paso 4) o en cualquier Linux con Nginx.
+
+- [ ] Pasar el encargo al agente del homelab y aprobar cada paso: LXC, script y timer, Nginx, prueba en `next.gomila.dev`, cambio del apex en NPM, web vieja viva 2 semanas.
+- [x] 301 de la web vieja: no hacen falta (una sola página, sin sitemap; `/` ya redirige).
+- [ ] **Cloudflare**: desactivar Email Address Obfuscation, Rocket Loader, Auto Minify y Web Analytics para `gomila.dev` y comprobar que el HTML no se cachea (`deploy/README.md`, paso 5). La web vieja tiene la ofuscación del correo activa hoy.
+- [ ] Secreto `PRIVACY_TERMS` en GitHub con los términos privados (copia de `.privacy-terms`). Sin él, CI solo usa los patrones genéricos.
+- [ ] Google Search Console (y Bing): alta y envío del sitemap (solo con la web ya en `gomila.dev`). Si lista URL viejas indexadas, añadir 301.
 - [ ] LinkedIn y perfil de GitHub: titular "Toni Gomila · Backend Developer" y enlaces de ida y vuelta con la web.
 - [ ] Validar datos estructurados (Rich Results Test) y la tarjeta (LinkedIn Post Inspector).
+- [ ] Tras el despliegue: confirmar rotación de logs (`/etc/logrotate.d/nginx`) y que `readlink /srv/web-cv/current` coincide con el release más reciente.
 
 ## Hecho en esta ronda
 

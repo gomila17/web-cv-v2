@@ -124,13 +124,15 @@ Comprobar desde fuera de casa (datos móviles):
 - `/`, `/es/`, `/en/`, el selector de idioma, el tema claro/oscuro y una URL inexistente (404).
 - Consola del navegador **sin avisos de CSP** (si aparece uno, el hash no cuadra: paso 4).
 - Cabeceras con `curl -sI https://next.gomila.dev/es/` (HSTS lo pone el borde).
+- **Lo que Cloudflare mete en el HTML** (la web vieja ya lo sufre: ofusca el correo). Ver el código fuente de `/es/` y buscar `cdn-cgi`, `beacon` y `rocket`. Si aparecen: en Cloudflare, para `gomila.dev`, desactivar **Email Address Obfuscation** (Scrape Shield; si no, el correo del pie y de la página de privacidad se ve como "[email protected]" hasta que carga su script), **Rocket Loader**, **Auto Minify** y **Web Analytics** (su baliza la bloquea la CSP y contradice "sin analítica de terceros" de la página de privacidad). Comprobar también que el HTML no se cachea en el borde (`cf-cache-status` debe ser `DYNAMIC` o `BYPASS` en `/es/`; con `HIT`, un despliegue no se vería al momento).
+- La página de privacidad: `/es/privacidad/` y `/en/privacy/` (200, con `/es/privacidad` redirigiendo a la barra final) y el enlace del pie.
 - Un despliegue de verdad: un cambio pequeño en `main` debe verse en menos de ~10 min (CI + timer) sin tocar la LXC; `journalctl -u web-cv-update -f` lo muestra.
 - Las comprobaciones manuales de ARCHITECTURE.md (Lighthouse, axe, móvil y escritorio).
 
 ### 6. Cambio del apex en NPM
 
 1. Antes: apuntar en notas privadas el destino actual del Proxy Host `gomila.dev` (`<UPSTREAM_ACTUAL>`): es el rollback.
-2. Rellenar en `nginx.conf` las redirecciones 301 de las URL de la web vieja que estén indexadas (Search Console las lista; ARCHITECTURE.md, SEO medida 8), recargar Nginx y probarlas en `next.`.
+2. Redirecciones 301 de la web vieja: **no hacen falta** (comprobado el 2026-10-18). La vieja es una sola página (`/`, con anclas `#sobre-mi`, `#experiencia`… que no llegan al servidor) y sus recursos (`/css`, `/js`, `/libs`, `/assets/profile.jpg`) no se indexan; no tiene sitemap. Lo único que cuenta es `/`, que ya redirige (302) a `/es/` o `/en/`. Si Search Console, una vez dado de alta, lista otras URL, añadir un `location = … { return 301 /es/; }` en `nginx.conf` (hay un ejemplo comentado).
 3. En NPM, editar `gomila.dev` y cambiar el destino a `http://<IP_LXC>:80`, sin tocar SSL.
 4. Si Cloudflare cachea HTML, purgar la caché. Comprobar `https://gomila.dev/` como en el paso 5.
 5. Después, quitar el host `next.gomila.dev` de NPM (o dejarlo con `noindex`).
