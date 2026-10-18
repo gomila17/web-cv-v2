@@ -58,3 +58,10 @@ Lista viva de lo que queda por hacer o decidir. Fuente: revisión de la fase 5 (
 - El sitemap ya no incluye `/` (redirige).
 - Texto "VM Docker" del diagrama con contraste AA.
 - El servidor de desarrollo no se cae con rutas con byte nulo.
+
+## Decisiones menores abiertas (añadido el 2026-10-18)
+
+- [ ] **Licencia del repo**: el README dice "sin licencia, todos los derechos reservados". Propuesta: MIT para el código y textos/foto reservados. Decide Toni.
+- [ ] **Frase final del perfil en el PDF** ("Esta web está hecha así"): suena rara en un CV en papel. Quitarla solo del PDF si se prefiere.
+- [ ] **Variante del CV con teléfono** para enviar a empresas (la pública va sin él). Solo si Toni la quiere; nunca en el repo.
+- [ ] **Despliegue**: el encargo para el agente del homelab está en `drafts/privado/despliegue-para-agente-homelab.md` (fuera de git). Cuando termine, Toni da de alta Search Console y se actualizan LinkedIn y el perfil de GitHub.
