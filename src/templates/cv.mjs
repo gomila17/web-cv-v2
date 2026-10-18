@@ -13,7 +13,13 @@
  */
 const plain = (html) => html.replace(/<[^>]*>/g, '');
 const bare = (url) => url.replace(/^https?:\/\//, '').replace(/\/+$/, '');
-const PREFIX = { intern: 'i', dev: 'd', senior: 's' };
+// En papel, "Esta web está hecha así" (última frase de a.p2) suena rara: el PDF lleva el perfil sin ella.
+const withoutLastSentence = (text) => {
+  const out = text.replace(/\s*[^.]+\.\s*$/, '');
+  if (out === text || !out.endsWith('.')) throw new Error('cv: a.p2 ya no termina en una frase suelta que quitar');
+  return out;
+};
+const PREFIX ={ intern: 'i', dev: 'd', senior: 's' };
 
 export default function render(ctx) {
   const { t, esc, tr, facts, locale, paths } = ctx;
@@ -68,7 +74,7 @@ ${bullets.join('\n')}
   <section>
     <h2>${t('cv.profile')}</h2>
     <p>${t('a.p1')}</p>
-    <p>${t('a.p2')}</p>
+    <p>${withoutLastSentence(t('a.p2'))}</p>
   </section>
   <section>
     <h2>${t('n.exp')}</h2>

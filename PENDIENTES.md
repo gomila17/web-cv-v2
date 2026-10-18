@@ -7,7 +7,7 @@ Lista viva de lo que queda por hacer o decidir. Fuente: revisión de la fase 5 (
 - [x] Animaciones finitas: manchas del hero un recorrido, pulsos 3 latidos, paquetes del diagrama 3 viajes; se pausan fuera de pantalla.
 - [x] Foto en WebP con transparencia: de 159.580 a 14.166 bytes; /es/ sin comprimir de 266 KB a 122 KB.
 - [x] `?v=<hash>` en CSS y JS, y caché de 1 año con `immutable` en Nginx.
-- [x] El h1 incluye el nombre (sin cambios visuales). Sugerencia abierta: el texto dice "Antonio (Toni) Gomila · Barcelona"; para el SEO del nombre ayudaría "Toni Gomila" seguido literal (p. ej. "Toni Gomila · Backend Developer · Barcelona"). Decisión de Toni.
+- [x] El h1 incluye el nombre (sin cambios visuales). **Resuelto el 2026-10-18**: el h1 empieza por "Toni Gomila · Backend Developer · Barcelona" (el nombre completo sigue en el JSON-LD y en el CV).
 
 ## Fase 5: bloque C (hecho el 2026-10-15, con agentes Sonnet y Haiku)
 
@@ -66,9 +66,9 @@ Lista viva de lo que queda por hacer o decidir. Fuente: revisión de la fase 5 (
 - Texto "VM Docker" del diagrama con contraste AA.
 - El servidor de desarrollo no se cae con rutas con byte nulo.
 
-## Decisiones menores abiertas (añadido el 2026-10-18)
+## Decisiones menores (resueltas el 2026-10-18)
 
-- [ ] **Licencia del repo**: el README dice "sin licencia, todos los derechos reservados". Propuesta: MIT para el código y textos/foto reservados. Decide Toni.
-- [ ] **Frase final del perfil en el PDF** ("Esta web está hecha así"): suena rara en un CV en papel. Quitarla solo del PDF si se prefiere.
-- [ ] **Variante del CV con teléfono** para enviar a empresas (la pública va sin él). Solo si Toni la quiere; nunca en el repo.
+- [x] **Licencia**: MIT para el código (`LICENSE`); textos, datos, foto, logo, tarjeta y CV con todos los derechos reservados (`LICENSE-CONTENT.md`).
+- [x] **Frase final del perfil** ("Esta web está hecha así"): fuera del PDF, se queda en la web (`cv.mjs` la quita y falla si el texto cambia de forma que ya no se pueda).
+- [x] **CV con teléfono**: no. La versión pública basta; si una empresa lo pide, se lo das tú.
 - [ ] **Despliegue**: el encargo para el agente del homelab está en `drafts/privado/despliegue-para-agente-homelab.md` (fuera de git). Cuando termine, Toni da de alta Search Console y se actualizan LinkedIn y el perfil de GitHub.

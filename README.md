@@ -69,4 +69,4 @@ Fases 0–5 cerradas (especificación, contenido, arquitectura, diseño, impleme
 
 ## Licencia y uso
 
-El código y los textos son de Toni Gomila. Todavía no se ha elegido una licencia: hasta entonces, todos los derechos reservados. Si algo te resulta útil como referencia, abre un issue y lo hablamos.
+El **código** (generador, plantillas, estilos, scripts, tests y despliegue) es MIT: [`LICENSE`](LICENSE). El **contenido personal** (textos, datos, foto, logo, tarjeta y CV en PDF) es de Toni Gomila con todos los derechos reservados: [`LICENSE-CONTENT.md`](LICENSE-CONTENT.md). Si algo te resulta útil como referencia, abre un issue y lo hablamos.

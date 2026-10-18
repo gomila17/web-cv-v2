@@ -1,6 +1,6 @@
 /**
  * Partial: hero
- * Hero: h1 único con el nombre (eyebrow: fullName · city) y el titular en dos spans (SEO: nombre y rol en el h1), subtítulo, valor, nota IA, botones (proyectos, LinkedIn, GitHub, Email), foto recortada (WebP con alfa), capas decorativas aria-hidden.
+ * Hero: h1 único con el nombre (eyebrow: name · role · city, para que "Toni Gomila" salga literal) y el titular en dos spans (SEO: nombre y rol en el h1), subtítulo, valor, nota IA, botones (proyectos, LinkedIn, GitHub, Email), foto recortada (WebP con alfa), capas decorativas aria-hidden.
  *
  * Claves de content/<locale>.json: h.*
  * Datos de facts.json: facts.person, facts.links
@@ -36,7 +36,7 @@ export default function render(ctx) {
     <div class="wrap">
       <div class="hero">
         <div>
-          <h1><span class="eyebrow">${esc(person.fullName)} · ${esc(person.city)}</span>
+          <h1><span class="eyebrow">${esc(person.name)} · ${esc(person.role)} · ${esc(person.city)}</span>
             <span class="h-title">${t('h.title')}</span></h1>
           <p class="sub">${t('h.sub')}</p>
           <p class="value">${t('h.value')}</p>
