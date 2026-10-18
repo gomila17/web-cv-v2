@@ -35,6 +35,13 @@ Lista viva de lo que queda por hacer o decidir. Fuente: revisión de la fase 5 (
 - [x] **Diagrama del homelab**: se mantienen los nombres de los servicios. Ya son públicos en el README de GitHub, están detrás de autenticación propia y el diagrama no da direcciones, versiones ni accesos: no añade riesgo. Si en el futuro se expone algo sin autenticación, quitarlo del diagrama.
 - [x] **Entrada del hero**: el titular y la propuesta de valor ya no parten de opacidad 0, solo se desplazan, y empiezan antes: el texto principal se ve desde el primer fotograma.
 
+## Privacidad y cookies (2026-10-18)
+
+- [x] Decisión: **no hace falta banner de cookies** (sin analítica ni terceros; solo `tg_lang` y `tg-theme`, de personalización y pedidas por el visitante). Detalle y condición para revisarlo en `CONTRACTS.md` §8; un test falla si cambia.
+- [x] Página "Privacidad y cookies" en `/es/privacidad/` y `/en/privacy/` (noindex, fuera del sitemap), enlazada desde el pie.
+- [ ] **Toni, revisar el texto** (`pv.*` en `content/es.json` y `en.json`), sobre todo lo que afirma y solo tú puedes confirmar: Cloudflare delante de la web, correo en Gmail, titular "Antonio Gomila" sin dirección postal (no es obligatoria en una web personal sin actividad económica).
+- [ ] **En el despliegue**: confirmar que los logs de Nginx rotan a ≤ 30 días (promesa de la página) y qué guarda NPM/Cloudflare.
+
 ## Contenido y materiales
 
 - [x] PDF del CV (2026-10-16): generado desde la propia web (`src/templates/cv.mjs` → `scripts/make-cv-pdf.mjs`, Edge sin ventana), ES y EN, 2 páginas, sin teléfono, sin metadatos personales (solo título; creador "Mozilla", productor "Skia"). Botón "Descargar CV" en el hero y en el pie. **Se regenera a mano cuando cambie el contenido**: `npm run build && node scripts/make-cv-pdf.mjs && npm run build`. El CV de Word/PDF provisional de Toni (en `drafts/privado/cv/`) ya no hace falta para la web; si lo sigue usando para enviarlo, corregirlo (SMR, sin Spring Boot, sin la experiencia que no se publica).

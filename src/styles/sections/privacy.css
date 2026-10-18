@@ -1,0 +1,19 @@
+/* Página de privacidad y cookies: texto legible a la medida del contenido, cada cookie/almacenamiento en una tarjeta con lista de definición (sin tabla, para que quepa a 320 px). */
+.pv{padding-block:calc(var(--hh) + 32px) 64px}
+.pv .wrap{max-width:var(--measure)}
+.pv h1{font-size:var(--fs-h2);margin:0 0 12px}
+.pv h2{font-size:var(--fs-sub);margin:40px 0 8px}
+.pv p{margin:0 0 12px}
+.pv-lead{font-size:1.05em}
+.pv-upd{color:var(--muted);font-family:var(--mono);font-size:.82rem}
+.pv-items{list-style:none;margin:16px 0;padding:0;display:grid;gap:12px}
+.pv-item{padding:16px 18px;background:var(--card);border:1px solid var(--line);border-radius:var(--r-card)}
+.pv-item h3{margin:0 0 8px;font-size:1rem}
+.pv-item dl{margin:0;display:grid;grid-template-columns:1fr;gap:2px 16px}
+.pv-item dt{color:var(--muted);font-size:.82rem;margin-top:8px}
+.pv-item dd{margin:0}
+@media (min-width:720px){
+  .pv-item dl{grid-template-columns:max-content 1fr}
+  .pv-item dt{margin-top:0}
+}
+.pv .btn{margin-top:24px}

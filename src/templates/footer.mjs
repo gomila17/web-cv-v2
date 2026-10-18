@@ -28,7 +28,7 @@ export default function render(ctx) {
       <li><a class="btn" href="${paths.asset('cv/Toni-Gomila-CV-' + locale.toUpperCase() + '.pdf')}" download>${t('cv.dl')}</a></li>
     </ul>
     <p class="open rv rv-left">${t('f.lt')}</p>
-    <p class="fine">${t('f.fine')}</p>
+    <p class="fine">${t('f.fine')} · <a href="${esc(paths.privacy)}">${t('pv.link')}</a></p>
   </div>
 </footer>`;
 }

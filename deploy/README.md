@@ -152,5 +152,6 @@ Se conserva **intacta y funcionando unas 2 semanas** tras el cambio del apex (de
 ### Mantenimiento
 
 - Logs: `journalctl -u web-cv-update` (cada ciclo, una línea "al día: <tag>") y `/var/log/nginx/web-cv.*.log`.
+- Retención de logs: la página de privacidad promete 30 días como máximo. Comprobar que `/etc/logrotate.d/nginx` rota `/var/log/nginx/*.log` con `rotate` ≤ 30 diarios (Debian trae 14) y que NPM/Cloudflare no guardan más tiempo sin que se diga en esa página.
 - Estado: `systemctl list-timers web-cv-update.timer` y `readlink /srv/web-cv/current`.
 - Un release que falla la verificación no se instala: la web sigue en la versión anterior y el error queda en el journal.

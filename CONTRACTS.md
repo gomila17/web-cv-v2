@@ -23,7 +23,7 @@ Por qué así: una carpeta por tipo de trabajo, así cada subagente edita ficher
 
 ## 2. Contenido
 
-**`es.json` / `en.json`**: objeto plano `{ "clave": "texto" }`, mismas claves en el mismo orden. 196 claves por idioma, idénticas en ES y EN (contadas con `node` el 2026-10-15): las de la v6 sin renombrar, más las nuevas (`th.*`, `a.newtab`, `num.words`, `st.c3t`, `st.c3`, `st.verify`, `n.hm`, `n.stack`, `nf.*` de la 404).
+**`es.json` / `en.json`**: objeto plano `{ "clave": "texto" }`, mismas claves en el mismo orden. 235 claves por idioma, idénticas en ES y EN (contadas con `node` el 2026-10-18): las de la v6 sin renombrar, más las nuevas (`th.*`, `a.newtab`, `num.words`, `st.c3t`, `st.c3`, `st.verify`, `n.hm`, `n.stack`, `nf.*` de la 404).
 - HTML en línea permitido: `em`, `strong`, `b`, `code`, `br`, y las mismas etiquetas en los dos idiomas. Se inserta sin escapar.
 - Hueco permitido: `{years}` (años completos desde `facts.career.start`; el build lo sustituye por la palabra de `num.words`, o por cifras si pasa de diez).
 - `t.title` y `t.desc` son el `<title>` y la meta descripción de cada idioma.
@@ -39,6 +39,7 @@ Por qué así: una carpeta por tipo de trabajo, así cada subagente edita ficher
 | `a.p1`, `a.p2`, `a.lt`, `a.ltp` | sobre mí (colisión de prefijo heredada) | `ed.*` | formación e idiomas |
 | `p.b.*`, `p.s.*`, `p.i.*`, `p.lead` | pilares | `f.*` | pie / contacto |
 | `e.*`, `k.*` | experiencia (`e.s/d/i` puesto, `.w` fechas, `.1…` viñetas) y fechas de la cota | `t.*`, `num.*` | título/descripción; utilidades |
+| `pv.*` | página de privacidad y cookies (§8) | | |
 
 **`facts.json`**: lo único y no traducible. Campos que el validador exige:
 `person{name, fullName, role, city, email}` · `site{url, defaultLocale, locales[{code,label,name,path}]}` · `links{linkedin, github, homepanelRepo}` (los tres son obligatorios y deben ser `https://`; `homepanelRepo` lo exige `check-content.mjs`) · `career{start: AAAA-MM, stages[{id, title, short, start, end|null, tech[]}]}` · `certifications[{id, name, issuer, date: AAAA-MM-DD, verifyUrl}]` · `stack{daily[], known[], exploring[]}` · `languages[{code, level}]`. También `projects.homepanel` y `education[]`. `stack.trainingOnly` ya no existe.
@@ -68,9 +69,9 @@ Un elemento de lista es un literal (`"Java 8"`) o una referencia `{ "i18n": "st.
 
 ## 5. Partials (`src/templates/*.mjs`)
 
-Un partial por sección: `export default function render(ctx) → string`, función pura. `ctx = { locale, t(key), facts, esc(s), tr(item), years, today, headScript, paths }` (lo construye `makeCtx` en `scripts/build.mjs`; detalle en `src/templates/README.md`). `today` es el mes del build (`AAAA-MM`, UTC) y `headScript` ya viene escapado (`</` pasa a `<\/`).
+Un partial por sección: `export default function render(ctx) → string`, función pura. `ctx = { locale, t(key), facts, esc(s), tr(item), years, today, headScript, paths }` (`paths = { home, alternates, asset, privacy }`; `privacy` es la URL de la página de privacidad de ese idioma) (lo construye `makeCtx` en `scripts/build.mjs`; detalle en `src/templates/README.md`). `today` es el mes del build (`AAAA-MM`, UTC) y `headScript` ya viene escapado (`</` pasa a `<\/`).
 Fechas (`scripts/dates.mjs`): todo se calcula en UTC, así el resultado no depende de la zona horaria de la máquina. `buildDate()` usa `SOURCE_DATE_EPOCH` si existe; `fullYears` da los años completos (`{years}`); `monthOf` da el mes del tramo en curso de la cota. `t()` devuelve HTML de confianza; cualquier valor de `facts` pasa por `esc()`. Cada cabecera de partial lista sus claves y datos.
-Partials: `layout`, `head`, `header`, `hero`, `about`, `pillars`, `experience`, `project`, `homelab`, `homelab-diagram` (única fuente del diagrama), `stack`, `education`, `footer`, `totop`, `language-picker` (página `/`: respaldo de la redirección automática de idioma), `cv` (currículum imprimible, fuente del PDF), `not-found` (`src/templates/not-found.mjs`: 404 de cada idioma, que el build escribe en `es/404.html` y `en/404.html`).
+Partials: `layout`, `head`, `header`, `hero`, `about`, `pillars`, `experience`, `project`, `homelab`, `homelab-diagram` (única fuente del diagrama), `stack`, `education`, `footer`, `totop`, `language-picker` (página `/`: respaldo de la redirección automática de idioma), `cv` (currículum imprimible, fuente del PDF), `not-found` (`src/templates/not-found.mjs`: 404 de cada idioma, que el build escribe en `es/404.html` y `en/404.html`), `privacy` (página de privacidad y cookies, `es/privacidad/` y `en/privacy/`; ver §8).
 
 **Decisiones de la integración del generador:** las rutas de recursos son absolutas desde la raíz del sitio (`paths.asset`), así que se revisa con `npm run dev`, no abriendo el HTML con `file://`. El selector de idioma son **enlaces** (`<a aria-current>` a la página equivalente), no botones: el CSS usa `.lang a`. El conmutador de tema sale con `hidden` hasta que `main.js` lo active (sin JS no hace nada).
 
@@ -90,3 +91,11 @@ Partials: `layout`, `head`, `header`, `hero`, `about`, `pillars`, `experience`, 
 ## 7. Comprobaciones
 
 `npm run check` (contenido) y `npm test` (prueba que el validador falla cuando debe). El build terminará con `node scripts/check-content.mjs --scan dist`. Los términos privados concretos van en `.privacy-terms` (local, ignorado) o en el secreto de CI `PRIVACY_TERMS`; el validador nunca los imprime.
+
+## 8. Privacidad y cookies
+
+Hoy la web **no necesita aviso de cookies**: no hay analítica, publicidad ni recursos de terceros, y solo guarda dos cosas de personalización que provoca el propio visitante (cookie `tg_lang`, 1 año, al elegir ES/EN; `localStorage` `tg-theme` al cambiar el tema), exentas de consentimiento (LSSI art. 22.2). La página `privacy` lo explica (claves `pv.*`, enlazada desde el pie con `paths.privacy`; `noindex`, fuera del sitemap). Un test de `tests/dist.test.mjs` lo vigila: falla si la salida carga recursos externos o si el JS guarda algo distinto de esas dos claves.
+
+**Si se añade analítica, un embed o cualquier otro almacenamiento o recurso de terceros**: antes, banner de consentimiento (rechazar tan fácil como aceptar y sin cargar nada hasta aceptar), actualizar `pv.*` en los dos idiomas, la CSP de Nginx y ese test.
+
+La página declara logs de Nginx con 30 días como máximo. La rotación por defecto de Debian (14 días) lo cumple; se verifica en el despliegue (`deploy/README.md`, Mantenimiento).

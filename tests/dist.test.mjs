@@ -18,7 +18,7 @@ before(() => {
 });
 
 test('cada página tiene exactamente un h1', () => {
-  for (const p of ['index.html', 'es/index.html', 'en/index.html', 'es/404.html', 'en/404.html']) {
+  for (const p of ['index.html', 'es/index.html', 'en/index.html', 'es/404.html', 'en/404.html', 'es/privacidad/index.html', 'en/privacy/index.html']) {
     assert.equal((page(p).match(/<h1[\s>]/g) ?? []).length, 1, p);
   }
 });
@@ -48,6 +48,34 @@ test('las 404 existen en es y en, en su idioma y con los enlaces de la cabecera 
     for (const u of links) assert.match(u, /^\/(es|en)\//, `${code}: enlace sin prefijo de idioma: ${u}`);
     assert.ok(links.filter((u) => u.startsWith(`/${code}/#`)).length >= 6, 'secciones con el prefijo de su idioma');
   }
+});
+
+test('privacidad y cookies: una página por idioma, noindex, fuera del sitemap, enlazada desde el pie y con selector de idioma cruzado', () => {
+  const pages = { es: ['es/privacidad/index.html', '/es/privacidad/', '/en/privacy/'], en: ['en/privacy/index.html', '/en/privacy/', '/es/privacidad/'] };
+  for (const [code, [file, self, other]] of Object.entries(pages)) {
+    const h = page(file);
+    assert.match(h, new RegExp(`<html[^>]*lang="${code}"`));
+    assert.match(h, /<meta name="robots" content="noindex, follow">/);
+    assert.match(h, new RegExp(`<link rel="canonical" href="https://[^"/]+${self}">`));
+    const langs = [...h.match(/<div class="lang"[\s\S]*?<\/div>/)[0].matchAll(/href="([^"]+)"/g)].map((m) => m[1]);
+    assert.deepEqual(langs.sort(), [self, other].sort(), `${code}: el selector de idioma lleva a la otra versión`);
+    assert.ok(page(`${code}/index.html`).includes(`<a href="${self}">`), `${code}: el pie enlaza a la página de privacidad`);
+    assert.ok(!page('sitemap.xml').includes(self), 'no entra en el sitemap');
+  }
+});
+
+test('la web no carga nada de terceros ni guarda más que tg_lang y tg-theme (si cambia, hace falta aviso de cookies)', () => {
+  const src = (p) => fs.readFileSync(path.join(ROOT, p), 'utf8');
+  for (const p of ['es/index.html', 'en/index.html', 'es/privacidad/index.html']) {
+    const h = page(p).replace(/<script type="application\/ld\+json">[\s\S]*?<\/script>/, '');
+    const external = [...h.matchAll(/<(?:script|link|img|iframe|source)\b[^>]*\b(?:src|href)="(https?:\/\/[^"]+)"/g)]
+      .filter((m) => !/rel="(?:canonical|alternate)"/.test(m[0]));
+    assert.deepEqual(external.map((m) => m[1]), [], `${p}: recurso externo cargado`);
+  }
+  const js = src('src/scripts/main.js') + src('src/scripts/head.js');
+  assert.deepEqual([...new Set([...js.matchAll(/(?:setItem|getItem|removeItem)\('([^']+)'/g)].map((m) => m[1]))], ['tg-theme']);
+  assert.deepEqual([...new Set([...js.matchAll(/document\.cookie\s*=\s*'([a-z_]+)=/g)].map((m) => m[1]))], ['tg_lang']);
+  assert.ok(!/sessionStorage|indexedDB|fetch\(|XMLHttpRequest|sendBeacon/.test(js), 'main.js/head.js: nada de almacenamiento ni red adicionales');
 });
 
 test('check-content --scan dist pasa', () => {

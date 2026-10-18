@@ -20,6 +20,9 @@ const readJSON = (p) => JSON.parse(fs.readFileSync(fromRoot(p), 'utf8'));
 const CSS_LAYERS = ['tokens', 'base', 'layout', 'components', 'sections/*', 'motion', 'print'];
 const SECTION_ORDER = ['hero', 'about', 'pillars', 'experience', 'project', 'homelab', 'stack', 'education', 'footer'];
 
+// Página de privacidad y cookies: una URL por idioma (no es una sección de la portada ni entra en el sitemap).
+const PRIVACY_PATHS = { es: '/es/privacidad/', en: '/en/privacy/' };
+
 const started = performance.now();
 const now = buildDate();
 const facts = readJSON('content/facts.json');
@@ -38,7 +41,7 @@ const shortHash = (data) => createHash('sha256').update(data).digest('hex').slic
 const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
 
 /** Contexto de render (forma en src/templates/README.md). Igual para todos los partials de una página. */
-function makeCtx(locale, home) {
+function makeCtx(locale, home, alternatesOverride) {
   const dict = readJSON(`content/${locale}.json`);
   const words = (dict['num.words'] ?? '').split(',');
   const yearsText = years >= 1 && years <= words.length ? words[years - 1] : String(years);
@@ -47,10 +50,10 @@ function makeCtx(locale, home) {
     return dict[key].replaceAll('{years}', yearsText);
   };
   const tr = (item) => (typeof item === 'string' ? esc(item) : t(item.i18n));
-  const alternates = Object.fromEntries(site.locales.map((l) => [l.code, l.path]));
+  const alternates = alternatesOverride ?? Object.fromEntries(site.locales.map((l) => [l.code, l.path]));
   // Ruta absoluta desde la raíz de dist/; styles.css y main.js llevan ?v=<hash> para la caché de 1 año (nginx.conf).
   const asset = (p) => { const rel = String(p).replace(/^\/+/, ''); return '/' + rel + (versions[rel] ? `?v=${versions[rel]}` : ''); };
-  return { locale, t, facts, esc, tr, years, today, headScript, paths: { home, alternates, asset } };
+  return { locale, t, facts, esc, tr, years, today, headScript, paths: { home, alternates, asset, privacy: PRIVACY_PATHS[locale] } };
 }
 
 /** Importa cada partial por separado (layout al final). Un error de sintaxis en un partial que importa
@@ -138,6 +141,7 @@ async function main() {
     render(`${dir}index.html`, partials.layout, makeCtx(l.code, l.path));
     render(`${dir}404.html`, partials['not-found'], makeCtx(l.code, l.path)); // Nginx elige la del idioma de la ruta
     render(`${dir}cv.html`, partials.cv, makeCtx(l.code, l.path)); // fuente del PDF (scripts/make-cv-pdf.mjs)
+    render(`${PRIVACY_PATHS[l.code].replace(/^\/+/, '')}index.html`, partials.privacy, makeCtx(l.code, l.path, PRIVACY_PATHS));
   }
   render('index.html', partials['language-picker'], makeCtx(site.defaultLocale, '/'));
   write('sitemap.xml', sitemap());
