@@ -54,7 +54,7 @@ Preparada el 2026-10-18: CI verde, release `latest` publicada, guía en `deploy/
 
 - [ ] Pasar el encargo al agente del homelab y aprobar cada paso: LXC, script y timer, Nginx, prueba en `next.gomila.dev`, cambio del apex en NPM, web vieja viva 2 semanas.
 - [x] 301 de la web vieja: no hacen falta (una sola página, sin sitemap; `/` ya redirige).
-- [ ] **Cloudflare**: desactivar Email Address Obfuscation, Rocket Loader, Auto Minify y Web Analytics para `gomila.dev` y comprobar que el HTML no se cachea (`deploy/README.md`, paso 5). La web vieja tiene la ofuscación del correo activa hoy.
+- [x] **Cloudflare**: la ofuscación de correo ya está desactivada (comprobado el 2026-10-18 en la web vieja: sin `cdn-cgi`). El resto no requiere acción: en `next.gomila.dev` se abre el código fuente de `/es/` y se busca `cdn-cgi`, `beacon` y `rocket`; si no sale nada, no hay que tocar nada (`deploy/README.md`, paso 5). Comprobar también que `cf-cache-status` de `/es/` no es `HIT`.
 - [ ] Secreto `PRIVACY_TERMS` en GitHub con los términos privados (copia de `.privacy-terms`). Sin él, CI solo usa los patrones genéricos.
 - [ ] Google Search Console (y Bing): alta y envío del sitemap (solo con la web ya en `gomila.dev`). Si lista URL viejas indexadas, añadir 301.
 - [ ] LinkedIn y perfil de GitHub: titular "Toni Gomila · Backend Developer" y enlaces de ida y vuelta con la web.
