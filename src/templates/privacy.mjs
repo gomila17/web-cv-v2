@@ -43,6 +43,9 @@ export default function render(ctx) {
 <meta name="robots" content="noindex, follow">
 <meta name="color-scheme" content="light dark">
 <link rel="icon" href="${paths.asset('favicon.svg')}" type="image/svg+xml">
+<link rel="icon" href="${paths.asset('favicon-48.png')}" type="image/png" sizes="48x48">
+<link rel="icon" href="/favicon.ico" sizes="32x32 48x48">
+<link rel="apple-touch-icon" href="${paths.asset('apple-touch-icon.png')}">
 <link rel="canonical" href="${esc(siteUrl + paths.alternates[locale])}">
 ${alternates}${script}
 <link rel="stylesheet" href="${paths.asset('styles.css')}">

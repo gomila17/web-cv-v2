@@ -82,3 +82,11 @@ test('check-content --scan dist pasa', () => {
   const r = spawnSync(process.execPath, [path.join(ROOT, 'scripts/check-content.mjs'), '--scan', DIST], { encoding: 'utf8', env });
   assert.equal(r.status, 0, r.stdout + r.stderr);
 });
+
+test('iconos: svg, png 48, ico en la raíz y apple-touch-icon, enlazados en todas las páginas', () => {
+  for (const f of ['favicon.svg', 'favicon-48.png', 'favicon.ico', 'apple-touch-icon.png']) assert.ok(fs.existsSync(path.join(DIST, f)), f);
+  for (const p of ['index.html', 'es/index.html', 'en/index.html', 'es/404.html', 'es/privacidad/index.html', 'en/privacy/index.html']) {
+    const h = page(p);
+    for (const href of ['/favicon.svg', '/favicon-48.png', '/favicon.ico', '/apple-touch-icon.png']) assert.ok(h.includes(`href="${href}`), `${p}: falta ${href}`);
+  }
+});
