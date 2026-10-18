@@ -53,7 +53,7 @@ Lista viva de lo que queda por hacer o decidir. Fuente: revisión de la fase 5 (
 Preparada el 2026-10-18: CI verde, release `latest` publicada, guía en `deploy/README.md` y encargo para el agente del homelab actualizado (`drafts/privado/`, fuera de git). No se pudo probar `nginx -t` aquí (sin Nginx, Docker ni distribución de WSL): se hace en la LXC (paso 4) o en cualquier Linux con Nginx.
 
 - [x] Despliegue en la LXC (script, timer y Nginx) y prueba en `next.gomila.dev`: dado por finalizado por Toni el 2026-10-18.
-- [ ] **Cambio del registro/apex en NPM** (lo hace Toni al acabar las pruebas). Después: comprobar `https://gomila.dev/`, purgar la caché de Cloudflare, y conservar la web vieja 2 semanas desde ese día como rollback (apuntar la fecha del cambio aquí).
+- [x] **Cambio del registro/apex en NPM** hecho el 2026-10-18. Comprobado desde fuera: `/` redirige 302 a `/es/`, CSP de la web nueva, sin `cdn-cgi`, `beacon` ni `rocket`, `cf-cache-status: DYNAMIC`. Pendiente: purgar la caché de Cloudflare (Toni) y conservar la web vieja hasta el 2026-11-01 como rollback.
 - [x] 301 de la web vieja: no hacen falta (una sola página, sin sitemap; `/` ya redirige).
 - [x] **Cloudflare**: la ofuscación de correo ya está desactivada (comprobado el 2026-10-18 en la web vieja: sin `cdn-cgi`). El resto no requiere acción: en `next.gomila.dev` se abre el código fuente de `/es/` y se busca `cdn-cgi`, `beacon` y `rocket`; si no sale nada, no hay que tocar nada (`deploy/README.md`, paso 5). Comprobar también que `cf-cache-status` de `/es/` no es `HIT`.
 - [ ] Secreto `PRIVACY_TERMS` en GitHub con los términos privados (copia de `.privacy-terms`). Sin él, CI solo usa los patrones genéricos.
